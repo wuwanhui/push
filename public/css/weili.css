@@ -1,0 +1,269 @@
+
+body {
+    color: #333333;
+    background-color: #ffffff;
+    font-size: 13px;
+    font-family: Arial, 微软雅黑, 黑体;
+    padding: 0px;
+    margin: 0px;
+
+}
+
+ul, ul > li {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+.panel-body li {
+    padding: 5px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+a {
+    color: #666666;
+    outline: none;
+    text-decoration: none;
+    outline: none;
+    blr: expression(this.onFocus = this.blur ())
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration: none;
+}
+
+a:link, a:visited, a:active, a:hover {
+    color: #333;
+}
+
+a.active {
+    color: #336699;
+}
+
+form {
+    padding: 0px;
+    margin: 0px;
+}
+
+Label {
+    font-weight: normal;
+    text-decoration: none;
+    font-family: Arial, 微软雅黑, 黑体;
+}
+
+legend {
+    font-size: 16px;
+    font-family: Arial, 微软雅黑, 黑体;
+    text-decoration: none;
+    line-height: 2em;
+    color: #008000;
+}
+
+legend span {
+    cursor: pointer;
+}
+
+hr {
+    margin: 5px;
+}
+
+span {
+    font-family: Arial, 微软雅黑, 黑体;
+}
+.auto{
+    width:auto;}
+.navbar-static-top {
+    color: #ffffff;
+}
+
+.navbar-static-top a {
+    color: #ffffff;
+}
+
+.panel {
+    border-radius: 0px;
+    /* box-shadow: 0 1px 1px rgba(0,0,0,.05); */
+}
+
+.panel-heading {
+    border-bottom: 0px solid transparent;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.panel-default {
+    border-color: #f1f1f1;
+}
+
+.panel-default > .panel-heading {
+    border-color: #cccccc;
+}
+
+/*!
+ * Bootstrap 重载
+ */
+.form-control {
+
+    display: inline-block;
+    border-radius: 0px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.form-group {
+    margin-bottom: 8px;
+}
+
+.btn {
+    border-radius: 0px;
+
+}
+
+a.btn-primary {
+    color: #ffffff;
+}
+
+.modal {
+    border-radius: 0px;
+    border: 0px solid rgba(0, 0, 0, 0);
+    border: 0px solid #999999;
+}
+
+.modal-content {
+    border-radius: 0px;
+    border: 0px solid rgba(0, 0, 0, 0);
+    border: 0px solid #999999;
+}
+
+.panel {
+    border-radius: 0px;
+}
+
+.required {
+    color: #FF0000;
+}
+
+.panel .panel-heading {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #dcdcdc;
+    line-height: 30px;
+}
+
+.field-validation-error {
+    line-height: 30px;
+    text-indent: 10px;
+    display: inline-block;
+    text-decoration: none;
+    color: #FF0000;
+}
+
+legend {
+    cursor: pointer;
+}
+
+legend.show span {
+    font-size: 16px;
+    font-family: Arial, 微软雅黑, 黑体;
+    text-decoration: none;
+    line-height: 2em;
+    color: #008000;
+    cursor: pointer;
+}
+
+.control-label {
+    font-weight: normal;
+    font-size: 15px;
+    font-family: Arial, 微软雅黑, 黑体;
+}
+
+.validation-summary-errors {
+    margin: 10px;
+    border: 1px solid #FF9900;
+    background-color: #ffffcc;
+    line-height: 25px;
+    padding: 5px;
+}
+
+.errors {
+    display: inline-block;
+    color: #FF9900;
+    line-height: 25px;
+    padding: 5px;
+}
+
+.navbar {
+    border-width: 0px;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+    font-family: Arial, 微软雅黑, 黑体;
+    font-size: 16px;
+    border-radius: 0px;
+}
+
+.navbar-default {
+    background-color: #488fbc;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+
+.navbar-nav a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.navbar-nav a:hover {
+    color: #008000;
+    text-decoration: none;
+    background-color: #FF9900;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-text {
+    color: #FFFFFF;
+}
+
+.nav-tabs > li > a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 0px 0px 0 0;
+}
+
+.table thead th {
+    font-family: Arial, 微软雅黑, 黑体;
+    font-size: 13px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #f1f1f1;
+    line-height: 30px;
+}
+
+.table tbody tr.input {
+    padding: 0px;
+
+}
+
+.table tbody input {
+
+    border: 1px solid transparent;
+    background-color: #f1f1f1;
+    line-height: 26px;
+}
+
+.pagination {
+    margin: 0px;
+}
