@@ -57,7 +57,6 @@
                                     <th style="width: 80px;"><a href="">编号</a></th>
                                     <th><a href="">全称</a></th>
                                     <th><a href="">简称</a></th>
-                                    <th><a href="">签名</a></th>
                                     <th style="width: 100px;"><a href="">联系人</a></th>
                                     <th style="width: 100px;"><a href="">手机号</a></th>
                                     <th style="width: 140px;"><a href="">注册时间</a></th>
@@ -74,7 +73,6 @@
                                         <td>{{$item->name}}
                                         </td>
                                         <td style="text-align: center">{{$item->abbreviation}}</td>
-                                        <td style="text-align: center">{{$item->signature}}</td>
                                         <td style="text-align: center">{{$item->linkMan}}</td>
                                         <td style="text-align: center">{{$item->mobile}}</td>
 
@@ -89,7 +87,8 @@
                                                     href="{{url('/manage/enterprise/delete/'.$item->id)}}">删除</a>
                                             |
                                             <a
-                                                    href="{{url('/manage/enterprise/user/'.$item->id)}}">用户</a>
+                                                    href="{{url('/manage/enterprise/user?enterpriseId='.$item->id)}}">用户({{$item->users->count()}}
+                                                )</a>
 
                                         </td>
                                     </tr>

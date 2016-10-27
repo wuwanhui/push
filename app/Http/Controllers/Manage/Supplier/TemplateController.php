@@ -89,19 +89,19 @@ class TemplateController extends Controller
                 $input = $request->all();
                 $validator = Validator::make($input, $template->Rules(), $template->messages());
                 if ($validator->fails()) {
-                    return redirect('/manage/supplier/resource/template/create/')
+                    return redirect('/manage/supplier/resource/template/create/' . $template->resourceId)
                         ->withInput()
                         ->withErrors($validator);
                 }
                 $template->fill($input);
                 $template->save();
                 if ($template) {
-                    return redirect('/manage/supplier/resource/detail/' . $id . '?tab=template')->withSuccess('保存成功！');
+                    return redirect('/manage/supplier/resource/detail/' . $template->resourceId . '?tab=template')->withSuccess('保存成功！');
                 }
                 return Redirect::back()->withErrors('保存失败！');
             }
-
-            return view('manage.supplier.resource.template.edit', compact('template'));
+            $enterprises = Enterprise::all();
+            return view('manage.supplier.resource.template.edit', compact('template', 'enterprises'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

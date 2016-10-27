@@ -25,8 +25,8 @@ class SmsServiceProvider extends ServiceProvider
     public function register()
     {
         //使用bind绑定实例到接口以便依赖注入
-        $this->app->bind('sms', function ($appkey, $secretKey) {
-            return new SmsService($appkey, $secretKey);
+        $this->app->bind('sms', function () {
+            return new SmsService();
         });
     }
 }

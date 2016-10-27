@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/manage/record/send')}}" class="active">信息推送</a>
+                                <a href="{{url('/manage/record/send')}}">信息推送</a>
                             </li>
 
                         </ul>
@@ -36,8 +36,8 @@
                     <div class="panel-heading">发送记录</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/manage/supplier/create')}}"
-                                                     class="btn btn-primary">新增</a></div>
+                            <div class="col-md-4"><a href="{{url('/manage/record/create')}}"
+                                                     class="btn btn-primary">新增推送</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">
@@ -59,38 +59,49 @@
                                 <tr style="text-align: center" class="text-center">
                                     <th style="width: 20px"><input type="checkbox"
                                                                    name="CheckAll" value="Checkid"/></th>
-                                    <th style="width: 80px;"><a href="">编号</a></th>
-                                    <th><a href="">名称</a></th>
-                                    <th><a href="">联系人</a></th>
+                                    <th style="width: 60px;"><a href="">编号</a></th>
+                                    <th><a href="">发送者</a></th>
+                                    <th style="width: 100px;"><a href="">签名</a></th>
+                                    <th style="width: 160px;"><a href="">模板</a></th>
                                     <th><a href="">手机号</a></th>
-                                    <th><a href="">电话</a></th>
-                                    <th><a href="">状态</a></th>
-                                    <th style="width: 180px;">操作</th>
+                                    <th><a href="">内容</a></th>
+                                    <th style="width: 80px;"><a href="">计费</a></th>
+                                    <th style="width: 80px;"><a href="">来源</a></th>
+                                    <th style="width: 60px;"><a href="">状态</a></th>
+                                    <th style="width: 120px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr>
+                                    <tr title="{{$item->attention}}">
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">
-                                            <a href="{{url('/manage/supplier/resource/'.$item->id)}}">{{$item->name}}</a>
+                                        <td>
+                                            {{$item->user->enterprise->name}} -
+                                            {{$item->user->name}}
                                         </td>
-                                        <td style="text-align: center">{{$item->linkMan}}</td>
-                                        <td style="text-align: center">{{$item->mobile}}</td>
-                                        <td style="text-align: center">{{$item->tel}}</td>
-                                        <td style="text-align: center">
-                                            {{$item->state==0?"正常":"禁用"}}</td>
+                                        <td style="text-align: center">{{$item->signature->name}}</td>
+                                        <td style="text-align: center">{{$item->template->name}}</td>
 
-                                        <td><a
-                                                    href="{{url('/manage/supplier/edit/'.$item->id)}}">详情</a>
-                                            |
-                                            <a
-                                                    href="{{url('/manage/supplier/delete/'.$item->id)}}">删除</a>
-                                            |
-                                            <a href="{{url('/manage/supplier/resource?supplierId='.$item->id)}}">资源({{$item->resources()->count()}}
-                                                )</a>
+                                        <td style="text-align: center"> {{$item->mobile}}
+                                        </td>
+                                        <td> {{$item->content}}</td>
+                                        <td style="text-align: center"> {{$item->charging}}</td>
+                                        <td style="text-align: center">     {{$item->source==0?"平台":"接口"}}</td>
+                                        <td style="text-align: center">
+                                            @if($item->state==0)
+                                                成功
+                                            @elseif($item->state==1)
+                                                已提交
+                                            @else
+                                                失败
+                                            @endif </td>
+
+                                        <td style="text-align: center"><a
+                                                    href="{{url('/manage/supplier/resource/edit/'.$item->id)}}">编辑</a>
+                                            | <a
+                                                    href="{{url('/manage/supplier/resource/delete/'.$item->id)}}">删除</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -101,7 +112,7 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-md-4"><a
-                                        href="{{url('/supplier/resources/guide/create/')}}"
+                                        href="{{url('/record/resources/guide/create/')}}"
                                         class="btn btn-primary">批量删除</a></div>
                             <div class="col-md-8 text-right">
                                 {!! $lists->links() !!}

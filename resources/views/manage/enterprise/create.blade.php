@@ -79,22 +79,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('signature') ? ' has-error' : '' }}">
-                                        <label for="signature" class="col-md-3 control-label">签名：</label>
 
-                                        <div class="col-md-9">
-                                            <input id="signature" type="text" class="form-control"
-                                                   name="signature" placeholder="必填"
-                                                   style="width: auto;"
-                                                   value="{{ old('signature') }}" required autofocus>
-
-                                            @if ($errors->has('signature'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('signature') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-                                    </div>
 
                                     <div class="form-group{{ $errors->has('linkMan') ? ' has-error' : '' }}">
                                         <label for="linkMan" class="col-md-3 control-label">联系人：</label>

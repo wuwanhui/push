@@ -37,7 +37,8 @@ class Supplier_Resource_Signature extends Model
     public function Rules()
     {
         return [
-            'name' => 'required|max:255|min:2',
+            'name' => 'required|max:10|unique:Supplier_Resource_Signature|min:2',
+
         ];
     }
 
@@ -49,7 +50,8 @@ class Supplier_Resource_Signature extends Model
     public function messages()
     {
         return [
-            'name.required' => '产品名称不能为空',
+            'name.required' => '签名不能为空',
+            'name.unique' => '签名已存在',
         ];
     }
 

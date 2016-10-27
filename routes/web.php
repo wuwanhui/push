@@ -99,6 +99,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
         Route::any('/create', 'RecordController@create');
         Route::any('/edit/{id}', 'RecordController@edit');
         Route::get('/delete', 'RecordController@delete');
+        Route::post('/template', 'RecordController@template');
 
 
         /**
@@ -110,6 +111,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
             Route::any('/edit/{id}', 'SendController@edit');
             Route::get('/detail/{id}', 'SendController@detail');
             Route::get('/delete', 'SendController@delete');
+
 
         });
 
@@ -302,16 +304,38 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
 
 
 /**
- * 分销商
+ * 会员后台
  */
-Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' => 'Distribution'], function () {
+Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Member'], function () {
     Route::get('/', 'HomeController@index');
 
+
     /**
-     * 渠道供应
+     * 企业管理
+     */
+    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth', 'namespace' => 'Enterprise'], function () {
+        Route::get('/', 'EnterpriseController@index');
+        Route::any('/create', 'EnterpriseController@create');
+        Route::any('/edit/{id}', 'EnterpriseController@edit');
+        Route::get('/delete', 'EnterpriseController@delete');
+
+        /**
+         * 企业用户
+         */
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', 'UserController@index');
+            Route::any('/create', 'UserController@create');
+            Route::any('/edit/{id}', 'UserController@edit');
+            Route::get('/delete/{id}', 'UserController@delete');
+
+        });
+    });
+
+
+    /**
+     * 供应商
      */
     Route::group(['prefix' => 'supplier', 'middleware' => 'auth', 'namespace' => 'Supplier'], function () {
-        Route::get('/', 'SupplierController@home');
         Route::get('/', 'SupplierController@index');
         Route::any('/create', 'SupplierController@create');
         Route::any('/edit/{id}', 'SupplierController@edit');
@@ -319,59 +343,80 @@ Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' =>
 
 
         /**
-         * 原始产品管理
+         * 资源管理
          */
-        Route::group(['prefix' => 'product'], function () {
-            Route::get('/', 'ProductController@index');
-            Route::any('/create', 'ProductController@create');
-            Route::any('/edit/{id}', 'ProductController@edit');
-            Route::get('/delete', 'ProductController@delete');
-            Route::get('/sync/{id}', 'ProductController@sync');
-        });
-
-
-        /**
-         * 景区资料
-         */
-        Route::group(['prefix' => 'scenic'], function () {
-            Route::get('/', 'ScenicController@index');
-            Route::any('/create', 'ScenicController@create');
-            Route::any('/edit/{id}', 'ScenicController@edit');
-            Route::get('/delete', 'ScenicController@delete');
-        });
-
-        /**
-         * 产品中心
-         */
-        Route::group(['prefix' => 'produits'], function () {
-            Route::get('/', 'ProduitsController@index');
-            Route::any('/create', 'ProduitsController@create');
-            Route::any('/original/{id}', 'ProduitsController@original');
-            Route::any('/edit/{id}', 'ProduitsController@edit');
-            Route::get('/delete', 'ProduitsController@delete');
+        Route::group(['prefix' => 'resource'], function () {
+            Route::get('/', 'ResourceController@index');
+            Route::any('/create', 'ResourceController@create');
+            Route::any('/edit/{id}', 'ResourceController@edit');
+            Route::get('/detail/{id}', 'ResourceController@detail');
+            Route::get('/delete', 'ResourceController@delete');
 
             /**
-             * 产品详情
+             * 签名
              */
-            Route::group(['prefix' => 'details'], function () {
-                Route::get('/', 'DetailsController@index');
-                Route::any('/create', 'DetailsController@create');
-                Route::any('/edit/{id}', 'DetailsController@edit');
-                Route::get('/delete', 'DetailsController@delete');
+            Route::group(['prefix' => 'signature'], function () {
+                Route::get('/', 'SignatureController@index');
+                Route::any('/create/{id}', 'SignatureController@create');
+                Route::any('/edit/{id}', 'SignatureController@edit');
+                Route::get('/detail/{id}', 'SignatureController@detail');
+                Route::get('/delete/{id}', 'SignatureController@delete');
+
+
             });
-
             /**
-             * 预定规则
+             * 模板
              */
-            Route::group(['prefix' => 'rule'], function () {
-                Route::get('/', 'RuleController@index');
-                Route::any('/create', 'RuleController@create');
-                Route::any('/edit/{id}', 'RuleController@edit');
-                Route::get('/delete', 'RuleController@delete');
+            Route::group(['prefix' => 'template'], function () {
+                Route::get('/', 'TemplateController@index');
+                Route::any('/create/{id}', 'TemplateController@create');
+                Route::any('/edit/{id}', 'TemplateController@edit');
+                Route::get('/detail/{id}', 'TemplateController@detail');
+                Route::get('/delete/{id}', 'TemplateController@delete');
+
+
             });
         });
 
 
+    });
+
+    /**
+     * 发送记录
+     */
+    Route::group(['prefix' => 'record', 'middleware' => 'auth', 'namespace' => 'Record'], function () {
+        Route::get('/', 'RecordController@index');
+        Route::any('/create', 'RecordController@create');
+        Route::any('/edit/{id}', 'RecordController@edit');
+        Route::get('/delete', 'RecordController@delete');
+        Route::post('/template', 'RecordController@template');
+
+
+        /**
+         * 信息推送
+         */
+        Route::group(['prefix' => 'send'], function () {
+            Route::get('/', 'SendController@index');
+            Route::any('/create', 'SendController@create');
+            Route::any('/edit/{id}', 'SendController@edit');
+            Route::get('/detail/{id}', 'SendController@detail');
+            Route::get('/delete', 'SendController@delete');
+
+
+        });
+
+
+        /**
+         * 回执报告
+         */
+        Route::group(['prefix' => 'receive'], function () {
+            Route::get('/', 'ReceiveController@index');
+            Route::any('/create', 'ReceiveController@create');
+            Route::any('/edit/{id}', 'ReceiveController@edit');
+            Route::get('/detail/{id}', 'ReceiveController@detail');
+            Route::get('/delete', 'ReceiveController@delete');
+
+        });
     });
 
 
@@ -385,16 +430,6 @@ Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' =>
         Route::get('/delete', 'DistributionController@delete');
 
 
-        /**
-         * 授信管理
-         */
-        Route::group(['prefix' => 'credit'], function () {
-            Route::get('/', 'CreditController@index');
-            Route::any('/create/{id?}', 'CreditController@create');
-            Route::any('/edit/{id}', 'CreditController@edit');
-            Route::get('/delete', 'CreditController@delete');
-
-        });
         /**
          * 授信管理
          */
@@ -473,24 +508,52 @@ Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' =>
         Route::group(['prefix' => 'account'], function () {
             Route::get('/', 'AccountController@index');
             Route::any('/create', 'AccountController@create');
-            Route::post('/scenic', 'AccountController@scenic');
+            Route::any('/edit/{id}', 'AccountController@edit');
 
 
         });
 
+
         /**
-         * 供应商充值记录
+         * 收支记录
          */
-        Route::group(['prefix' => 'recharge'], function () {
-            Route::get('/', 'RechargeController@index');
-            Route::any('/create', 'RechargeController@create');
-            Route::post('/scenic', 'RechargeController@scenic');
+        Route::group(['prefix' => 'payments'], function () {
+            Route::get('/', 'PaymentsController@index');
+            Route::any('/create', 'PaymentsController@create');
+            Route::any('/edit/{id}', 'PaymentsController@edit');
+        });
 
 
+        /**
+         * 授信管理
+         */
+        Route::group(['prefix' => 'credit'], function () {
+            Route::get('/', 'CreditController@index');
+            Route::any('/create/{id?}', 'CreditController@create');
+            Route::any('/edit/{id}', 'CreditController@edit');
+            Route::get('/delete', 'CreditController@delete');
+
+        });
+    });
+
+    /**
+     * 开放平台
+     */
+    Route::group(['prefix' => 'open', 'middleware' => 'auth', 'namespace' => 'Open'], function () {
+
+        Route::get('/', 'HomeController@index');
+
+        /**
+         * 应用管理
+         */
+        Route::group(['prefix' => 'apply'], function () {
+            Route::get('/', 'ApplyController@index');
+            Route::any('/create', 'ApplyController@create');
+            Route::any('/edit/{id}', 'ApplyController@edit');
+            Route::get('/delete/{id}', 'ApplyController@delete');
         });
 
     });
-
 
     /**
      * 系统配置
@@ -511,7 +574,7 @@ Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' =>
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', 'UserController@index');
             Route::any('/create', 'UserController@create');
-            Route::any('/edit', 'UserController@edit');
+            Route::post('/scenic', 'UserController@scenic');
         });
 
 
@@ -528,6 +591,7 @@ Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' =>
 
 
 });
+
 
 /**
  * 微信

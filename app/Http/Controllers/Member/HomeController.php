@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 
-class QianfanController extends Controller
-{ 
+class HomeController extends Controller
+{
     /**
      * Show the application dashboard.
      *
@@ -13,7 +13,6 @@ class QianfanController extends Controller
      */
     public function index()
     {
-      
-        return view('manage.home');
+        return view('member.home');
     }
 }

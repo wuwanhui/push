@@ -97,20 +97,16 @@
                                             @elseif($item->type==1)
                                                 普通用户
                                             @elseif($item->type==2)
-                                                供应商
-                                            @elseif($item->type==3)
-                                                分销商
-                                            @else
-                                                会员
+                                                企业管理员
                                             @endif
                                         </td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/supplier/scenic/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/manage/enterprise/user/edit/'.$item->id)}}">编辑</a>
                                             |
-                                            <a href="{{url('/manage/supplier/scenic/delete/'.$item->id)}}">删除</a>
+                                            <a href="{{url('/manage/enterprise/user/delete/'.$item->id)}}">删除</a>
 
                                         </td>
                                     </tr>

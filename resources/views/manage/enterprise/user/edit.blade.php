@@ -18,7 +18,7 @@
                                 <a href="{{url('/manage/enterprise')}}">企业管理</a>
                             </li>
                             <li>
-                                <a href="{{url('/manage/enterprise/user')}}"  class="active">用户管理</a>
+                                <a href="{{url('/manage/enterprise/user')}}" class="active">用户管理</a>
                             </li>
 
                         </ul>
@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-10">
                 <div class="panel panel-default">
-                    <form class="form-horizontal" role="form" method="POST">
+                    <form enctype="multipart/form-data" class="form-horizontal" role="form" method="POST">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-2  text-left">
@@ -45,13 +45,36 @@
                             <div class="col-xs-12">
                                 <fieldset>
                                     <legend>基本信息</legend>
-                                    {!! csrf_field() !!}
+                                    {{ csrf_field() }}
+                                    @if($enterprises )
+                                        <div class="form-group{{ $errors->has('enterpriseId') ? ' has-error' : '' }}">
+                                            <label for="enterpriseId" class="col-md-3 control-label">所属企业：</label>
+
+                                            <div class="col-md-9">
+                                                <select id="enterpriseId" name="enterpriseId" class="form-control"
+                                                        style="width: auto;">
+                                                    <option value="">请选择企业</option>
+                                                    @foreach($enterprises as $item)
+                                                        <option value="{{$item->id}}" {{$user->enterpriseId==$item->id?"selected":""}} >{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('enterpriseId'))
+                                                    <span class="help-block">
+                                        <strong>{{ $errors->first('enterpriseId') }}</strong>
+                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
+
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                        <label for="name" class="col-md-3 control-label">景点名称：</label>
+                                        <label for="name" class="col-md-3 control-label">用户名</label>
 
                                         <div class="col-md-9">
-                                            <input id="name" type="text" class="form-control" name="name"
-                                                   value="{{ $scenic->name}}" required autofocus>
+                                            <input id="name" type="text" class="form-control auto" name="name"
+                                                   value="{{ $user->name }}" required autofocus>
 
                                             @if ($errors->has('name'))
                                                 <span class="help-block">
@@ -60,227 +83,69 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('recommend') ? ' has-error' : '' }}">
-                                        <label for="recommend" class="col-md-3 control-label">推荐理由：</label>
+
+                                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                        <label for="email" class="col-md-3 control-label">电子邮件</label>
 
                                         <div class="col-md-9">
-                                            <input id="recommend" type="text" class="form-control" name="recommend"
-                                                   value="{{ $scenic->recommend}}" autofocus>
+                                            <input id="email" type="email" class="form-control" name="email"
+                                                   value="{{ $user->email }}" required>
 
-                                            @if ($errors->has('recommend'))
+                                            @if ($errors->has('email'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('recommend') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('titlePic') ? ' has-error' : '' }}">
-                                        <label for="titlePic" class="col-md-3 control-label">标题图片：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="titlePic" type="text" class="form-control" name="titlePic"
-                                                   value="{{ $scenic->titlePic }}">
-
-                                            @if ($errors->has('titlePic'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('titlePic') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('describe') ? ' has-error' : '' }}">
-                                        <label for="describe" class="col-md-3 control-label">景点描述：</label>
-
-                                        <div class="col-md-9">
-
-                                            <textarea id="describe" type="text" class="form-control"
-                                                      name="describe"
-                                                      style=" height: 100px"
-                                            >{{$scenic->describe}}</textarea>
-
-                                            @if ($errors->has('describe'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('describe') }}</strong>
+                                        <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('attention') ? ' has-error' : '' }}">
-                                        <label for="attention" class="col-md-3 control-label">注意事项：</label>
+                                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                        <label for="password" class="col-md-3 control-label">密码</label>
 
                                         <div class="col-md-9">
+                                            <input id="password" type="password" class="form-control auto"
+                                                   name="password" placeholder="为空保持原有密码不变">
 
-                                            <textarea id="attention" type="text" class="form-control"
-                                                      name="attention"
-                                                      style=" height: 100px"
-                                            >{{$scenic->attention}}</textarea>
-
-                                            @if ($errors->has('attention'))
+                                            @if ($errors->has('password'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('attention') }}</strong>
+                                        <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('contenu') ? ' has-error' : '' }}">
-                                        <label for="contenu" class="col-md-3 control-label">景区详情：</label>
+
+                                    <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                        <label for="password-confirm" class="col-md-3 control-label">确认密码</label>
 
                                         <div class="col-md-9">
+                                            <input id="password-confirm" type="password" class="form-control auto"
+                                                   name="password_confirmation">
 
-                                            <textarea id="contenu" type="text" class="form-control"
-                                                      name="contenu"
-                                                      style=" height: 200px"
-                                            >{{$scenic->contenu}}</textarea>
-
-                                            @if ($errors->has('contenu'))
+                                            @if ($errors->has('password_confirmation'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('contenu') }}</strong>
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('grade') ? ' has-error' : '' }}">
-                                        <label for="grade" class="col-md-3 control-label">评级：</label>
+                                    <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                                        <label for="type" class="col-md-3 control-label">类型：</label>
 
                                         <div class="col-md-9">
-                                            <select id="grade" name="grade" class="form-control" style="width: auto;">
-                                                <option value="0">未知</option>
-                                                <option value="1">A</option>
-                                                <option value="2">AA</option>
-                                                <option value="3">AAA</option>
-                                                <option value="4">AAAA</option>
-                                                <option value="5">AAAAA</option>
-                                                <option value="-1">未评级</option>
+                                            <select id="type" name="type" class="form-control" style="width: auto;">
+                                                <option value="0" {{$user->type==0?"selected":""}}>系统帐户</option>
+                                                <option value="1" {{$user->type==1?"selected":""}}>普通帐户</option>
+                                                <option value="2" {{$user->type==2?"selected":""}}>企业管理员</option>
                                             </select>
 
-                                            @if ($errors->has('grade'))
+                                            @if ($errors->has('type'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('grade') }}</strong>
+                                        <strong>{{ $errors->first('type') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
-
-                                    <div class="form-group{{ $errors->has('tel') ? ' has-error' : '' }}">
-                                        <label for="tel" class="col-md-3 control-label">客服电话：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="tel" type="text" class="form-control"
-                                                   name="tel"
-                                                   style="width: auto;"
-                                                   value="{{ $scenic->tel}}" autofocus>
-
-                                            @if ($errors->has('tel'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('tel') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('addres') ? ' has-error' : '' }}">
-                                        <label for="addres" class="col-md-3 control-label">地址：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="addres" type="text" class="form-control"
-                                                   name="addres"
-                                                   value="{{ $scenic->addres}}" autofocus>
-
-                                            @if ($errors->has('addres'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('addres') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('traffic') ? ' has-error' : '' }}">
-                                        <label for="traffic" class="col-md-3 control-label">交通：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="traffic" type="text" class="form-control"
-                                                   name="traffic"
-                                                   value="{{ $scenic->traffic}}" autofocus>
-
-                                            @if ($errors->has('traffic'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('traffic') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('longitude') ? ' has-error' : '' }}">
-                                        <label for="longitude" class="col-md-3 control-label">经度：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="longitude" type="text" class="form-control"
-                                                   name="longitude"
-                                                   style="width: auto;"
-                                                   value="{{ $scenic->longitude}}" autofocus>
-
-                                            @if ($errors->has('longitude'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('longitude') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('latitude') ? ' has-error' : '' }}">
-                                        <label for="latitude" class="col-md-3 control-label">经度：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="latitude" type="text" class="form-control"
-                                                   name="latitude"
-                                                   style="width: auto;"
-                                                   value="{{ $scenic->latitude}}" autofocus>
-
-                                            @if ($errors->has('latitude'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('latitude') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-                                        <label for="state" class="col-md-3 control-label">状态：</label>
-
-                                        <div class="col-md-9">
-                                            <select id="state" name="state" class="form-control" style="width: auto;">
-                                                <option value="0">正常</option>
-                                                <option value="1">禁用</option>
-                                            </select>
-
-                                            @if ($errors->has('state'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('state') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('remark') ? ' has-error' : '' }}">
-                                        <label for="remark" class="col-md-3 control-label">内部备注：</label>
-
-                                        <div class="col-md-9">
-
-                                            <textarea id="remark" type="text" class="form-control"
-                                                      name="remark"
-                                                      style=" height: 100px"
-                                            >{{$scenic->refundable}}</textarea>
-
-                                            @if ($errors->has('remark'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('remark') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
                                 </fieldset>
                             </div>
                         </div>

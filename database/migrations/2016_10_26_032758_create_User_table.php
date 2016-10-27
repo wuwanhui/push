@@ -10,7 +10,7 @@ class CreateUserTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('enterpriseId')->nullable();//企业关联
+            $table->integer('enterpriseId')->default(0);//企业关联
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

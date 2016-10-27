@@ -53,7 +53,7 @@ class SignatureController extends Controller
                 $input = $request->all();
                 $validator = Validator::make($input, $signature->Rules(), $signature->messages());
                 if ($validator->fails()) {
-                    return redirect('/manage/supplier/resource/signature/create/')
+                    return redirect('/manage/supplier/resource/signature/create/' . $id)
                         ->withInput()
                         ->withErrors($validator);
                 }

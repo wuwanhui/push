@@ -7,7 +7,7 @@ class AliyunClient
 
 	public $serverUrl = "http://ecs.aliyuncs.com/";
 
-	public $format = "xml";
+	public $format = "json";
 
 	public $connectTimeout = 3000;//3秒
 

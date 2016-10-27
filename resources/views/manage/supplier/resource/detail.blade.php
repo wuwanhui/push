@@ -75,7 +75,14 @@
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td>{{$item->enterprise->name}}</td>
+                                            <td>
+                                                @if($item->enterprise)
+                                                    {{$item->enterprise->name}}
+                                                @else
+                                                    公共
+                                                @endif
+
+                                            </td>
                                             <td>
                                                 {{$item->name}}
                                             </td>
@@ -135,7 +142,11 @@
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td>{{$item->enterprise->name}}</td>
+                                            <td> @if($item->enterprise)
+                                                    {{$item->enterprise->name}}
+                                                @else
+                                                    公共
+                                                @endif</td>
                                             <td style="text-align: center">@if($item->type==0)
                                                     验证码
                                                 @elseif($item->type==1)

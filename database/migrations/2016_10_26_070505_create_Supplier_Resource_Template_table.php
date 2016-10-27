@@ -19,9 +19,10 @@ class CreateSupplierResourceTemplateTable extends Migration
             $table->string('name');//模板名称
             $table->string('type')->default(0);//模板类型0验证码1通知2营销
             $table->integer('resourceId');//所属资源
-            $table->integer('enterpriseId')->nullable();//所属企业为空可通用
+            $table->integer('enterpriseId')->default(0);//所属企业为空可通用
             $table->string('number');//模板编号
             $table->string('content');//模板内容
+            $table->string('param');//模板参数
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

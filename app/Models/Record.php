@@ -41,7 +41,7 @@ class Record extends Model
     public function Rules()
     {
         return [
-            'name' => 'required|max:255|min:2',
+            'mobile' => 'required|min:11',
         ];
     }
 
@@ -53,34 +53,34 @@ class Record extends Model
     public function messages()
     {
         return [
-            'name.required' => '名称不能为空',
+            'mobile.required' => '手机号不能为空',
         ];
     }
+ 
+
+    /**
+     *签名
+     */
+    public function signature()
+    {
+        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signatureId");
+    }
 
 
     /**
-     * 创建者
+     *模板
      */
-    public function createUser()
+    public function template()
     {
-        return $this->belongsTo('App\Models\User', 'createId');
+        return $this->belongsTo('App\Models\Supplier_Resource_Template', "templateId");
     }
 
     /**
-     * 编辑者
+     *发送者
      */
-    public function editUser()
+    public function user()
     {
-        return $this->belongsTo('App\Models\User', 'editId');
+        return $this->belongsTo('App\Models\User', "userId");
     }
-
-    /**
-     *供应产品
-     */
-    public function resources()
-    {
-        return $this->hasMany('App\Models\Supplier_Resource', "supplierId");
-    }
-
 
 }

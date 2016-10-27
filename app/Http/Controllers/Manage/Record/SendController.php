@@ -20,26 +20,8 @@ use zgldh\QiniuStorage\QiniuStorage;
  */
 class SendController extends Controller
 {
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function index(Request $request)
-    {
-        $key = $request->key;
-        $lists = Record::where(function ($query) use ($key) {
-
-            if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//名称
-            }
-        })->orderBy('id', 'desc')->paginate($this->pageSize);
-
-        return view('manage.record.index', compact('lists'));
-    }
-
-    public function create(Request $request)
     {
         try {
             $signature = new Record();

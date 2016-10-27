@@ -56,7 +56,6 @@ class UserController extends Controller
 
                 $user->fill($input);
                 $user->password = bcrypt($request->input('password'));
-                $user->enterpriseId = Base::user("enterpriseId");
                 $user->save();
                 if ($user) {
                     return redirect('/manage/enterprise/user')->withSuccess('保存成功！');
@@ -65,6 +64,64 @@ class UserController extends Controller
             }
             $enterprises = Enterprise::all();
             return view('manage.enterprise.user.create', compact('user', 'enterprises'));
+
+        } catch (Exception $ex) {
+            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+        }
+    }
+
+    public function edit($id, Request $request)
+    {
+        try {
+            $user = User::find($id);
+            if (!$user) {
+                return Redirect::back()->withErrors('数据不存在！');
+            }
+
+            if ($request->isMethod('POST')) {
+
+                $oldPassword = $user->password;
+                $input = $request->all();
+                $validator = Validator::make($input, $user->editRules(), $user->messages());
+                if ($validator->fails()) {
+                    echo "效验失败";
+                    return redirect('/manage/enterprise/user/edit/' . $id)
+                        ->withInput()
+                        ->withErrors($validator);
+                }
+
+
+                $user->fill($input);
+                if ($request->input('password')) {
+                    $user->password = bcrypt($request->input('password'));
+                } else {
+                    $user->password = $oldPassword;
+                }
+
+                $user->save();
+                if ($user) {
+                    return redirect('/manage/enterprise/user')->withSuccess('保存成功！');
+                }
+                return Redirect::back()->withErrors('保存失败！');
+            }
+
+            $enterprises = Enterprise::all();
+            return view('manage.enterprise.user.edit', compact('user', 'enterprises'));
+
+        } catch (Exception $ex) {
+            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+        }
+    }
+
+    public function delete($id, Request $request)
+    {
+        try {
+            $user = User::find($id);
+            if (!$user) {
+                return Redirect::back()->withErrors('数据不存在！');
+            }
+            $user->delete();
+            return redirect('/manage/enterprise/user')->withSuccess('删除成功！');
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

@@ -53,7 +53,7 @@
 
                                             <div class="col-md-9">
                                                 <select name="enterpriseId" class="form-control" style="width: auto;">
-                                                    <option value="">公共签名</option>
+                                                    <option value="0">公共签名</option>
                                                     @foreach($enterprises as $item)
                                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                                     @endforeach

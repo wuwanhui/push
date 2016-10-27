@@ -46,6 +46,28 @@
                                 <fieldset>
                                     <legend>基本信息</legend>
                                     {{ csrf_field() }}
+                                    @if($enterprises )
+                                        <div class="form-group{{ $errors->has('enterpriseId') ? ' has-error' : '' }}">
+                                            <label for="enterpriseId" class="col-md-3 control-label">所属企业：</label>
+
+                                            <div class="col-md-9">
+                                                <select id="enterpriseId" name="enterpriseId" class="form-control"
+                                                        style="width: auto;">
+                                                    <option value="">请选择企业</option>
+                                                    @foreach($enterprises as $item)
+                                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('enterpriseId'))
+                                                    <span class="help-block">
+                                        <strong>{{ $errors->first('enterpriseId') }}</strong>
+                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                         <label for="name" class="col-md-3 control-label">用户名</label>
@@ -119,22 +141,6 @@
                                             @if ($errors->has('type'))
                                                 <span class="help-block">
                                         <strong>{{ $errors->first('type') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-                                        <label for="state" class="col-md-3 control-label">状态：</label>
-
-                                        <div class="col-md-9">
-                                            <select id="state" name="state" class="form-control" style="width: auto;">
-                                                <option value="0">有效</option>
-                                                <option value="1">无效</option>
-                                            </select>
-
-                                            @if ($errors->has('state'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('state') }}</strong>
                                     </span>
                                             @endif
                                         </div>

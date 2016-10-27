@@ -19,9 +19,8 @@ class CreateEnterpriseTable extends Migration
             $table->string('qq');//QQ号
             $table->string('email');//电子邮件
             $table->string('addres');//联系地址
-            $table->string('signature');//签名
-            $table->integer('createId')->nullable();//增加者
-            $table->integer('editId')->nullable();//编辑者
+            $table->integer('createId')->default(0);//增加者
+            $table->integer('editId')->default(0);//编辑者
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注
