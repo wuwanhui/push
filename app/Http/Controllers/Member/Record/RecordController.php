@@ -10,6 +10,7 @@ use App\Models\Supplier_Resource_Signature;
 use App\Models\Supplier_Resource_Template;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,19 +58,15 @@ class RecordController extends Controller
                 $record->fill($input);
                 $record->userId = Base::uid();
                 $record->save();
-                $this->send($record->id);
 
-                if ($record) {
-                    return "发送成功";
-                }
-                return "发送失败";
+                return $this->send($record->id);
             }
 
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             $templates = Supplier_Resource_Template::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             return view('member.record.create', compact('record', 'signatures', 'templates'));
         } catch (Exception $ex) {
-            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+            return '异常！' . $ex->getMessage();
         }
     }
 
@@ -77,8 +74,7 @@ class RecordController extends Controller
      * 短信发送
      * @param $id
      */
-    protected
-    function send($id)
+    protected function send($id)
     {
         $record = Record::find($id);
         if ($record) {
@@ -91,11 +87,15 @@ class RecordController extends Controller
                 $templateCode = $template->number;
                 $sign = $signature->name;
 
-                $log = Sms::send($mobiles, $param, $templateCode, $sign);
-                if ($log) {
-                    $record->remark = $log;
-                    $record->save();
+                $resp = Sms::send($mobiles, $param, $templateCode, $sign);
+                $record->sendLog = json_encode($resp);
+                $record->save();
+                if ($resp->result) {
+                    $record->sendLog = $resp->result;
+                    return "发送成功";
                 }
+                Log::info('短信发送失败： ' . json_encode($resp));
+                return "发送失败：" . Sms::getSendError($resp->Msg);
             }
 
         }

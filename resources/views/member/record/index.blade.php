@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/member/record/send')}}">信息推送</a>
+                                <a href="{{url('/member/record/create')}}">信息推送</a>
                             </li>
 
                         </ul>
