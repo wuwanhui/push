@@ -8,7 +8,7 @@ class CreateConfigTable extends Migration
 {
     public function up()
     {
-        Schema::create('config', function (Blueprint $table) {
+        Schema::create('Config', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//平台名称
             $table->string('enterprise');//企业名称
@@ -20,6 +20,12 @@ class CreateConfigTable extends Migration
             $table->string('email');//邮箱
             $table->string('qq');//QQ
             $table->string('addres');//地址
+
+
+            $table->string('weixin_Token');//Token
+            $table->string('weixin_AppID');//Appid
+            $table->string('wexin_AppSecret');//Secret
+            $table->string('wexin_AES');//AES
             $table->timestamps();
         });
     }
@@ -31,6 +37,6 @@ class CreateConfigTable extends Migration
      */
     public function down()
     {
-        Schema::drop('config');
+        Schema::drop('Config');
     }
 }

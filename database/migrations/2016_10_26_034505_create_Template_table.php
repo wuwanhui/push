@@ -8,7 +8,7 @@ class CreateTemplateTable extends Migration
 {
     public function up()
     {
-        Schema::create('template', function (Blueprint $table) {
+        Schema::create('Template', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//版本名称
             $table->string('content');//模板内容
@@ -28,6 +28,6 @@ class CreateTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::drop('template');
+        Schema::drop('Template');
     }
 }

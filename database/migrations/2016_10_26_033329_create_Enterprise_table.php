@@ -8,7 +8,7 @@ class CreateEnterpriseTable extends Migration
 {
     public function up()
     {
-        Schema::create('enterprise', function (Blueprint $table) {
+        Schema::create('Enterprise', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//全称
             $table->string('abbreviation');//简称
@@ -36,6 +36,6 @@ class CreateEnterpriseTable extends Migration
      */
     public function down()
     {
-        Schema::drop('enterprise');
+        Schema::drop('Enterprise');
     }
 }

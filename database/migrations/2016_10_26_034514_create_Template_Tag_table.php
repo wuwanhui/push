@@ -8,7 +8,7 @@ class CreateTemplateTagTable extends Migration
 {
     public function up()
     {
-        Schema::create('template_tag', function (Blueprint $table) {
+        Schema::create('Template_tag', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//标签名称
             $table->string('code');//标识
@@ -31,6 +31,6 @@ class CreateTemplateTagTable extends Migration
      */
     public function down()
     {
-        Schema::drop('template_tag');
+        Schema::drop('Template_tag');
     }
 }

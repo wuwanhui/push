@@ -215,6 +215,79 @@
                                         </div>
                                     </div>
 
+                                </fieldset> <fieldset>
+                                    <legend>微信参数</legend>
+
+                                    <div class="form-group{{ $errors->has('weixin_Token') ? ' has-error' : '' }}">
+                                        <label for="weixin_Token" class="col-md-3 control-label">Token：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="weixin_Token" type="text" class="form-control"
+                                                   name="weixin_Token"
+
+                                                   value="{{ $config->weixin_Token}}">
+
+                                            @if ($errors->has('weixin_Token'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('weixin_Token') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $errors->has('weixin_AppID') ? ' has-error' : '' }}">
+                                        <label for="weixin_AppID" class="col-md-3 control-label">AppID：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="weixin_AppID" type="text" class="form-control auto" name="weixin_AppID"
+
+                                                   value="{{ $config->weixin_AppID}}">
+
+                                            @if ($errors->has('weixin_AppID'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('weixin_AppID') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $errors->has('wexin_AppSecret') ? ' has-error' : '' }}">
+                                        <label for="wexin_AppSecret" class="col-md-3 control-label">AppSecret：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="wexin_AppSecret" type="text" class="form-control"
+                                                   name="wexin_AppSecret"
+
+                                                   value="{{ $config->wexin_AppSecret}}">
+
+                                            @if ($errors->has('wexin_AppSecret'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('wexin_AppSecret') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $errors->has('wexin_AES') ? ' has-error' : '' }}">
+                                        <label for="wexin_AES" class="col-md-3 control-label">EncodingAESKey：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="wexin_AES" type="text" class="form-control auto" name="tel"
+
+                                                   value="{{ $config->wexin_AES}}">
+
+                                            @if ($errors->has('wexin_AES'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('wexin_AES') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
                                 </fieldset>
                             </div>
                         </div>

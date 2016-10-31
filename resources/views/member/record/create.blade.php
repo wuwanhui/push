@@ -330,8 +330,13 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (data) {
-                    $(".state").html(data);
-                    $("#mobile").val("");
+
+                    alert(data);
+                    return;
+                    $(".state").text(data.msg);
+                    if(data.code==0){
+                        $("#mobile").val("");
+                    }
                     preview();
 
                     submit.text("发送");
@@ -346,98 +351,5 @@
         }
 
 
-        $(function () {
-
-            $("#isTiming").change(function () {
-                $("#sendTime").toggle();
-            });
-            $("#templateId11").change(function () {
-                _template = null;
-                var _templateId = $(this).val();
-                $("#content").val('');
-                $(".paramUi").empty();
-
-                if (!value) {
-                    $("#preview").hide();
-                    return;
-                }
-                $(".state").text("加载中");
-                $.ajax({
-                    url: "{{url('/member/record/template')}}",
-                    type: "post",
-                    dataType: "json",
-                    data: {id: _templateId},
-                    timeout: 30000,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (data) {
-                        _template = data;
-                        $(".state").empty();
-                        $("#preview").show();
-                        $("#content").val(_template.content);
-
-                        for (var key in  JSON.parse(_template.param)) {
-                            $(".paramUi").append('<div class="form-group"><label for="' + key + '" class="col-md-3 control-label">' + key + '：</label><div class="col-md-9"><input id="' + key + '" type="text" class="form-control"  value="' + paramJson[key] + '" onkeyup="preview();"></div></div>');
-                        }
-
-                        preview();
-
-                    },
-                    error: function (XHR, textStatus, errorThrown) {
-                        $(".state").text("获取模板信息失败");
-                        alert("XHR=" + XHR + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
-                    }
-                });
-            });
-
-            $("#submit").click(function () {
-
-                var submit = $(this);
-                var form = $("#form");
-                submit.text("发送中");
-                submit.attr("disabled", "true"); //设置变灰按钮
-                //setTimeout("$('#submit').removeAttr('disabled')", 3000); //设置三秒后提交按钮 显示
-                if (!paramJson) {
-                    return false;
-                }
-
-                for (var key in paramJson) {
-                    paramJson[key] = $("#" + key + "").val();
-                }
-                $("#param").val(JSON.stringify(paramJson));
-
-                $(".state").text("发送中");
-
-                $.ajax({
-                    url: "{{url('/member/record/create')}}",
-                    type: "post",
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    data: form.serialize(),
-                    timeout: 30000,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (data) {
-                        $(".state").text(data);
-
-                        submit.text("发送");
-                        submit.removeAttr('disabled'); //设置按钮可用
-                    },
-                    error: function (XHR, textStatus, errorThrown) {
-                        submit.text("发送");
-                        submit.removeAttr('disabled'); //设置按钮可用
-                        alert("XHR=" + XHR + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
-                    }
-                });
-
-            });
-
-
-        });
-
-        function check(form) {
-
-        }
     </script>
 @endsection

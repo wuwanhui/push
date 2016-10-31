@@ -77,8 +77,8 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td>
-                                            {{$item->user->enterprise->name}} -
+                                        <td>@if($item->user->enterprise)
+                                            {{$item->user->enterprise->name}} -@endif
                                             {{$item->user->name}}
                                         </td>
                                         <td style="text-align: center">{{$item->signature->name}}</td>

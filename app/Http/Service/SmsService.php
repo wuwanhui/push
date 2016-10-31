@@ -101,8 +101,11 @@ class SmsService
             case "isv.AMOUNT_NOT_ENOUGH":
                 $msg = "余额不足";
                 break;
+            case "Insufficient isv permissions":
+                $msg = "平台权限限制";
+                break;
             default:
-                $msg = "未知短信";
+                $msg = "未知错误";
                 break;
         }
         return $msg;

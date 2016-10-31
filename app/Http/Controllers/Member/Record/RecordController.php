@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Member\Record;
 
+use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Controller;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
@@ -76,30 +77,40 @@ class RecordController extends Controller
      */
     protected function send($id)
     {
-        $record = Record::find($id);
-        if ($record) {
-            if ($record->state == 1) {
-                $signature = Supplier_Resource_Signature::find($record->signatureId);
-                $template = Supplier_Resource_Template::find($record->templateId);
+        $respJson = new RespJson();
+        try {
+            $record = Record::find($id);
+            if ($record) {
+                if ($record->state == 1) {
+                    $signature = Supplier_Resource_Signature::find($record->signatureId);
+                    $template = Supplier_Resource_Template::find($record->templateId);
 
-                $mobiles = $record->mobile;
-                $param = $record->param;
-                $templateCode = $template->number;
-                $sign = $signature->name;
+                    $mobiles = $record->mobile;
+                    $param = $record->param;
+                    $templateCode = $template->number;
+                    $sign = $signature->name;
 
-                $resp = Sms::send($mobiles, $param, $templateCode, $sign);
-                $record->sendLog = json_encode($resp);
-                $record->save();
-                if ($resp->result) {
-                    $record->sendLog = $resp->result;
-                    return "发送成功";
+                    $resp = Sms::send($mobiles, $param, $templateCode, $sign);
+                    $record->sendLog = json_encode($resp);
+                    $record->save();
+
+                    if ($resp->result) {
+                        $respJson->setCode(0);
+                        $respJson->setMsg("提交成功");
+                    } else {
+                        $respJson->setCode(1);
+                        $respJson->setMsg("提交失败" . Sms::getSendError($resp->Msg));
+                        Log::info('短信发送失败： ' . json_encode($resp));
+                    }
                 }
-                Log::info('短信发送失败： ' . json_encode($resp));
-                return "发送失败：" . Sms::getSendError($resp->Msg);
+
             }
-
+        } catch (Exception $ex) {
+            $respJson->setCode(-1);
+            $respJson->setMsg('异常！' . $ex->getMessage());
+            Log::info('异常！' . $ex->getMessage());
         }
-
+        return json_encode($respJson);
 
     }
 
