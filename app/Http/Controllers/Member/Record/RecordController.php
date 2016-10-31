@@ -89,27 +89,36 @@ class RecordController extends Controller
                     $param = $record->param;
                     $templateCode = $template->number;
                     $sign = $signature->name;
+                    //计费计算
+
+                    $record->charging = count(explode(",", $mobiles)) * ceil(mb_strlen($record->content . "【" . $signature->name . "】", 'utf8') / $template->resource->words);
+
 
                     $resp = Sms::send($mobiles, $param, $templateCode, $sign);
                     $record->sendLog = json_encode($resp);
-                    $record->save();
+
 
                     if ($resp->result) {
-                        $respJson->setCode(0);
-                        $respJson->setMsg("提交成功");
+                        $respJson->code = 0;
+                        $respJson->msg = "提交成功";
                     } else {
-                        $respJson->setCode(1);
-                        $respJson->setMsg("提交失败" . Sms::getSendError($resp->Msg));
+                        $record->state = 2;
+                        $respJson->code = 1;
+                        $respJson->msg = "提交失败:" . $resp->sub_msg;
                         Log::info('短信发送失败： ' . json_encode($resp));
                     }
+                    $record->save();
                 }
 
             }
         } catch (Exception $ex) {
-            $respJson->setCode(-1);
-            $respJson->setMsg('异常！' . $ex->getMessage());
+            $respJson->code = -1;
+            $respJson->msg = '异常！' . $ex->getMessage();
             Log::info('异常！' . $ex->getMessage());
         }
+
+//        v(json_encode($respJson));
+//        return;
         return json_encode($respJson);
 
     }
@@ -120,8 +129,7 @@ class RecordController extends Controller
      * @param Request $request
      * @return string
      */
-    public
-    function template(Request $request)
+    public function template(Request $request)
     {
         $templateId = $request->id;
         $template = Supplier_Resource_Template::find($templateId);

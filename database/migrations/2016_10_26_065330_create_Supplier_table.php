@@ -16,7 +16,7 @@ class CreateSupplierTable extends Migration
         Schema::create('Supplier', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//全称
-            $table->string('abbreviation');//简称
+            $table->string('shortName');//简称
             $table->string('linkMan');//联系人
             $table->string('mobile');//手机号
             $table->string('tel');//电话

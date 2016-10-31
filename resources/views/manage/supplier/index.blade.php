@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">资源管理</li>
         </ol>
@@ -67,8 +67,8 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">
-                                            <a href="{{url('/manage/supplier/resource/'.$item->id)}}">{{$item->name}}</a>
+                                        <td>
+                                            <a href="{{url('/manage/supplier/resource?supplierId='.$item->id)}}">{{$item->name}}</a>
                                         </td>
                                         <td style="text-align: center">{{$item->linkMan}}</td>
                                         <td style="text-align: center">{{$item->mobile}}</td>

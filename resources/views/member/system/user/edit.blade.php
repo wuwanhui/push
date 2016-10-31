@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">微利分销</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li><a href="#">资源供应</a></li>
             <li class="active">景区配置</li>

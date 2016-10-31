@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">企业管理</li>
         </ol>
@@ -17,11 +17,16 @@
                             <li>
                                 <a href="{{url('/member/enterprise')}}" class="active">企业管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/member/enterprise/user')}}">用户信息</a>
+                            </li>
+
                             @if(Base::user("type")==2)
                                 <li>
                                     <a href="{{url('/member/enterprise/user')}}">用户管理</a>
                                 </li>
                             @endif
+
                         </ul>
 
                     </div>
@@ -58,7 +63,7 @@
                                         <label class="col-md-3 control-label">简称：</label>
 
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{$enterprise->abbreviation}}</p>
+                                            <p class="form-control-static">{{$enterprise->shortName}}</p>
                                         </div>
                                     </div>
 

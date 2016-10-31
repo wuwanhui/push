@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">企业管理</li>
         </ol>
@@ -63,18 +63,18 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('abbreviation') ? ' has-error' : '' }}">
-                                        <label for="abbreviation" class="col-md-3 control-label">简称：</label>
+                                    <div class="form-group{{ $errors->has('shortName') ? ' has-error' : '' }}">
+                                        <label for="shortName" class="col-md-3 control-label">简称：</label>
 
                                         <div class="col-md-9">
-                                            <input id="abbreviation" type="text" class="form-control"
-                                                   name="abbreviation"
+                                            <input id="shortName" type="text" class="form-control"
+                                                   name="shortName"
                                                    style="width: auto;"
-                                                   value="{{ old('abbreviation') }}" required autofocus>
+                                                   value="{{ old('shortName') }}" required autofocus>
 
-                                            @if ($errors->has('abbreviation'))
+                                            @if ($errors->has('shortName'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('abbreviation') }}</strong>
+                                        <strong>{{ $errors->first('shortName') }}</strong>
                                             </span>
                                             @endif
                                         </div>

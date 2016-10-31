@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">信息推送</li>
         </ol>
@@ -105,11 +105,12 @@
                                         <div class="col-md-9">
 
                                             <textarea id="mobile" type="text" class="form-control"
-                                                      onchange="validateMobile()"
+                                                      onkeyup="validateMobile()"
                                                       name="mobile"
+                                                      placeholder="多个手机号录入可以使用逗号，空格或回车分隔！"
                                                       style=" height: 100px"
                                             >{{old('mobile') }}</textarea><br>
-                                            <span id="mobileNo"></span>
+                                            <span id="charging"></span>
 
                                             @if ($errors->has('mobile'))
                                                 <span class="help-block">
@@ -135,7 +136,7 @@
                                                             class="sr-only">Close</span>
                                                 </button>
                                                 <strong>短信预览!</strong>
-                                                <div>Better check yourself, you're not looking too good.
+                                                <div>
                                                 </div>
 
                                             </div>
@@ -153,11 +154,13 @@
                                         <div class="col-md-9">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" id="isTiming">定时发送
+                                                    <input type="checkbox" onchange="isTiming()">定时发送
                                                 </label>
                                             </div>
                                             <input id="sendTime" type="datetime" class="form-control auto"
-                                                   style="display: none;"
+                                                   style="display: none;" onchange="checkTime(this)"
+                                                   value="{{ date("Y-m-d H:i:s",time())}}"
+
                                                    name="sendTime" placeholder="格式：2016-12-01 12:30"
                                             />
 
@@ -187,20 +190,9 @@
 
     <script type="application/javascript">
         var _template = null;
-        var _mobileNo = 0;
+        var _mobiles = Array();
+        var _content = null;
 
-        //短信预览
-        function preview() {
-            if (_template) {
-                var content = _template.content;
-                var paramObj = JSON.parse(_template.param);
-                for (var key in paramObj) {
-                    content = content.replace("${" + key + "}", $("#" + key).val());
-                }
-                content = content + "【" + $("#signatureId   option:selected").text() + "】";
-                $("#preview div").html(content + "<br/>-共计：" + content.length + "字,计费：" + Math.ceil(content.length / 60) * _mobileNo + "条");
-            }
-        }
 
         //模板选择
         function template(_obj) {
@@ -211,6 +203,7 @@
             $("#preview").hide();
             var _templateId = _obj.value;
             if (!_templateId) {
+                preview();
                 return;
             }
             $(".state").text("加载中");
@@ -246,34 +239,62 @@
 
         //手机号验证
         function validateMobile() {
+            _mobiles = Array();
             var _obj = $("#mobile").val();
-            var validNo = 0;
-            var invalidNo = 0;
             if (_obj.trim().length > 0) {
-                var _mobiles = _obj.replace("，", ",").replace("\n", ",").split(',');
-                for (i in _mobiles) {
-                    var _mobile = _mobiles[i].trim();
-                    if (/^1[34578]{1}\d{9}$/.test(_mobile)) {
-                        validNo++;
-                    } else {
-                        invalidNo++;
-                        //alert("对不起，第" + (i + 1) + "条电话号码格式错误！" + _mobiles[i]);
+                var mobiles = _obj.replace("，", ",").replace(/\s+/g, ",").replace(/\r\n/g, ",").replace(/\n/g, ",").split(',');
+                var hash = {}, len = mobiles.length, result = [];
+                for (var i = 0; i < len; i++) {
+                    var _mobile = mobiles[i].trim();
+                    if (!hash[mobiles[i]]) {
+                        hash[mobiles[i]] = true;
+
+                        if (/^1[34578]{1}\d{9}$/.test(_mobile)) {
+                            _mobiles.push(_mobile);
+                        }
                     }
                 }
             }
-
-            _mobileNo = validNo;
-
-            $("#mobileNo").text("有效号码：" + validNo + "条，无效号码：" + invalidNo + "条");
-            preview();
+            charging();
         }
 
+
+        //短信预览
+        function preview() {
+            if (_template) {
+                _content = _template.content;
+                var paramObj = JSON.parse(_template.param);
+                for (var key in paramObj) {
+                    _content = _content.replace("${" + key + "}", $("#" + key).val());
+                }
+                $("#preview div").html(_content + "【" + $("#signatureId   option:selected").text() + "】");
+            }
+            charging();
+        }
+
+        //计费计算
+        function charging() {
+            var content = _content + "【" + $("#signatureId   option:selected").text() + "】";
+            if (_template) {
+                $("#charging").text("有效号码：" + _mobiles.length + "条，短信内容：" + content.length + "字,计费：" + Math.ceil(content.length / 60) * _mobiles.length + "条");
+            } else {
+                $("#charging").text("有效号码：" + _mobiles.length + "条");
+            }
+        }
 
         //定时发送
         function isTiming() {
             $("#sendTime").toggle();
         }
+        //定时发送时间检查
+        function checkTime(_obj) {
 
+            var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+            var r = _obj.value.match(reg);
+            if (r == null) {
+                return alert("定时发送时间格式错误!如:2016-12-20 12:00");
+            }
+        }
 
         //短信发送
         function send() {
@@ -286,18 +307,22 @@
             postData["signatureId"] = _signatureId;
             var _templateId = $("#templateId").val();
             postData["templateId"] = _templateId;
-            var _mobile = $("#mobile").val();
-            if (_mobile.length < 11) {
-                alert("请输入准确的手机号!");
-
+            if (_mobiles.length == 0) {
+                return alert("未检查到有效的手机号!");
             }
-            postData["mobile"] = _mobile;
-            var _content = $("#content").val();
+            postData["mobile"] = _mobiles.join(",");
             postData["content"] = _content;
 
             var _sendTime = $("#sendTime").val();
             if (_sendTime.length > 0) {
-                postData["sendTime"] = _sendTime;
+                var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+                var r = _sendTime.match(reg);
+                if (r == null) {
+                    return alert("定时发送时间格式错误!如:2016-12-20 12:00");
+                } else {
+                    postData["sendTime"] = _sendTime;
+
+                }
             }
 
             var paramObj = JSON.parse(_template.param);
@@ -323,6 +348,7 @@
             $.ajax({
                 url: "{{url('/member/record/create')}}",
                 type: "post",
+                dataType: "json",
                 contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 data: postData,
                 timeout: 30000,
@@ -330,11 +356,8 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (data) {
-
-                    alert(data);
-                    return;
                     $(".state").text(data.msg);
-                    if(data.code==0){
+                    if (data.code == 0) {
                         $("#mobile").val("");
                     }
                     preview();

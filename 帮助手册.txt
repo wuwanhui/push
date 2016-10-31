@@ -1,6 +1,8 @@
 php artisan key:generate 获取KEY值 config/app.php
 php artisan migrate 数据迁移
 php artisan make:migration create_Weixin_Config_table 创建迁移
+php artisan migrate:rollback回滚
+php artisan migrate:reset回滚所有的迁移
 
 php artisan make:controller ArticleController 创建控制器
 php artisan make:provider RiakServiceProvider 编写服务提供者

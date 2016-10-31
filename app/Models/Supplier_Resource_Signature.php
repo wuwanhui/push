@@ -62,6 +62,7 @@ class Supplier_Resource_Signature extends Model
     {
         return $this->belongsTo('App\Models\Supplier_Resource', 'resourceId');
     }
+    
 
     /**
      * 所属企业

@@ -50,6 +50,7 @@
                     <li><a href="{{ url('/member/record') }}">信息推送</a></li>
                     <li><a href="{{ url('/member/report') }}">报表分析</a></li>
                     <li><a href="{{ url('/member/open') }}">开放平台</a></li>
+                    <li><a href="{{ url('/member/finance') }}">财务结算</a></li>
                     <li><a href="{{ url('/member/system') }}">系统配置</a></li>
                 </ul>
 
@@ -63,15 +64,16 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
+
                                 @if(Auth::user()->enterprise)
-                                    {{ Auth::user()->enterprise->name }}-@endif{{ Auth::user()->name }}
+                                    {{ Auth::user()->enterprise->shortName }}-@endif{{ Auth::user()->name }}
                                 （ @if(Auth::user()->type==0)
                                     系统用户
                                 @elseif(Auth::user()->type==1)
                                     普通用户
                                 @else
                                     管理员
-                                @endif）
+                                @endif）余额：{{Auth::user()->balance}}
                                 <span class="caret"></span>
                             </a>
 

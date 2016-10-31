@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">资源管理</li>
         </ol>
@@ -50,7 +50,7 @@
 
                                         <div class="col-md-9">
                                             <input id="name" type="text" class="form-control" name="name"
-                                                   value="{{ old('name') }}" required autofocus>
+                                                   value="{{ $supplier->name }}" required autofocus>
 
                                             @if ($errors->has('name'))
                                                 <span class="help-block">
@@ -59,17 +59,17 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('abbreviation') ? ' has-error' : '' }}">
-                                        <label for="abbreviation" class="col-md-3 control-label">简称：</label>
+                                    <div class="form-group{{ $errors->has('shortName') ? ' has-error' : '' }}">
+                                        <label for="shortName" class="col-md-3 control-label">简称：</label>
 
                                         <div class="col-md-9">
-                                            <input id="abbreviation" type="text" class="form-control"
-                                                   name="abbreviation"
-                                                   value="{{ old('abbreviation') }}" required autofocus>
+                                            <input id="shortName" type="text" class="form-control"
+                                                   name="shortName"
+                                                   value="{{ $supplier->shortName }}" required autofocus>
 
-                                            @if ($errors->has('abbreviation'))
+                                            @if ($errors->has('shortName'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('abbreviation') }}</strong>
+                                        <strong>{{ $errors->first('shortName') }}</strong>
                                     </span>
                                             @endif
                                         </div>
@@ -80,7 +80,7 @@
                                         <div class="col-md-9">
                                             <input id="linkMan" type="text" class="form-control" name="linkMan"
                                                    style="width: auto;"
-                                                   value="{{ old('linkMan') }}" required autofocus>
+                                                   value="{{ $supplier->linkMan }}" required autofocus>
 
                                             @if ($errors->has('linkMan'))
                                                 <span class="help-block">
@@ -95,9 +95,9 @@
 
                                         <div class="col-md-9">
                                             <input id="mobile" type="text" class="form-control" name="mobile"
-                                                   placeholder="手机号"
+                                                   placeh$supplierer="手机号"
                                                    style="width: auto;"
-                                                   value="{{ old('mobile') }}" autofocus>
+                                                   value="{{ $supplier->mobile }}" autofocus>
 
                                             @if ($errors->has('mobile'))
                                                 <span class="help-block">
@@ -113,7 +113,7 @@
                                         <div class="col-md-9">
                                             <input id="tel" type="text" class="form-control" name="tel"
                                                    style="width: auto;"
-                                                   value="{{ old('tel') }}" autofocus>
+                                                   value="{{ $supplier->tel }}" autofocus>
 
                                             @if ($errors->has('tel'))
                                                 <span class="help-block">
@@ -130,7 +130,7 @@
                                         <div class="col-md-9">
                                             <input id="fax" type="text" class="form-control" name="fax"
                                                    style="width: auto;"
-                                                   value="{{ old('fax') }}" autofocus>
+                                                   value="{{ $supplier->fax }}" autofocus>
 
                                             @if ($errors->has('fax'))
                                                 <span class="help-block">
@@ -146,7 +146,7 @@
                                         <div class="col-md-9">
                                             <input id="qq" type="text" class="form-control" name="qq"
                                                    style="width: auto;"
-                                                   value="{{ old('qq') }}" autofocus>
+                                                   value="{{ $supplier->qq }}" autofocus>
 
                                             @if ($errors->has('qq'))
                                                 <span class="help-block">
@@ -160,7 +160,7 @@
 
                                         <div class="col-md-9">
                                             <input id="email" type="text" class="form-control" name="email"
-                                                   value="{{ old('email') }}" autofocus>
+                                                   value="{{ $supplier->email }}" autofocus>
 
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
@@ -175,7 +175,7 @@
 
                                         <div class="col-md-9">
                                             <input id="addres" type="text" class="form-control" name="addres"
-                                                   value="{{ old('addres') }}" autofocus>
+                                                   value="{{ $supplier->addres }}" autofocus>
 
                                             @if ($errors->has('addres'))
                                                 <span class="help-block">
@@ -185,22 +185,6 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="form-group{{ $errors->has('sort') ? ' has-error' : '' }}">
-                                        <label for="sort" class="col-md-3 control-label">排序：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="sort" type="text" class="form-control" name="sort"
-                                                   style="width: auto;"
-                                                   value="{{ old('sort') }}" autofocus>
-
-                                            @if ($errors->has('sort'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('sort') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
 
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
@@ -226,7 +210,7 @@
                                             <textarea id="remark" type="text" class="form-control"
                                                       name="remark"
                                                       style=" height: 100px"
-                                            >{{old('refundable') }}</textarea>
+                                            >{{$supplier->refundable') }}</textarea>
 
                                             @if ($errors->has('remark'))
                                                 <span class="help-block">

@@ -64,7 +64,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">@if(Auth::user()->enterprise)
-                                {{ Auth::user()->enterprise->name }}-@endif{{ Auth::user()->name }}
+                                    {{ Auth::user()->enterprise->shortName }}-@endif{{ Auth::user()->name }}
                                 （ @if(Auth::user()->type==0)
                                     系统用户
                                 @elseif(Auth::user()->type==1)

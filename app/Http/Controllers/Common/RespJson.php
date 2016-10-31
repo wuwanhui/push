@@ -10,8 +10,8 @@ class RespJson
 {
 
 
-    private $code=0;
-    private $msg="成功";
+    public $code = 0;
+    public $msg = "成功";
 
     /**
      * @param mixed $code

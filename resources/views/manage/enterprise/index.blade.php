@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">企业管理</li>
         </ol>
@@ -56,10 +56,10 @@
                                                                    name="CheckAll" value="Checkid"/></th>
                                     <th style="width: 80px;"><a href="">编号</a></th>
                                     <th><a href="">全称</a></th>
-                                    <th><a href="">简称</a></th>
                                     <th style="width: 100px;"><a href="">联系人</a></th>
                                     <th style="width: 100px;"><a href="">手机号</a></th>
                                     <th style="width: 140px;"><a href="">注册时间</a></th>
+                                    <th style="width: 140px;"><a href="">标准单价</a></th>
                                     <th style="width: 100px;"><a href="">状态</a></th>
                                     <th style="width: 140px;">操作</th>
                                 </tr>
@@ -70,13 +70,12 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td>{{$item->name}}
+                                        <td>{{$item->name}}（{{$item->shortName}}）
                                         </td>
-                                        <td style="text-align: center">{{$item->abbreviation}}</td>
                                         <td style="text-align: center">{{$item->linkMan}}</td>
                                         <td style="text-align: center">{{$item->mobile}}</td>
-
                                         <td style="text-align: center">{{$item->created_at}}</td>
+                                        <td style="text-align: center">{{$item->price}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 

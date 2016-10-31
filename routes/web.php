@@ -129,180 +129,46 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
         });
     });
 
-
     /**
-     * 分销渠道
-     */
-    Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' => 'Distribution'], function () {
-        Route::get('/', 'DistributionController@index');
-        Route::any('/create', 'DistributionController@create');
-        Route::any('/edit/{id}', 'DistributionController@edit');
-        Route::get('/delete', 'DistributionController@delete');
-
-
-        /**
-         * 授信管理
-         */
-        Route::group(['prefix' => 'sales'], function () {
-            Route::get('/', 'SalesController@index');
-            Route::any('/create/{id?}', 'SalesController@create');
-            Route::any('/edit/{id}', 'SalesController@edit');
-            Route::get('/delete', 'SalesController@delete');
-
-        });
-
-
-        /**
-         * 应用管理
-         */
-        Route::group(['prefix' => 'apply'], function () {
-            Route::get('/', 'ApplyController@index');
-            Route::any('/create', 'ApplyController@create');
-            Route::any('/edit/{id}', 'ApplyController@edit');
-            Route::get('/delete', 'ApplyController@delete');
-
-        });
-    });
-
-    /**
-     * 会员中心
-     */
-    Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Member'], function () {
-        Route::get('/', 'MemberController@index');
-        Route::any('/create', 'MemberController@create');
-
-
-        /**
-         * 订单
-         */
-        Route::group(['prefix' => 'order'], function () {
-            Route::get('/', 'OrderController@index');
-            Route::any('/create', 'OrderController@create');
-            Route::post('/scenic', 'OrderController@scenic');
-
-
-        });
-
-    });
-    /**
-     * 动态营销
-     */
-    Route::group(['prefix' => 'marketing', 'middleware' => 'auth', 'namespace' => 'Marketing'], function () {
-        Route::get('/', 'HomeController@index');
-        Route::any('/create', 'MemberController@create');
-
-
-        /**
-         * 短信
-         */
-        Route::group(['prefix' => 'sms'], function () {
-            Route::get('/', 'SmsController@index');
-            Route::any('/create', 'SmsController@create');
-            Route::any('/edit/{id}', 'SmsController@edit');
-            Route::get('/delete', 'SmsController@delete');
-        });
-
-    });
-
-
-    /**
-     * 财务中心
+     * 转账充值
      */
     Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
-        Route::get('/', 'HomeController@index');
-        Route::any('/create', 'HomeController@create');
+        Route::get('/', 'FinanceController@index');
+        Route::any('/create', 'FinanceController@create');
+        Route::any('/edit/{id}', 'FinanceController@edit');
+        Route::get('/delete', 'FinanceController@delete');
+        Route::post('/template', 'FinanceController@template');
+
 
         /**
-         * 银行帐户
+         * 账户记录
          */
         Route::group(['prefix' => 'account'], function () {
             Route::get('/', 'AccountController@index');
             Route::any('/create', 'AccountController@create');
             Route::any('/edit/{id}', 'AccountController@edit');
+            Route::get('/detail/{id}', 'AccountController@detail');
+            Route::get('/delete', 'AccountController@delete');
 
 
         });
 
 
         /**
-         * 收支记录
+         * 充值记录
          */
-        Route::group(['prefix' => 'payments'], function () {
-            Route::get('/', 'PaymentsController@index');
-            Route::any('/create', 'PaymentsController@create');
-            Route::any('/edit/{id}', 'PaymentsController@edit');
-        });
-
-
-        /**
-         * 授信管理
-         */
-        Route::group(['prefix' => 'credit'], function () {
-            Route::get('/', 'CreditController@index');
-            Route::any('/create/{id?}', 'CreditController@create');
-            Route::any('/edit/{id}', 'CreditController@edit');
-            Route::get('/delete', 'CreditController@delete');
+        Route::group(['prefix' => 'recharge'], function () {
+            Route::get('/', 'RechargeController@index');
+            Route::any('/create', 'RechargeController@create');
+            Route::any('/edit/{id}', 'RechargeController@edit');
+            Route::get('/detail/{id}', 'RechargeController@detail');
+            Route::get('/delete', 'RechargeController@delete');
 
         });
-    });
-
-    /**
-     * 开放平台
-     */
-    Route::group(['prefix' => 'open', 'middleware' => 'auth', 'namespace' => 'Open'], function () {
-
-        Route::get('/', 'HomeController@index');
-
-        /**
-         * 应用管理
-         */
-        Route::group(['prefix' => 'apply'], function () {
-            Route::get('/', 'ApplyController@index');
-            Route::any('/create', 'ApplyController@create');
-            Route::any('/edit/{id}', 'ApplyController@edit');
-            Route::get('/delete/{id}', 'ApplyController@delete');
-        });
-
-    });
-
-    /**
-     * 系统配置
-     */
-    Route::group(['prefix' => 'system', 'middleware' => 'auth', 'namespace' => 'System'], function () {
-
-        Route::get('/', 'HomeController@index');
-        /**
-         * 系统参数
-         */
-        Route::group(['prefix' => 'config'], function () {
-            Route::any('/', 'ConfigController@index');
-        });
-
-        /**
-         * 用户管理
-         */
-        Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'UserController@index');
-            Route::any('/create', 'UserController@create');
-            Route::post('/scenic', 'UserController@scenic');
-        });
-
-
-        /**
-         * 基础数据
-         */
-        Route::group(['prefix' => 'base'], function () {
-            Route::get('/', 'BaseDataController@index');
-            Route::any('/create', 'BaseDataController@create');
-            Route::post('/scenic', 'BaseDataController@scenic');
-        });
-
     });
 
 
 });
-
-
 /**
  * 会员后台
  */
@@ -417,80 +283,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
             Route::get('/delete', 'ReceiveController@delete');
 
         });
-    });
 
-
-    /**
-     * 分销渠道
-     */
-    Route::group(['prefix' => 'distribution', 'middleware' => 'auth', 'namespace' => 'Distribution'], function () {
-        Route::get('/', 'DistributionController@index');
-        Route::any('/create', 'DistributionController@create');
-        Route::any('/edit/{id}', 'DistributionController@edit');
-        Route::get('/delete', 'DistributionController@delete');
-
-
-        /**
-         * 授信管理
-         */
-        Route::group(['prefix' => 'sales'], function () {
-            Route::get('/', 'SalesController@index');
-            Route::any('/create/{id?}', 'SalesController@create');
-            Route::any('/edit/{id}', 'SalesController@edit');
-            Route::get('/delete', 'SalesController@delete');
-
-        });
-
-
-        /**
-         * 应用管理
-         */
-        Route::group(['prefix' => 'apply'], function () {
-            Route::get('/', 'ApplyController@index');
-            Route::any('/create', 'ApplyController@create');
-            Route::any('/edit/{id}', 'ApplyController@edit');
-            Route::get('/delete', 'ApplyController@delete');
-
-        });
-    });
-
-    /**
-     * 会员中心
-     */
-    Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Member'], function () {
-        Route::get('/', 'MemberController@index');
-        Route::any('/create', 'MemberController@create');
-
-
-        /**
-         * 订单
-         */
-        Route::group(['prefix' => 'order'], function () {
-            Route::get('/', 'OrderController@index');
-            Route::any('/create', 'OrderController@create');
-            Route::post('/scenic', 'OrderController@scenic');
-
-
-        });
-
-    });
-    /**
-     * 动态营销
-     */
-    Route::group(['prefix' => 'marketing', 'middleware' => 'auth', 'namespace' => 'Marketing'], function () {
-        Route::get('/', 'HomeController@index');
-        Route::any('/create', 'MemberController@create');
-
-
-        /**
-         * 短信
-         */
-        Route::group(['prefix' => 'sms'], function () {
-            Route::get('/', 'SmsController@index');
-            Route::any('/create', 'SmsController@create');
-            Route::any('/edit/{id}', 'SmsController@edit');
-            Route::get('/delete', 'SmsController@delete');
-        });
 
     });
 
@@ -500,38 +293,32 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
      */
     Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
         Route::get('/', 'HomeController@index');
-        Route::any('/create', 'HomeController@create');
+    
 
         /**
-         * 银行帐户
+         * 账户记录
          */
         Route::group(['prefix' => 'account'], function () {
             Route::get('/', 'AccountController@index');
             Route::any('/create', 'AccountController@create');
             Route::any('/edit/{id}', 'AccountController@edit');
+            Route::get('/detail/{id}', 'AccountController@detail');
+            Route::get('/delete', 'AccountController@delete');
 
 
         });
 
 
         /**
-         * 收支记录
+         * 充值记录
          */
-        Route::group(['prefix' => 'payments'], function () {
-            Route::get('/', 'PaymentsController@index');
-            Route::any('/create', 'PaymentsController@create');
-            Route::any('/edit/{id}', 'PaymentsController@edit');
-        });
-
-
-        /**
-         * 授信管理
-         */
-        Route::group(['prefix' => 'credit'], function () {
-            Route::get('/', 'CreditController@index');
-            Route::any('/create/{id?}', 'CreditController@create');
-            Route::any('/edit/{id}', 'CreditController@edit');
-            Route::get('/delete', 'CreditController@delete');
+        Route::group(['prefix' => 'recharge'], function () {
+            Route::get('/', 'RechargeController@index');
+            Route::any('/create', 'RechargeController@create');
+            Route::any('/transfer', 'RechargeController@transfer');
+            Route::any('/edit/{id}', 'RechargeController@edit');
+            Route::get('/detail/{id}', 'RechargeController@detail');
+            Route::get('/delete', 'RechargeController@delete');
 
         });
     });
@@ -588,7 +375,6 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
         });
 
     });
-
 
 });
 

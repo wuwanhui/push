@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="#">推送平台</a></li>
+
             <li><a href="#">管理中心</a></li>
             <li class="active">信息推送</li>
         </ol>
@@ -62,13 +62,13 @@
                                     <th style="width: 60px;"><a href="">编号</a></th>
                                     <th><a href="">发送者</a></th>
                                     <th style="width: 100px;"><a href="">签名</a></th>
-                                    <th style="width: 160px;"><a href="">模板</a></th>
+                                    <th style="width: 100px;"><a href="">模板</a></th>
                                     <th><a href="">手机号</a></th>
                                     <th><a href="">内容</a></th>
-                                    <th style="width: 80px;"><a href="">计费</a></th>
+                                    <th style="width: 60px;"><a href="">计费</a></th>
                                     <th style="width: 80px;"><a href="">来源</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
-                                    <th style="width: 120px;">操作</th>
+                                    <th style="width: 100px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -78,13 +78,13 @@
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
                                         <td>@if($item->user->enterprise)
-                                            {{$item->user->enterprise->name}} -@endif
+                                                {{$item->user->enterprise->name}} -@endif
                                             {{$item->user->name}}
                                         </td>
                                         <td style="text-align: center">{{$item->signature->name}}</td>
                                         <td style="text-align: center">{{$item->template->name}}</td>
 
-                                        <td style="text-align: center"> {{$item->mobile}}
+                                        <td> {{$item->mobile}}
                                         </td>
                                         <td> {{$item->content}}</td>
                                         <td style="text-align: center"> {{$item->charging}}</td>
@@ -99,9 +99,9 @@
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/member/supplier/resource/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/member/record/detail/'.$item->id)}}">详情</a>
                                             | <a
-                                                    href="{{url('/member/supplier/resource/delete/'.$item->id)}}">删除</a>
+                                                    href="{{url('/member/record/retry/'.$item->id)}}">重发</a>
                                         </td>
                                     </tr>
                                 @endforeach

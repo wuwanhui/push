@@ -82,4 +82,31 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Enterprise', 'enterpriseId');
     }
+
+    /**
+     *消费记录
+     */
+    public function records()
+    {
+        return $this->hasMany('App\Models\Record', "userId");
+    }
+
+
+    /**
+     *转账记录
+     */
+    public function recharges()
+    {
+        return $this->hasMany('App\Models\Finance_Recharge', "userId");
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function getBalanceAttribute()
+    {
+        $recharges = $this->recharges()->where("state", 0);
+        return $recharges->where("direction", 0)->sum("money") - $recharges->where("direction", 1)->sum("money") - $this->records()->sum("charging") * $this->enterprise->price;
+
+    }
 }
