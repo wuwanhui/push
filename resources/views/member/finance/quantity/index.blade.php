@@ -20,6 +20,9 @@
                             <li>
                                 <a href="{{url('/member/finance/quantity')}}" class="active">充值管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
+                            </li>
                         </ul>
 
                     </div>
@@ -30,7 +33,7 @@
                     <div class="panel-heading">充值管理</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/member/finance/account/create')}}"
+                            <div class="col-md-4"><a href="{{url('/member/finance/quantity/create')}}"
                                                      class="btn btn-primary">新增</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
@@ -84,9 +87,9 @@
                                         <td style="text-align: center">
                                             {{$item->state==0?"有效":"无效"}}</td>
                                         <td style="text-align: center"><a
-                                                    href="{{url('/member/finance/account/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/member/finance/quantity/edit/'.$item->id)}}">编辑</a>
                                             |
-                                            <a href="{{url('/member/finance/account/delete/'.$item->id)}}">删除</a>
+                                            <a href="{{url('/member/finance/quantity/delete/'.$item->id)}}">删除</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -97,7 +100,7 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-md-4"><a
-                                        href="{{url('/member/finance/account/delete')}}"
+                                        href="{{url('/member/finance/quantity/delete')}}"
                                         class="btn btn-primary">批量删除</a></div>
                             <div class="col-md-8 text-right">
                                 {!! $lists->links() !!}

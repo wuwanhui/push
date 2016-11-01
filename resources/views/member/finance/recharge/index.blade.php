@@ -20,6 +20,9 @@
                             <li>
                                 <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -65,7 +68,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr title="{{$item->attention}}">
+                                    <tr >
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}}</td>

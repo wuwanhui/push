@@ -21,6 +21,9 @@
                             <li>
                                 <a href="{{url('/member/finance/quantity')}}" class="active">充值管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
+                            </li>
                         </ul>
                         </ul>
 

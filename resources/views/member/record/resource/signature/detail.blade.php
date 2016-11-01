@@ -153,7 +153,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($resource->templates as $item)
-                                        <tr title="{{$item->attention}}">
+                                        <tr >
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>

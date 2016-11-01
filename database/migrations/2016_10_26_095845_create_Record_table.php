@@ -23,6 +23,7 @@ class CreateRecordTable extends Migration
             $table->string('param');//短信参数
             $table->integer('charging')->default(1);//计费数量
             $table->integer('source')->default(0);//发送来源0在线平台1接口
+            $table->string('bizId')->nullable();//发送编号
             $table->dateTime('sendTime')->nullable();//定时发送时间
             $table->text('sendLog')->nullable();//发送日志
             $table->text('receiptLog')->nullable();//回执报告

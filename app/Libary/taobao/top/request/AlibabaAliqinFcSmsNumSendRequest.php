@@ -3,7 +3,7 @@
  * TOP API: alibaba.aliqin.fc.sms.num.send request
  * 
  * @author auto create
- * @since 1.0, 2016.05.24
+ * @since 1.0, 2016.10.28
  */
 class AlibabaAliqinFcSmsNumSendRequest
 {
@@ -18,7 +18,7 @@ class AlibabaAliqinFcSmsNumSendRequest
 	private $recNum;
 	
 	/** 
-	 * 短信签名，传入的短信签名必须是在阿里大鱼“管理中心-短信签名管理”中的可用签名。如“阿里大鱼”已在短信签名管理中通过审核，则可传入”阿里大鱼“（传参时去掉引号）作为短信签名。短信效果示例：【阿里大鱼】欢迎使用阿里大鱼服务。
+	 * 短信签名，传入的短信签名必须是在阿里大于“管理中心-短信签名管理”中的可用签名。如“阿里大于”已在短信签名管理中通过审核，则可传入”阿里大于“（传参时去掉引号）作为短信签名。短信效果示例：【阿里大于】欢迎使用阿里大于服务。
 	 **/
 	private $smsFreeSignName;
 	
@@ -28,7 +28,7 @@ class AlibabaAliqinFcSmsNumSendRequest
 	private $smsParam;
 	
 	/** 
-	 * 短信模板ID，传入的模板必须是在阿里大鱼“管理中心-短信模板管理”中的可用模板。示例：SMS_585014
+	 * 短信模板ID，传入的模板必须是在阿里大于“管理中心-短信模板管理”中的可用模板。示例：SMS_585014
 	 **/
 	private $smsTemplateCode;
 	

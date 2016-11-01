@@ -42,6 +42,15 @@ class Supplier_Resource_Signature extends Model
         ];
     }
 
+    public function EditRules()
+    {
+        return [
+            //  'name' => 'required|max:10|unique:Supplier_Resource_Signature|min:2',
+
+        ];
+    }
+
+
     /**
      * 获取应用到请求的验证规则
      *
@@ -62,7 +71,7 @@ class Supplier_Resource_Signature extends Model
     {
         return $this->belongsTo('App\Models\Supplier_Resource', 'resourceId');
     }
-    
+
 
     /**
      * 所属企业

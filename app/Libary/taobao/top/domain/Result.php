@@ -1,29 +1,29 @@
 <?php
 
 /**
- * 无
+ * 系统自动生成
  * @author auto create
  */
 class Result
 {
 	
 	/** 
-	 * 错误码
+	 * code
 	 **/
 	public $code;
 	
 	/** 
-	 * 无
+	 * model
 	 **/
-	public $model;
+	public $models;
 	
 	/** 
-	 * 原因
+	 * 系统自动生成
 	 **/
 	public $msg;
 	
 	/** 
-	 * 结果
+	 * true返回成功，false返回失败
 	 **/
 	public $success;	
 }

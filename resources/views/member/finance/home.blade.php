@@ -18,7 +18,10 @@
                                 <a href="{{url('/member/finance/recharge')}}" >充值记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}" >推送数管理</a>
+                                <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
+                            </li>
+                            <li>
+                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
                             </li>
                         </ul>
 

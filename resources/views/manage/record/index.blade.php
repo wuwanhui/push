@@ -73,7 +73,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr title="{{$item->attention}}">
+                                    <tr>
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
@@ -99,9 +99,9 @@
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/supplier/resource/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/manage/record/detail/'.$item->id)}}">详情</a>
                                             | <a
-                                                    href="{{url('/manage/supplier/resource/delete/'.$item->id)}}">删除</a>
+                                                    href="{{url('/manage/record/delete/'.$item->id)}}">删除</a>
                                         </td>
                                     </tr>
                                 @endforeach

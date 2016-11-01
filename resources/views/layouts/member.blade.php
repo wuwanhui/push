@@ -73,7 +73,7 @@
                                     普通用户
                                 @else
                                     管理员
-                                @endif）余额：{{Auth::user()->balance}}
+                                @endif）余额：{{Auth::user()->balanceMoney}}
                                 <span class="caret"></span>
                             </a>
 

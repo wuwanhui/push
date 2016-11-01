@@ -3,7 +3,7 @@
  * TOP API: alibaba.aliqin.fc.voice.num.singlecall request
  * 
  * @author auto create
- * @since 1.0, 2016.03.01
+ * @since 1.0, 2016.07.20
  */
 class AlibabaAliqinFcVoiceNumSinglecallRequest
 {
@@ -13,7 +13,7 @@ class AlibabaAliqinFcVoiceNumSinglecallRequest
 	private $calledNum;
 	
 	/** 
-	 * 被叫号显，传入的显示号码必须是阿里大鱼“管理中心-号码管理”中申请通过的号码
+	 * 被叫号显，传入的显示号码必须是阿里大于“管理中心-号码管理”中申请通过的号码
 	 **/
 	private $calledShowNum;
 	
@@ -23,7 +23,7 @@ class AlibabaAliqinFcVoiceNumSinglecallRequest
 	private $extend;
 	
 	/** 
-	 * 语音文件ID，传入的语音文件必须是在阿里大鱼“管理中心-语音文件管理”中的可用语音文件
+	 * 语音文件ID，传入的语音文件必须是在阿里大于“管理中心-语音文件管理”中的可用语音文件
 	 **/
 	private $voiceCode;
 	

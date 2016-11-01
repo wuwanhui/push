@@ -3,7 +3,7 @@
  * TOP API: alibaba.aliqin.fc.flow.charge request
  * 
  * @author auto create
- * @since 1.0, 2016.03.30
+ * @since 1.0, 2016.07.21
  */
 class AlibabaAliqinFcFlowChargeRequest
 {

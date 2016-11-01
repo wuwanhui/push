@@ -3,7 +3,7 @@
  * TOP API: alibaba.aliqin.fc.tts.num.singlecall request
  * 
  * @author auto create
- * @since 1.0, 2016.05.24
+ * @since 1.0, 2016.07.20
  */
 class AlibabaAliqinFcTtsNumSinglecallRequest
 {
@@ -13,7 +13,7 @@ class AlibabaAliqinFcTtsNumSinglecallRequest
 	private $calledNum;
 	
 	/** 
-	 * 被叫号显，传入的显示号码必须是阿里大鱼“管理中心-号码管理”中申请或购买的号码
+	 * 被叫号显，传入的显示号码必须是阿里大于“管理中心-号码管理”中申请或购买的号码
 	 **/
 	private $calledShowNum;
 	
@@ -23,7 +23,7 @@ class AlibabaAliqinFcTtsNumSinglecallRequest
 	private $extend;
 	
 	/** 
-	 * TTS模板ID，传入的模板必须是在阿里大鱼“管理中心-语音TTS模板管理”中的可用模板
+	 * TTS模板ID，传入的模板必须是在阿里大于“管理中心-语音TTS模板管理”中的可用模板
 	 **/
 	private $ttsCode;
 	

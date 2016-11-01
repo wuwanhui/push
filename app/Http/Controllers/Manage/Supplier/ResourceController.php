@@ -99,8 +99,7 @@ class  ResourceController extends Controller
                 }
             }
             $suppliers = Supplier::all();
-            $scenics = Scenic::all();
-            return view('manage.supplier.resource.edit', compact('resource', 'suppliers', 'scenics'));
+            return view('manage.supplier.resource.edit', compact('resource', 'suppliers'));
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
         }

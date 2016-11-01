@@ -8,6 +8,11 @@ class BizResult
 {
 	
 	/** 
+	 * code
+	 **/
+	public $code;
+	
+	/** 
 	 * 错误码
 	 **/
 	public $err_code;

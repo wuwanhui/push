@@ -59,20 +59,7 @@ class RechargeController extends Controller
                 $recharge->userId = Base::uid();
                 $recharge->liableId = Base::uid();
                 $recharge->save();
-
-                if ($recharge->state == 0) {
-
-                    $quantity = new Finance_Quantity();
-
-                    $quantity->userId = $recharge->userId;
-                    $quantity->quantity = $recharge->money * 10;
-                    $quantity->direction = 0;
-                    $quantity->liableId = Base::uid();
-                    $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
-                    $quantity->rechargeId = $recharge->id;
-                    $quantity->save();
-
-                }
+ 
                 if ($recharge) {
                     return redirect('/member/finance/recharge')->withSuccess('保存成功！');
                 }
@@ -88,11 +75,11 @@ class RechargeController extends Controller
         }
     }
 
-    public function edit($id,Request $request)
+    public function edit($id, Request $request)
     {
         try {
             $recharge = Finance_Recharge::find($id);
-            if (!$recharge){
+            if (!$recharge) {
                 return Redirect::back()->withErrors('数据不存在！');
             }
             if ($request->isMethod('POST')) {
@@ -120,7 +107,7 @@ class RechargeController extends Controller
                     $quantity->liableId = Base::uid();
                     $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
                     $quantity->rechargeId = $recharge->id;
-                    $quantity->state=0;
+                    $quantity->state = 0;
                     $quantity->save();
 
                 }

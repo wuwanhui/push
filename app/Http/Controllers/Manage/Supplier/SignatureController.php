@@ -88,21 +88,22 @@ class SignatureController extends Controller
             }
             if ($request->isMethod('POST')) {
                 $input = $request->all();
-                $validator = Validator::make($input, $signature->Rules(), $signature->messages());
+                $validator = Validator::make($input, $signature->EditRules(), $signature->messages());
                 if ($validator->fails()) {
-                    return redirect('/manage/supplier/resource/signature/create/')
+                    return redirect('/manage/supplier/resource/signature/edit/' . $id)
                         ->withInput()
                         ->withErrors($validator);
                 }
                 $signature->fill($input);
                 $signature->save();
                 if ($signature) {
-                    return redirect('/manage/supplier/resource/signature')->withSuccess('保存成功！');
+                    return redirect('/manage/supplier/resource/detail/' . $signature->resourceId)->withSuccess('保存成功！');
                 }
                 return Redirect::back()->withErrors('保存失败！');
             }
+            $enterprises = Enterprise::all();
 
-            return view('manage.supplier.resource.signature.edit', compact('signature'));
+            return view('manage.supplier.resource.signature.edit', compact('signature', "enterprises"));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

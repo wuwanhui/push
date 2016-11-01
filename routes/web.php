@@ -99,6 +99,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
         Route::any('/create', 'RecordController@create');
         Route::any('/edit/{id}', 'RecordController@edit');
         Route::get('/delete', 'RecordController@delete');
+        Route::get('/detail/{id}', 'RecordController@detail');
         Route::post('/template', 'RecordController@template');
 
 
@@ -109,7 +110,6 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
             Route::get('/', 'SendController@index');
             Route::any('/create', 'SendController@create');
             Route::any('/edit/{id}', 'SendController@edit');
-            Route::get('/detail/{id}', 'SendController@detail');
             Route::get('/delete', 'SendController@delete');
 
 
@@ -296,7 +296,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
 
 
         /**
-         * 充值记录
+         * 支付记录
          */
         Route::group(['prefix' => 'recharge'], function () {
             Route::get('/', 'RechargeController@index');
@@ -310,7 +310,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
 
 
         /**
-         * 充值数量记录
+         * 充值记录
          */
         Route::group(['prefix' => 'quantity'], function () {
             Route::get('/', 'QuantityController@index');
@@ -322,6 +322,20 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
 
 
         });
+
+        /**
+         * 发票申请
+         */
+        Route::group(['prefix' => 'invoice'], function () {
+            Route::get('/', 'InvoiceController@index');
+            Route::any('/create', 'InvoiceController@create');
+            Route::any('/edit/{id}', 'InvoiceController@edit');
+            Route::get('/detail/{id}', 'InvoiceController@detail');
+            Route::get('/delete', 'InvoiceController@delete');
+
+
+        });
+
 
     });
 

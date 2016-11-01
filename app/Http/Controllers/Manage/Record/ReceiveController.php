@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Record;
 
 use App\Http\Controllers\Controller;
+use App\Http\Facades\Sms;
 use App\Models\Enterprise;
 use App\Models\Supplier_Resource;
 use App\Models\Supplier_Resource_Signature;
@@ -28,6 +29,8 @@ class ReceiveController extends Controller
      */
     public function index(Request $request)
     {
+        v(json_encode(Sms::getReceive()));
+        return;
         $key = $request->key;
         $lists = Supplier_Resource_Signature::where(function ($query) use ($key) {
 

@@ -101,7 +101,7 @@ class User extends Authenticatable
     }
 
     /**
-     *数量记录
+     *充值记录
      */
     public function quantitys()
     {
@@ -109,12 +109,31 @@ class User extends Authenticatable
     }
 
     /**
-     * @param array $attributes
+     *发票记录
      */
-    public function getBalanceAttribute()
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Finance_Invoice', "userId");
+    }
+
+    /**
+     * 可用余额
+     */
+    public function getBalanceMoneyAttribute()
     {
         $quantitys = $this->quantitys()->where("state", 0);
         return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->records()->sum("charging");
+
+    }
+
+    /**
+     * 可申请发票金额
+     */
+    public function getInvoiceMoneyAttribute()
+    {
+        $recharges = $this->recharges()->where("state", 0)->sum("money");
+        $invoices = $this->invoices()->where("state", 0)->sum("money");
+        return $recharges - $invoices;
 
     }
 }
