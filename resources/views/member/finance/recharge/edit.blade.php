@@ -13,20 +13,13 @@
                     <div class="panel-heading">财务结算</div>
 
                     <div class="panel-body ">
+
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/account')}}">帐户设置</a>
+                                <a href="{{url('/member/finance/recharge')}}" class="active">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/payments')}}" class="active">收支记录</a>
-                            </li>
-
-
-                        </ul>
-                        <hr/>
-                        <ul>
-                            <li>
-                                <a href="{{url('/member/finance/credit')}}">授信管理</a>
+                                <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
                             </li>
                         </ul>
 
@@ -53,115 +46,48 @@
                                 <fieldset>
                                     <legend>基本信息</legend>
                                     {!! csrf_field() !!}
-                                    <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                                        <label for="type" class="col-md-3 control-label">帐户类型：</label>
+                                    <div class="form-group{{ $errors->has('source') ? ' has-error' : '' }}">
+                                        <label for="source" class="col-md-3 control-label">充值方式：</label>
 
                                         <div class="col-md-9">
-                                            <select id="type" name="type" class="form-control" style="width: auto;">
-                                                <option value="0">银行帐户</option>
-                                                <option value="1">微信</option>
-                                                <option value="2">支付宝</option>
-                                                <option value="3">线下</option>
+                                            <select id="source" name="source" class="form-control" style="width: auto;">
+                                                <option value="0">现金</option>
+                                                <option value="1">支付宝</option>
+                                                <option value="2">微信</option>
+                                                <option value="3">银行转账</option>
                                                 <option value="4">其它</option>
                                             </select>
 
-                                            @if ($errors->has('type'))
+                                            @if ($errors->has('source'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('type') }}</strong>
+                                        <strong>{{ $errors->first('source') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                        <label for="name" class="col-md-3 control-label">开户名：</label>
+                                    <div class="form-group{{ $errors->has('money') ? ' has-error' : '' }}">
+                                        <label for="money" class="col-md-3 control-label">充值金额：</label>
 
                                         <div class="col-md-9">
-                                            <input id="name" type="text" class="form-control" name="name"
-                                                   value="{{ $account->name }}">
+                                            <input id="money" type="text" class="form-control auto" name="money"
+                                                   value="{{ $recharge->money }}">
 
-                                            @if ($errors->has('name'))
+                                            @if ($errors->has('money'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('money') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
-
-                                    <div class="form-group{{ $errors->has('bankAccount') ? ' has-error' : '' }}">
-                                        <label for="bankAccount" class="col-md-3 control-label">开户行：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="bankAccount" type="text" class="form-control" name="bankAccount"
-
-                                                   value="{{ $account->bankAccount }}">
-
-                                            @if ($errors->has('bankAccount'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('bankAccount') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('accounts') ? ' has-error' : '' }}">
-                                        <label for="accounts" class="col-md-3 control-label">帐号：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="accounts" type="text" class="form-control" name="accounts"
-
-                                                   value="{{ $account->accounts }}">
-
-                                            @if ($errors->has('accounts'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('accounts') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('bankAddres') ? ' has-error' : '' }}">
-                                        <label for="bankAddres" class="col-md-3 control-label">地址：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="bankAddres" type="text" class="form-control" name="bankAddres"
-                                                   value="{{ $account->bankAddres }}">
-
-                                            @if ($errors->has('bankAddres'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('bankAddres') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('beginMoney') ? ' has-error' : '' }}">
-                                        <label for="beginMoney" class="col-md-3 control-label">期初金额：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="beginMoney" type="text" class="form-control auto"
-                                                   name="beginMoney"
-                                                   value="{{ $account->beginMoney }}">
-
-                                            @if ($errors->has('beginMoney'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('beginMoney') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-                                        <label for="state" class="col-md-3 control-label">状态：</label>
+                                        <label for="state" class="col-md-3 control-label">到账状态：</label>
 
                                         <div class="col-md-9">
                                             <select id="state" name="state" class="form-control" style="width: auto;">
                                                 <option value="0">正常</option>
-                                                <option value="1">停用</option>
+                                                <option value="1">无效</option>
                                             </select>
 
                                             @if ($errors->has('state'))
@@ -171,6 +97,8 @@
                                             @endif
                                         </div>
                                     </div>
+
+
                                     <div class="form-group{{ $errors->has('remark') ? ' has-error' : '' }}">
                                         <label for="remark" class="col-md-3 control-label">备注：</label>
 
@@ -179,7 +107,7 @@
                                             <textarea id="remark" type="text" class="form-control"
                                                       name="remark"
                                                       style=" height: 100px"
-                                            >{{$account->remark }}</textarea>
+                                            >{{$recharge->refundable}}</textarea>
 
                                             @if ($errors->has('remark'))
                                                 <span class="help-block">

@@ -12,18 +12,13 @@
                     <div class="panel-heading">财务结算</div>
 
                     <div class="panel-body ">
+
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/recharge/create')}}">充值</a>
+                                <a href="{{url('/member/finance/recharge')}}" >充值记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/recharge/transfer')}}" >转账</a>
-                            </li>
-                        </ul>
-                        <hr/>
-                        <ul>
-                            <li>
-                                <a href="{{url('/member/finance/recharge')}}" >财务明细</a>
+                                <a href="{{url('/member/finance/quantity')}}" >推送数管理</a>
                             </li>
                         </ul>
 

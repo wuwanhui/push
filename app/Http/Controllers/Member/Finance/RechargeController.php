@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member\Finance;
 use App\Http\Controllers\Controller;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
+use App\Models\Finance_Quantity;
 use App\Models\Finance_Recharge;
 use App\Models\User;
 use Exception;
@@ -58,6 +59,20 @@ class RechargeController extends Controller
                 $recharge->userId = Base::uid();
                 $recharge->liableId = Base::uid();
                 $recharge->save();
+
+                if ($recharge->state == 0) {
+
+                    $quantity = new Finance_Quantity();
+
+                    $quantity->userId = $recharge->userId;
+                    $quantity->quantity = $recharge->money * 10;
+                    $quantity->direction = 0;
+                    $quantity->liableId = Base::uid();
+                    $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
+                    $quantity->rechargeId = $recharge->id;
+                    $quantity->save();
+
+                }
                 if ($recharge) {
                     return redirect('/member/finance/recharge')->withSuccess('保存成功！');
                 }
@@ -67,6 +82,57 @@ class RechargeController extends Controller
             $users = User::all();
 
             return view('member.finance.recharge.create', compact('recharge', 'users'));
+
+        } catch (Exception $ex) {
+            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+        }
+    }
+
+    public function edit($id,Request $request)
+    {
+        try {
+            $recharge = Finance_Recharge::find($id);
+            if (!$recharge){
+                return Redirect::back()->withErrors('数据不存在！');
+            }
+            if ($request->isMethod('POST')) {
+                $input = $request->all();
+                $validator = Validator::make($input, $recharge->Rules(), $recharge->messages());
+                if ($validator->fails()) {
+                    echo "效验失败";
+                    return redirect('/member/finance/recharge/edit')
+                        ->withInput()
+                        ->withErrors($validator);
+                }
+
+                $recharge->fill($input);
+                $recharge->userId = Base::uid();
+                $recharge->liableId = Base::uid();
+                $recharge->save();
+
+                if ($recharge->state == 0) {
+
+                    $quantity = new Finance_Quantity();
+
+                    $quantity->userId = $recharge->userId;
+                    $quantity->quantity = $recharge->money * 10;
+                    $quantity->direction = 0;
+                    $quantity->liableId = Base::uid();
+                    $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
+                    $quantity->rechargeId = $recharge->id;
+                    $quantity->state=0;
+                    $quantity->save();
+
+                }
+                if ($recharge) {
+                    return redirect('/member/finance/recharge')->withSuccess('保存成功！');
+                }
+                return Redirect::back()->withErrors('保存失败！');
+            }
+
+            $users = User::all();
+
+            return view('member.finance.recharge.edit', compact('recharge', 'users'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

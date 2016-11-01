@@ -293,20 +293,6 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
      */
     Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
         Route::get('/', 'HomeController@index');
-    
-
-        /**
-         * 账户记录
-         */
-        Route::group(['prefix' => 'account'], function () {
-            Route::get('/', 'AccountController@index');
-            Route::any('/create', 'AccountController@create');
-            Route::any('/edit/{id}', 'AccountController@edit');
-            Route::get('/detail/{id}', 'AccountController@detail');
-            Route::get('/delete', 'AccountController@delete');
-
-
-        });
 
 
         /**
@@ -321,6 +307,22 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
             Route::get('/delete', 'RechargeController@delete');
 
         });
+
+
+        /**
+         * 充值数量记录
+         */
+        Route::group(['prefix' => 'quantity'], function () {
+            Route::get('/', 'QuantityController@index');
+            Route::any('/create', 'QuantityController@create');
+            Route::any('/edit/{id}', 'QuantityController@edit');
+            Route::get('/detail/{id}', 'QuantityController@detail');
+            Route::get('/delete', 'QuantityController@delete');
+            Route::any('/transfer', 'QuantityController@transfer');
+
+
+        });
+
     });
 
     /**

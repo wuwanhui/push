@@ -14,33 +14,23 @@
 
                     <div class="panel-body ">
                         <ul>
-                            <ul>
-                                <li>
-                                    <a href="{{url('/member/finance/recharge/create')}}">充值</a>
-                                </li>
-                                <li>
-                                    <a href="{{url('/member/finance/recharge/transfer')}}">转账</a>
-                                </li>
-                            </ul>
-                            <hr/>
                             <li>
-                                <a href="{{url('/member/finance/recharge')}}" class="active">财务明细</a>
+                                <a href="{{url('/member/finance/recharge')}}" class="active">支付记录</a>
                             </li>
-
+                            <li>
+                                <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
+                            </li>
                         </ul>
-
                     </div>
                 </div>
             </div>
             <div class="col-md-10">
                 <div class="panel panel-info">
-                    <div class="panel-heading">收支记录</div>
+                    <div class="panel-heading">支付记录</div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4"><a href="{{url('/member/finance/recharge/create')}}"
-                                                     class="btn btn-primary">充值</a> <a
-                                        href="{{url('/member/finance/recharge/transfer')}}"
-                                        class="btn btn-primary">转账</a></div>
+                                                     class="btn btn-primary">充值</a> </div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">
@@ -66,7 +56,6 @@
                                     <th style="width: 100px;"><a href="">充值用户</a></th>
                                     <th style="width: 100px;"><a href="">金额</a></th>
                                     <th style="width: 100px;"><a href="">支付方式</a></th>
-                                    <th style="width: 100px;"><a href="">收支方向</a></th>
                                     <th style="width: 100px;"><a href="">经办人</a></th>
                                     <th style="width: 160px;"><a href="">时间</a></th>
                                     <th><a href="">备注</a></th>
@@ -95,12 +84,7 @@
                                             @else
                                                 微信
                                             @endif </td>
-                                        <td style="text-align: center">
-                                            @if($item->direction==0)
-                                                收入
-                                            @else
-                                                支出
-                                            @endif </td>
+
                                         <td style="text-align: center">
                                             @if($item->liable)
                                                 {{$item->liable->name}}

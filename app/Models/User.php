@@ -101,12 +101,20 @@ class User extends Authenticatable
     }
 
     /**
+     *数量记录
+     */
+    public function quantitys()
+    {
+        return $this->hasMany('App\Models\Finance_Quantity', "userId");
+    }
+
+    /**
      * @param array $attributes
      */
     public function getBalanceAttribute()
     {
-        $recharges = $this->recharges()->where("state", 0);
-        return $recharges->where("direction", 0)->sum("money") - $recharges->where("direction", 1)->sum("money") - $this->records()->sum("charging") * $this->enterprise->price;
+        $quantitys = $this->quantitys()->where("state", 0);
+        return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->records()->sum("charging");
 
     }
 }

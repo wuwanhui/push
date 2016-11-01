@@ -59,7 +59,6 @@
                                     <th style="width: 100px;"><a href="">联系人</a></th>
                                     <th style="width: 100px;"><a href="">手机号</a></th>
                                     <th style="width: 140px;"><a href="">注册时间</a></th>
-                                    <th style="width: 140px;"><a href="">标准单价</a></th>
                                     <th style="width: 100px;"><a href="">状态</a></th>
                                     <th style="width: 140px;">操作</th>
                                 </tr>
@@ -75,7 +74,6 @@
                                         <td style="text-align: center">{{$item->linkMan}}</td>
                                         <td style="text-align: center">{{$item->mobile}}</td>
                                         <td style="text-align: center">{{$item->created_at}}</td>
-                                        <td style="text-align: center">{{$item->price}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 

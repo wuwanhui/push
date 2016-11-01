@@ -193,22 +193,6 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                                        <label for="price" class="col-md-3 control-label">标准单价：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="price" type="number" class="form-control" name="price"
-                                                   style="width: 300px;"
-                                                   value="{{ old('price') }}" autofocus>
-
-                                            @if ($errors->has('price'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('price') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
 
