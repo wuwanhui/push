@@ -130,6 +130,20 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
     });
 
     /**
+     * 通讯录
+     */
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth', 'namespace' => 'Directorie'], function () {
+        Route::get('/', 'DirectorieController@index');
+        Route::any('/create', 'DirectorieController@create');
+        Route::any('/edit/{id}', 'DirectorieController@edit');
+        Route::get('/delete', 'DirectorieController@delete');
+        Route::get('/detail/{id}', 'DirectorieController@detail');
+
+
+    });
+
+
+    /**
      * 转账充值
      */
     Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
@@ -253,20 +267,20 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
     Route::group(['prefix' => 'record', 'middleware' => 'auth', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
+        Route::any('/create/{id}', 'RecordController@createByid');
         Route::any('/edit/{id}', 'RecordController@edit');
         Route::get('/delete', 'RecordController@delete');
         Route::post('/template', 'RecordController@template');
 
 
         /**
-         * 信息推送
+         * 发送模板
          */
-        Route::group(['prefix' => 'send'], function () {
-            Route::get('/', 'SendController@index');
-            Route::any('/create', 'SendController@create');
-            Route::any('/edit/{id}', 'SendController@edit');
-            Route::get('/detail/{id}', 'SendController@detail');
-            Route::get('/delete', 'SendController@delete');
+        Route::group(['prefix' => 'template'], function () {
+            Route::get('/', 'TemplateController@index');
+            Route::any('/create', 'TemplateController@create');
+            Route::any('/edit/{id}', 'TemplateController@edit');
+            Route::get('/delete/{id}', 'TemplateController@delete');
 
 
         });
@@ -283,6 +297,18 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Memb
             Route::get('/delete', 'ReceiveController@delete');
 
         });
+
+
+    });
+    /**
+     * 通讯录
+     */
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth', 'namespace' => 'Directorie'], function () {
+        Route::get('/', 'DirectorieController@index');
+        Route::any('/create', 'DirectorieController@create');
+        Route::any('/edit/{id}', 'DirectorieController@edit');
+        Route::get('/delete', 'DirectorieController@delete');
+        Route::get('/detail/{id}', 'DirectorieController@detail');
 
 
     });

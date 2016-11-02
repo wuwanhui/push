@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Models\Record;
+use App\Models\Record_Template;
 use App\Models\Supplier_Resource_Signature;
 use App\Models\Supplier_Resource_Template;
 use Exception;
@@ -62,10 +63,27 @@ class RecordController extends Controller
 
                 return $this->send($record->id);
             }
+            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
 
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             $templates = Supplier_Resource_Template::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
-            return view('member.record.create', compact('record', 'signatures', 'templates'));
+            return view('member.record.create', compact('record', 'signatures', 'templates', 'templateList'));
+        } catch (Exception $ex) {
+            return '异常！' . $ex->getMessage();
+        }
+    }
+
+    public function createByid(Request $request, $id)
+    {
+        try {
+            $template = Record_Template::find($id);
+            if (!$template) {
+                return redirect('/member/record/create')->withSuccess('模板不存在！');
+            }
+
+            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
+
+            return view('member.record.template', compact('template', 'templateList'));
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage();
         }

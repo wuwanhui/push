@@ -21,6 +21,10 @@ ul, ul > li {
     list-style-type: none;
 }
 
+.panel-body table {
+
+}
+
 a {
     color: #666666;
     outline: none;
@@ -72,8 +76,11 @@ hr {
 span {
     font-family: Arial, 微软雅黑, 黑体;
 }
-.auto{
-    width:auto;}
+
+.auto {
+    width: auto;
+}
+
 .navbar-static-top {
     color: #ffffff;
 }

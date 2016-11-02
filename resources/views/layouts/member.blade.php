@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/weili.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -21,6 +21,7 @@
     </script>
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/common.js"></script>
 </head>
 <body>
 <div id="member">
@@ -48,6 +49,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ url('/member/enterprise') }}">企业信息</a></li>
                     <li><a href="{{ url('/member/record') }}">信息推送</a></li>
+                    <li><a href="{{ url('/member/directorie') }}">通讯录</a></li>
                     <li><a href="{{ url('/member/report') }}">报表分析</a></li>
                     <li><a href="{{ url('/member/open') }}">开放平台</a></li>
                     <li><a href="{{ url('/member/finance') }}">财务结算</a></li>

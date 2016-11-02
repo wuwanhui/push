@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/weili.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -21,6 +21,7 @@
     </script>
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/common.js"></script>
 </head>
 <body>
 <div id="manage">

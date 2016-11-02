@@ -15,10 +15,10 @@
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/manage/enterprise')}}">企业管理</a>
+                                <a href="{{url('/manage/enterprise')}}" class="active">企业管理</a>
                             </li>
                             <li>
-                                <a href="{{url('/manage/enterprise/user')}}" class="active">用户管理</a>
+                                <a href="{{url('/manage/enterprise/user')}}">用户管理</a>
                             </li>
 
                         </ul>
@@ -28,26 +28,13 @@
             </div>
             <div class="col-md-10">
                 <div class="panel panel-info">
-                    <div class="panel-heading">用户管理</div>
+                    <div class="panel-heading">企业管理</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/manage/enterprise/user/create')}}"
+                            <div class="col-md-4"><a href="{{url('/manage/enterprise/create')}}"
                                                      class="btn btn-primary">新增</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
-                                    <div class="input-group">
-                                        <select id="type" name="type" class="form-control" style="width: auto;">
-                                            <option value="">所有类型</option>
-                                            <option value="0">系统帐户</option>
-                                            <option value="1">普通帐户</option>
-                                            <option value="2">供应商</option>
-                                            <option value="3">分销商</option>
-                                            <option value="4">会员</option>
-                                        </select>
-
-                                        </span>
-
-                                    </div>
                                     <div class="input-group">
 
                                         <input type="text" class="form-control" placeholder="关键字"
@@ -61,18 +48,19 @@
                         </div>
                     </div>
                     <form method="Post" class="form-inline">
+                        <fieldset>
                             <table class="table table-bordered table-hover  table-condensed">
                                 <thead>
                                 <tr style="text-align: center" class="text-center">
                                     <th style="width: 20px"><input type="checkbox"
                                                                    name="CheckAll" value="Checkid"/></th>
-                                    <th style="width: 60px;"><a href="">编号</a></th>
-                                    <th><a href="">所属企业</a></th>
-                                    <th><a href="">姓名</a></th>
-                                    <th><a href="">邮箱</a></th>
-                                    <th style="width: 120px;"><a href="">类型</a></th>
-                                    <th style="width: 100px;">状态</th>
-                                    <th style="width: 100px;">操作</th>
+                                    <th style="width: 80px;"><a href="">编号</a></th>
+                                    <th><a href="">全称</a></th>
+                                    <th style="width: 100px;"><a href="">联系人</a></th>
+                                    <th style="width: 100px;"><a href="">手机号</a></th>
+                                    <th style="width: 140px;"><a href="">注册时间</a></th>
+                                    <th style="width: 100px;"><a href="">状态</a></th>
+                                    <th style="width: 140px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -81,42 +69,35 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td>
-                                            @if($item->enterprise)
-                                                {{$item->enterprise->name}}
-                                            @endif
+                                        <td>{{$item->name}}（{{$item->shortName}}）
                                         </td>
-                                        <td>{{$item->name}}</td>
-
-                                        <td> {{$item->email}}
-                                        </td>
-                                        <td style="text-align: center">
-                                            @if($item->type==0)
-                                                系统用户
-                                            @elseif($item->type==1)
-                                                普通用户
-                                            @elseif($item->type==2)
-                                                企业管理员
-                                            @endif
-                                        </td>
+                                        <td style="text-align: center">{{$item->linkMan}}</td>
+                                        <td style="text-align: center">{{$item->mobile}}</td>
+                                        <td style="text-align: center">{{$item->created_at}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/enterprise/user/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/manage/enterprise/edit/'.$item->id)}}">编辑</a>
                                             |
-                                            <a href="{{url('/manage/enterprise/user/delete/'.$item->id)}}">删除</a>
+                                            <a
+                                                    href="{{url('/manage/enterprise/delete/'.$item->id)}}">删除</a>
+                                            |
+                                            <a
+                                                    href="{{url('/manage/enterprise/user?enterpriseId='.$item->id)}}">用户({{$item->users->count()}}
+                                                )</a>
 
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                        </fieldset>
                     </form>
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-md-4"><a
-                                        href="{{url('/supplier/resources/guide/create/')}}"
+                                        href="{{url('/enterprise/resources/guide/create/')}}"
                                         class="btn btn-primary">批量删除</a></div>
                             <div class="col-md-8 text-right">
                                 {!! $lists->links() !!}
