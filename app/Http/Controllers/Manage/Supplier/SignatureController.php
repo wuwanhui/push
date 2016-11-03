@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Supplier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Enterprise;
 use App\Models\Supplier_Resource;
 use App\Models\Supplier_Resource_Signature;
@@ -18,7 +19,7 @@ use zgldh\QiniuStorage\QiniuStorage;
  * 签名配置
  * @package App\Http\Controllers\
  */
-class SignatureController extends Controller
+class SignatureController extends BaseController
 {
 
     /**

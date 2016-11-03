@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member\Record;
 
 use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Models\Record_Template;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
  * 发送模板
  * @package App\Http\Controllers\Member\Template
  */
-class TemplateController extends Controller
+class TemplateController extends BaseController
 {
 
     /**

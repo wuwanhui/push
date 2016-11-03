@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Finance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Quantity;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
  * 支付记录
  * @package App\Http\Controllers\
  */
-class RechargeController extends Controller
+class RechargeController extends BaseController
 {
 
     /**

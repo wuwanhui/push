@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Enterprise;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/manage';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -62,10 +64,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $enterprise = Enterprise::where("name", $data['enterprise'])->first();
+        if (!$enterprise) {
+            $enterprise = new Enterprise();
+            $enterprise->name = $data['enterprise'];
+            $enterprise->shortName = $data['name'];
+            $enterprise->linkMan = $data['linkMan'];
+            $enterprise->mobile = $data['mobile'];
+            $enterprise->save();
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'enterpriseId' => $enterprise->id,
         ]);
     }
+//
+//    protected function guard()
+//    {
+//        return Auth::guard();
+//    }
 }

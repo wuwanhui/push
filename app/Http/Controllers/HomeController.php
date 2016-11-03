@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Facades\Sms;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
@@ -27,7 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+//
+////        v(Auth::guard('member')->user());
+//        if (!Auth::guard('member')->check()) {
+//            return Redirect::to('login');
+//        }
+//        if (!Auth::guard('member')->check()) {
+//            return Redirect::to('login');
+//        }
+//        return Redirect::to('member');
+
     }
 
     public function sms(Request $request)

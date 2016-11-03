@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Finance_Account;
 use App\Models\Distribution;
 use App\Models\Product;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 财务帐户
  * @package App\Http\Controllers\
  */
-class AccountController extends Controller
+class AccountController extends BaseController
 {
 
     /**

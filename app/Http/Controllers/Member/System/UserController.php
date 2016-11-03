@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Models\Distribution;
 use App\Models\User;
 use Exception;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
  * 用户管理
  * @package App\Http\Controllers\
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     /**

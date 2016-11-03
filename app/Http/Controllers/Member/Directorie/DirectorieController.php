@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Directorie;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Directorie;
@@ -16,7 +17,7 @@ use Qiniu\Auth;
  * 通讯录管理
  * @package App\Http\Controllers\
  */
-class DirectorieController extends Controller
+class DirectorieController extends BaseController
 {
 
     /**

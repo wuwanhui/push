@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member\Record;
 
 use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Models\Record;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
  * 发送记录
  * @package App\Http\Controllers\Member\Record
  */
-class RecordController extends Controller
+class RecordController extends BaseController
 {
 
     /**
@@ -50,6 +51,7 @@ class RecordController extends Controller
 
         try {
             $record = new Record();
+
             if ($request->isMethod('POST')) {
                 $input = $request->all();
 
@@ -63,6 +65,7 @@ class RecordController extends Controller
 
                 return $this->send($record->id);
             }
+            $record->mobile = $request->mobile;
             $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
 
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
@@ -116,7 +119,7 @@ class RecordController extends Controller
                     $record->sendLog = json_encode($resp);
 
 
-                    if ($resp->result) {
+                    if (isset($resp->result)) {
                         $respJson->code = 0;
                         $respJson->msg = "提交成功";
                     } else {

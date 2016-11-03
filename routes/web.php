@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Artisan;
 
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api');
+
+
 Route::get('/', function () {
     return view('welcome');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Credit;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
  * 授信管理
  * @package App\Http\Controllers\
  */
-class CreditController extends Controller
+class CreditController extends BaseController
 {
 
     /**

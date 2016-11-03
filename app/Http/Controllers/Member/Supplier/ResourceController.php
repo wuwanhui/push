@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Supplier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Qianfan;
 use App\Models\Supplier_Resource;
 use App\Models\Supplier;
@@ -12,7 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class  ResourceController extends Controller
+class  ResourceController extends BaseController
 {
 
     /**

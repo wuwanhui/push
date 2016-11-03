@@ -115,11 +115,8 @@
 
                                         </div>
                                     </div>
-
-                                    <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
-                                        <label for="content" class="col-md-3 control-label">内容预览：</label>
-
-                                        <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-9 col-md-offset-3">
                                             <div class="alert alert-success" role="alert">
                                                 <button type="button" class="close" data-dismiss="alert"><span
                                                             aria-hidden="true">&times;</span><span
@@ -171,8 +168,10 @@
         var _contentTemplate = null;
         var _contentPreview = null;
         var _paramObj = null;
+
         init();
         function init() {
+            $("#mobile").focus();
             _contentTemplate = $("#contentTemplate").val();
             _paramObj = JSON.parse($("#param").val());
             for (var key in _paramObj) {

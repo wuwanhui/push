@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Directorie;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Distribution;
 use App\Models\Directorie;
 use Exception;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
  * 通讯录管理
  * @package App\Http\Controllers\
  */
-class DirectorieController extends Controller
+class DirectorieController extends BaseController
 {
 
     /**

@@ -6,7 +6,7 @@
                     <div class="panel-heading">Example Component</div>
 
                     <div class="panel-body">
-                        I'm an example component!
+                       wuhong
                     </div>
                 </div>
             </div>
@@ -20,4 +20,9 @@
             console.log('Component ready.')
         }
     }
+    this.$http.get('/oauth/clients')
+        .then(response => {
+            console.log(response.data);
+        });
+
 </script>

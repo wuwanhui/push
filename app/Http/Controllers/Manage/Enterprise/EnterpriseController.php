@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Manage\Enterprise;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Models\Distribution;
 use App\Models\Enterprise;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,8 +15,29 @@ use Illuminate\Support\Facades\Validator;
  * 企业管理
  * @package App\Http\Controllers\
  */
-class EnterpriseController extends Controller
+class EnterpriseController extends ManageBaseController
 {
+    public function __construct()
+    {
+
+        if (!Auth::check()) {
+            return Redirect::guest('login');
+        }
+
+
+        if (Auth::check()) {
+            if (Auth::user()->type != 1) {
+                return Redirect::back()->withErrors('对不起无权访问！');
+            }
+        }
+
+
+        if (Auth::user()->type != 0) {
+            return Redirect::back()->withErrors('对不起无权访问！');
+        }
+        $this->uid = Base::uid();
+        $this->eid = Base::user("enterpriseId");
+    }
 
     /**
      * Show the application dashboard.
@@ -24,6 +46,7 @@ class EnterpriseController extends Controller
      */
     public function index(Request $request)
     {
+        dd(Auth::check());
         $key = $request->key;
 
         $lists = Enterprise::where(function ($query) use ($key) {

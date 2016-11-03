@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Distribution;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Models\Distribution;
 use App\Models\Produits;
 use App\Models\ReserveRule;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
  * 预定规则
  * @package App\Http\Controllers\
  */
-class RuleController extends Controller
+class RuleController extends BaseController
 {
 
     /**

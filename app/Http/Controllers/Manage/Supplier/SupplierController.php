@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Supplier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Supplier;
 use Exception;
@@ -10,9 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class SupplierController extends Controller
+class SupplierController extends BaseController
 {
-
+ 
     /**
      * Show the application dashboard.
      *

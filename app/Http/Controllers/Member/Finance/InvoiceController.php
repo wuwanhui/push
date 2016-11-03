@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Finance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Quantity;
@@ -18,7 +19,7 @@ use Qiniu\Auth;
  * 发票申请
  * @package App\Http\Controllers\
  */
-class InvoiceController extends Controller
+class InvoiceController extends BaseController
 {
 
     /**

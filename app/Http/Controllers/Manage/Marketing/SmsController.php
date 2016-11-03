@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Manage\Marketing;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Http\Facades\Sms;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 
-class SmsController extends Controller
+class SmsController extends BaseController
 {
     /**
      * Display a listing of the resource.

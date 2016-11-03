@@ -24,7 +24,7 @@
     <script src="/js/common.js"></script>
 </head>
 <body>
-<div id="manage">
+<div id="app">
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header">

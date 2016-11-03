@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/manage';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -36,4 +36,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+//
+//    public function authenticated(Request $request, $user)
+//    {
+//
+////        if ($user->type == 0) {
+////            Auth::guard('manage');
+////        } else {
+////            Auth::guard('member');
+////        }
+////
+////        Log::info("authenticated");
+////        return true;
+//    }
+
+//
+//    public function guard()
+//    {
+//        Log::info("guard");
+////        $email = Input::get('email');
+////        v($email);
+//        return Auth::guard('member');
+//    }
 }

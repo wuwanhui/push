@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Distribution;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Produits;
 use App\Models\Sales;
 use App\Models\Distribution;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
  * 授信管理
  * @package App\Http\Controllers\
  */
-class SalesController extends Controller
+class SalesController extends BaseController
 {
 
     /**

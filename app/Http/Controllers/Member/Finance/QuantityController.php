@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Finance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Models\Finance_Quantity;
 use App\Models\Distribution;
 use App\Models\Product;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 财务帐户
  * @package App\Http\Controllers\
  */
-class QuantityController extends Controller
+class QuantityController extends BaseController
 {
 
     /**

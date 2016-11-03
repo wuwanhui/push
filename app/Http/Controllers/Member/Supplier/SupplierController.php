@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\Supplier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
 use App\Models\Supplier;
 use Exception;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class SupplierController extends Controller
+class SupplierController extends BaseController
 {
 
     /**

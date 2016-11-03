@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 应用中心
  * @package App\Http\Controllers\
  */
-class OtaController extends Controller
+class OtaController extends BaseController
 {
 
     /**

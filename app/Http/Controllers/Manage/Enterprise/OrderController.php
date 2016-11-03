@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Member;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Distribution;
 use App\Models\Member;
 use App\Models\Order;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
  * 订单中心
  * @package App\Http\Controllers\
  */
-class OrderController extends Controller
+class OrderController extends BaseController
 {
 
     /**

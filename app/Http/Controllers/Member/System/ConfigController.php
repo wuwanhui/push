@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Models\Config;
 use App\Models\Distribution;
 use App\Models\Product;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 应用中心
  * @package App\Http\Controllers\
  */
-class ConfigController extends Controller
+class ConfigController extends BaseController
 {
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Record;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Enterprise;
 use App\Models\Record_Resource;
 use App\Models\Record;
@@ -18,7 +19,7 @@ use zgldh\QiniuStorage\QiniuStorage;
  * 信息推送
  * @package App\Http\Controllers\
  */
-class SendController extends Controller
+class SendController extends BaseController
 {
  
     public function index(Request $request)

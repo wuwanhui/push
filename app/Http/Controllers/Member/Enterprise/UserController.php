@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Member\Enterprise;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
-use App\Models\Enterprise;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
  * 用户管理
  * @package App\Http\Controllers\
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     /**
@@ -26,9 +25,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $key = $request->key;
-        $enterpriseId = $request->enterpriseId;
-
-
+        $enterpriseId = $this->eid;
         $lists = User::where(function ($query) use ($key, $enterpriseId) {
             if ($enterpriseId) {
                 $query->where('enterpriseId', $enterpriseId);

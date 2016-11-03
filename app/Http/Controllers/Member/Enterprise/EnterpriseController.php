@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Member\Enterprise;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
-use App\Models\Distribution;
 use App\Models\Enterprise;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
  * 企业管理
  * @package App\Http\Controllers\
  */
-class EnterpriseController extends Controller
+class EnterpriseController extends BaseController
 {
 
     /**
@@ -27,7 +26,7 @@ class EnterpriseController extends Controller
     {
         try {
             $enterprise = Enterprise::find(Base::user("enterpriseId"));
-           
+
             if (Base::user("type") == 2) {
                 if ($request->isMethod('POST')) {
                     $input = $request->all();

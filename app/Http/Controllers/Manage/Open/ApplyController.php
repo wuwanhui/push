@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Open;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Manage\BaseController;
 use App\Models\Apply;
 use App\Models\Distribution;
 use App\Models\Open_Apply;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
  * 应用中心
  * @package App\Http\Controllers\
  */
-class ApplyController extends Controller
+class ApplyController extends BaseController
 {
 
     /**

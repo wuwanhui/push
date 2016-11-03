@@ -76,7 +76,7 @@
                             {{ csrf_field() }}
                             <div class="col-xs-12">
                                 <fieldset>
-                                    <legend>基本信息</legend>
+                                    <legend>短信发送</legend>
 
 
                                     @if($signatures )
@@ -123,16 +123,14 @@
                                                       name="mobile"
                                                       placeholder="多个手机号录入可以使用逗号，空格或回车分隔！"
                                                       style=" height: 100px"
-                                            >{{old('mobile') }}</textarea><br>
+                                            >{{$record->mobile }}</textarea><br>
                                             <span id="charging"></span>
 
                                         </div>
                                     </div>
 
-                                    <div class="form-group ">
-                                        <label class="col-md-3 control-label">内容预览：</label>
-
-                                        <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-9 col-md-offset-3">
                                             <div id="preview" class="alert alert-success" role="alert"
                                                  style="display:none">
                                                 <button type="button" class="close" data-dismiss="alert"><span
@@ -142,9 +140,7 @@
                                                 <strong>短信预览!</strong>
                                                 <div>
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -153,7 +149,7 @@
                                         <div class="col-md-9">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" onchange="isTiming()">定时发送
+                                                    <input type="checkbox" onchange="isTiming()" id="checkTime">定时发送
                                                 </label>
                                             </div>
                                             <input id="sendTime" type="datetime" class="form-control auto"
@@ -167,8 +163,6 @@
                                     <div class="paramUi">
 
                                     </div>
-
-
                                 </fieldset>
                             </div>
                         </div>
@@ -224,6 +218,11 @@
         var _template = null;
         var _mobiles = Array();
         var _content = null;
+
+        init();
+        function init() {
+            $("#templateId").focus();
+        }
 
 
         //模板选择
@@ -340,16 +339,17 @@
             }
             postData["mobile"] = _mobiles.join(",");
             postData["content"] = _content;
+            if ($("#checkTime").is(':checked')) {
+                var _sendTime = $("#sendTime").val();
+                if (_sendTime.length > 0) {
+                    var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+                    var r = _sendTime.match(reg);
+                    if (r == null) {
+                        return alert("定时发送时间格式错误!如:2016-12-20 12:00");
+                    } else {
+                        postData["sendTime"] = _sendTime;
 
-            var _sendTime = $("#sendTime").val();
-            if (_sendTime.length > 0) {
-                var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
-                var r = _sendTime.match(reg);
-                if (r == null) {
-                    return alert("定时发送时间格式错误!如:2016-12-20 12:00");
-                } else {
-                    postData["sendTime"] = _sendTime;
-
+                    }
                 }
             }
 
