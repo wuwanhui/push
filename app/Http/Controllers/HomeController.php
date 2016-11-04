@@ -28,15 +28,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-//
-////        v(Auth::guard('member')->user());
-//        if (!Auth::guard('member')->check()) {
-//            return Redirect::to('login');
-//        }
-//        if (!Auth::guard('member')->check()) {
-//            return Redirect::to('login');
-//        }
-//        return Redirect::to('member');
+        if (!Auth::check()) {
+            return Redirect::to('login');
+        }
+        if (Auth::user()->type == 0) {
+            return Redirect::to('manage');
+        }
+        return Redirect::to('member');
 
     }
 

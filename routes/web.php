@@ -8,13 +8,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
 Route::any('/install', 'InstallController@index');
 
@@ -22,7 +18,7 @@ Route::any('/install', 'InstallController@index');
 /**
  * 管理后台
  */
-Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Manage'], function () {
+Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Models\User'], 'namespace' => 'Manage'], function () {
     Route::get('/', 'HomeController@index');
 
 
@@ -103,20 +99,20 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
     Route::group(['prefix' => 'record', 'middleware' => 'auth', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
+        Route::any('/create/{id}', 'RecordController@createByid');
         Route::any('/edit/{id}', 'RecordController@edit');
         Route::get('/delete', 'RecordController@delete');
-        Route::get('/detail/{id}', 'RecordController@detail');
         Route::post('/template', 'RecordController@template');
 
 
         /**
-         * 信息推送
+         * 发送模板
          */
-        Route::group(['prefix' => 'send'], function () {
-            Route::get('/', 'SendController@index');
-            Route::any('/create', 'SendController@create');
-            Route::any('/edit/{id}', 'SendController@edit');
-            Route::get('/delete', 'SendController@delete');
+        Route::group(['prefix' => 'template'], function () {
+            Route::get('/', 'TemplateController@index');
+            Route::any('/create', 'TemplateController@create');
+            Route::any('/edit/{id}', 'TemplateController@edit');
+            Route::get('/delete/{id}', 'TemplateController@delete');
 
 
         });
@@ -150,26 +146,22 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
 
 
     /**
-     * 转账充值
+     * 财务中心
      */
     Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
-        Route::get('/', 'FinanceController@index');
-        Route::any('/create', 'FinanceController@create');
-        Route::any('/edit/{id}', 'FinanceController@edit');
-        Route::get('/delete', 'FinanceController@delete');
-        Route::post('/template', 'FinanceController@template');
+        Route::get('/', 'HomeController@index');
 
 
         /**
-         * 账户记录
+         * 支付记录
          */
-        Route::group(['prefix' => 'account'], function () {
-            Route::get('/', 'AccountController@index');
-            Route::any('/create', 'AccountController@create');
-            Route::any('/edit/{id}', 'AccountController@edit');
-            Route::get('/detail/{id}', 'AccountController@detail');
-            Route::get('/delete', 'AccountController@delete');
-
+        Route::group(['prefix' => 'recharge'], function () {
+            Route::get('/', 'RechargeController@index');
+            Route::any('/create', 'RechargeController@create');
+            Route::any('/transfer', 'RechargeController@transfer');
+            Route::any('/edit/{id}', 'RechargeController@edit');
+            Route::get('/detail/{id}', 'RechargeController@detail');
+            Route::get('/delete', 'RechargeController@delete');
 
         });
 
@@ -177,22 +169,72 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth', 'namespace' => 'Mana
         /**
          * 充值记录
          */
-        Route::group(['prefix' => 'recharge'], function () {
-            Route::get('/', 'RechargeController@index');
-            Route::any('/create', 'RechargeController@create');
-            Route::any('/edit/{id}', 'RechargeController@edit');
-            Route::get('/detail/{id}', 'RechargeController@detail');
-            Route::get('/delete', 'RechargeController@delete');
+        Route::group(['prefix' => 'quantity'], function () {
+            Route::get('/', 'QuantityController@index');
+            Route::any('/create', 'QuantityController@create');
+            Route::any('/edit/{id}', 'QuantityController@edit');
+            Route::get('/detail/{id}', 'QuantityController@detail');
+            Route::get('/delete', 'QuantityController@delete');
+            Route::any('/transfer', 'QuantityController@transfer');
+
+
+        });
+
+        /**
+         * 发票申请
+         */
+        Route::group(['prefix' => 'invoice'], function () {
+            Route::get('/', 'InvoiceController@index');
+            Route::any('/create', 'InvoiceController@create');
+            Route::any('/edit/{id}', 'InvoiceController@edit');
+            Route::get('/detail/{id}', 'InvoiceController@detail');
+            Route::get('/delete', 'InvoiceController@delete');
+
+
+        });
+
+        /**
+         * 发票申请
+         */
+        Route::group(['prefix' => 'pay'], function () {
+            Route::get('/', 'WeixinPayController@index');
+            Route::any('/create', 'WeixinPayController@create');
+            Route::any('/edit/{id}', 'WeixinPayController@edit');
+            Route::get('/detail/{id}', 'WeixinPayController@detail');
+            Route::get('/delete', 'WeixinPayController@delete');
+
 
         });
     });
 
+    /**
+     * 系统配置
+     */
+    Route::group(['prefix' => 'system', 'middleware' => 'auth', 'namespace' => 'System'], function () {
+        Route::get('/', 'HomeController@index');
+
+
+        /**
+         * 参数设置
+         */
+        Route::group(['prefix' => 'config'], function () {
+            Route::any('/', 'ConfigController@index');
+            Route::any('/create', 'ConfigController@create');
+            Route::any('/transfer', 'ConfigController@transfer');
+            Route::any('/edit/{id}', 'ConfigController@edit');
+            Route::get('/detail/{id}', 'ConfigController@detail');
+            Route::get('/delete', 'ConfigController@delete');
+
+        });
+
+
+    });
 
 });
 /**
  * 会员后台
  */
-Route::group(['prefix' => 'member', 'middleware' => 'auth', 'namespace' => 'Member'], function () {
+Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Models\User'], 'namespace' => 'Member'], function () {
     Route::get('/', 'HomeController@index');
 
 

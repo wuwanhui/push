@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Manage\System;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Facades\Base;
 use App\Models\Config;
 use App\Models\Distribution;
+use App\Models\Enterprise;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -27,7 +29,9 @@ class ConfigController extends BaseController
     public function index(Request $request)
     {
         try {
-            $config = Config::first();
+
+            $enterprise = Base::enterprise();
+            $config = $enterprise->config;
             if (!$config) {
                 $config = new Config();
             }
@@ -44,6 +48,8 @@ class ConfigController extends BaseController
 
                 $config->fill($input);
                 $config->save();
+                $enterprise->configId = $config->id;
+                $enterprise->save();
                 if ($config) {
                     return redirect('/manage/system/config')->withSuccess('保存成功！');
                 }

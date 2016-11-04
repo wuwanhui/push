@@ -66,6 +66,15 @@ class Finance_Quantity extends Model
         return $this->belongsTo('App\Models\User', 'userId');
     }
 
+
+    /**
+     * 经办人
+     */
+    public function liable()
+    {
+        return $this->belongsTo('App\Models\User', 'liableId');
+    }
+
     /**
      * 充值记录
      */

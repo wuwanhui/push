@@ -13,6 +13,7 @@ use App\Models\Supplier_Resource_Signature;
 use App\Models\Supplier_Resource_Template;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -34,8 +35,11 @@ class RecordController extends BaseController
         $key = $request->key;
         $lists = Record::where(function ($query) use ($key) {
 
-            $query->Where('userId', Base::uid());
-
+            if (Base::user("type") == 2) {
+                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            } else {
+                $query->Where('userId', Base::uid());
+            }
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }

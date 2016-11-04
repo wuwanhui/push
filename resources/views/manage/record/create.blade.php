@@ -15,19 +15,38 @@
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/manage/record/create')}}">信息推送</a>
+                                <a href="{{url('/manage/record/create')}}" class="active">信息推送</a>
                             </li>
 
                         </ul>
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/manage/record')}}" class="active">发送记录</a>
+                                <a href="{{url('/manage/record')}}">发送记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/manage/record/receive')}}">回执报告</a>
+                                <a href="{{url('/manage/record/template')}}">发送模板</a>
                             </li>
                         </ul>
+                    </div>
+                </div>
+                <div class="panel   panel-info">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-6"> 自定义模板</div>
+                            <div class="col-lg-6 text-right"><a href="{{url('/manage/record/template')}}">管理 </a></div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <ul>
+                            @foreach($templateList as $item)
+                                <li>
+                                    <a href="{{url('/manage/record/create/'.$item->id)}}">{{$item->name}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+
                     </div>
                 </div>
             </div>
@@ -43,16 +62,21 @@
                                     <button type="button" class="btn  btn-primary" onclick="send()">
                                         发送
                                     </button>
+                                    <span class="state"></span>
+                                </div>
+                                <div class="col-xs-6 text-right ">
+                                    <button type="button" class="btn btn-primary " onclick="showModal()">
+                                        存为模板
+                                    </button>
 
                                 </div>
-                                <div class="col-xs-6 text-right state"></div>
                             </div>
                         </div>
                         <div class="panel-body">
                             {{ csrf_field() }}
                             <div class="col-xs-12">
                                 <fieldset>
-                                    <legend>基本信息</legend>
+                                    <legend>短信发送</legend>
 
 
                                     @if($signatures )
@@ -73,7 +97,7 @@
                                     @endif
 
                                     @if($templates )
-                                        <div class="form-group">
+                                        <div class="form-group ">
                                             <label for="templateId" class="col-md-3 control-label">模板：</label>
 
                                             <div class="col-md-9">
@@ -89,7 +113,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="form-group">
+                                    <div class="form-group ">
                                         <label for="mobile" class="col-md-3 control-label">手机号：</label>
 
                                         <div class="col-md-9">
@@ -99,21 +123,14 @@
                                                       name="mobile"
                                                       placeholder="多个手机号录入可以使用逗号，空格或回车分隔！"
                                                       style=" height: 100px"
-                                            >{{old('mobile') }}</textarea><br>
+                                            >{{$record->mobile }}</textarea><br>
                                             <span id="charging"></span>
 
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="content" class="col-md-3 control-label">内容预览：</label>
-
-                                        <div class="col-md-9">
-
-                                            <textarea id="content" type="text" class="form-control" disabled
-                                                      name="content"
-                                                      style=" height: 100px"
-                                            > </textarea>
+                                    <div class="row">
+                                        <div class="col-md-9 col-md-offset-3">
                                             <div id="preview" class="alert alert-success" role="alert"
                                                  style="display:none">
                                                 <button type="button" class="close" data-dismiss="alert"><span
@@ -126,29 +143,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group ">
                                         <label for="sendTime" class="col-md-3 control-label">发送时间：</label>
 
                                         <div class="col-md-9">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" onchange="isTiming()">定时发送
+                                                    <input type="checkbox" onchange="isTiming()" id="checkTime">定时发送
                                                 </label>
                                             </div>
                                             <input id="sendTime" type="datetime" class="form-control auto"
                                                    style="display: none;" onchange="checkTime(this)"
                                                    value="{{ date("Y-m-d H:i:s",time())}}"
-
-                                                   name="sendTime" placeholder="格式：2016-12-01 12:30"
-                                            />
+                                                   name="sendTime" placeholder="格式：2016-12-01 12:30"/>
 
                                         </div>
                                     </div>
+                                    <input type="hidden" id="param" name="param">
                                     <div class="paramUi">
 
                                     </div>
-
-
                                 </fieldset>
                             </div>
                         </div>
@@ -159,18 +173,62 @@
         </div>
     </div>
 
+    <!-- 存为模板 -->
+    <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="templateModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="templateModalLabel">存为模板</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" method="POST">
+                        <div class="form-group ">
+                            <label for="templateName" class="col-md-3 control-label">模板名称：</label>
+                            <div class="col-md-9">
+                                <input id="templateName" type="text" class="form-control" name="templateName"
+                                       placeholder="模板名称"
+                                       autofocus>
 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="templateShare" class="col-md-3 control-label">是否分享：</label>
+                            <div class="col-md-9">
+                                <select id="templateShare" name="templateShare" class="form-control"
+                                        style="width: auto;">
+                                    <option value="0">私有</option>
+                                    <option value="1">分享</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="saveTemplate()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="application/javascript">
         var _template = null;
         var _mobiles = Array();
         var _content = null;
+
+        init();
+        function init() {
+            $("#templateId").focus();
+        }
 
 
         //模板选择
         function template(_obj) {
             _template = null;
 
-            $("#content").val('');
             $(".paramUi").empty();
             $("#preview").hide();
             var _templateId = _obj.value;
@@ -192,7 +250,6 @@
                     _template = data;
                     $(".state").empty();
                     $("#preview").show();
-                    $("#content").val(_template.content);
 
                     var paramObj = JSON.parse(_template.param);
 
@@ -275,25 +332,24 @@
             }
             var postData = {};
 
-            var _signatureId = $("#signatureId").val();
-            postData["signatureId"] = _signatureId;
-            var _templateId = $("#templateId").val();
-            postData["templateId"] = _templateId;
+            postData["signatureId"] = $("#signatureId").val();
+            postData["templateId"] = $("#templateId").val();
             if (_mobiles.length == 0) {
                 return alert("未检查到有效的手机号!");
             }
             postData["mobile"] = _mobiles.join(",");
             postData["content"] = _content;
+            if ($("#checkTime").is(':checked')) {
+                var _sendTime = $("#sendTime").val();
+                if (_sendTime.length > 0) {
+                    var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+                    var r = _sendTime.match(reg);
+                    if (r == null) {
+                        return alert("定时发送时间格式错误!如:2016-12-20 12:00");
+                    } else {
+                        postData["sendTime"] = _sendTime;
 
-            var _sendTime = $("#sendTime").val();
-            if (_sendTime.length > 0) {
-                var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
-                var r = _sendTime.match(reg);
-                if (r == null) {
-                    return alert("定时发送时间格式错误!如:2016-12-20 12:00");
-                } else {
-                    postData["sendTime"] = _sendTime;
-
+                    }
                 }
             }
 
@@ -340,6 +396,84 @@
                 error: function (XHR, textStatus, errorThrown) {
                     submit.text("发送");
                     submit.removeAttr('disabled'); //设置按钮可用
+                    alert("XHR=" + XHR + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
+                }
+            });
+        }
+        function showModal() {
+
+            var _signatureId = $("#signatureId").val();
+            if (!_signatureId) {
+                return alert("请选择签名!");
+            }
+            var _templateId = $("#templateId").val();
+            if (!_templateId) {
+                return alert("请选择模板!");
+            }
+
+
+            $('#templateModal').modal('toggle')
+        }
+
+
+        //模板保存
+        function saveTemplate() {
+            if (!_template) {
+                return alert("未获取到模板信息，请选择!");
+            }
+            var postData = {};
+            var _signatureId = $("#signatureId").val();
+            if (!_signatureId) {
+                return alert("请选择签名!");
+            }
+            postData["signatureId"] = _signatureId;
+            var _templateId = $("#templateId").val();
+            if (!_templateId) {
+                return alert("请选择模板!");
+            }
+            postData["templateId"] = _templateId;
+
+            if (_mobiles.length > 0) {
+                postData["mobile"] = _mobiles.join(",");
+            }
+            postData["content"] = _content;
+
+            var _templateName = $("#templateName").val();
+            if (!_templateName) {
+                return alert("模板名称不能为空!");
+            }
+            postData["name"] = _templateName;
+
+            postData["share"] = $("#templateShare").val();
+            var _sendTime = $("#sendTime").val();
+            if (_sendTime.length > 0) {
+                postData["sendTime"] = _sendTime;
+            }
+
+            var paramObj = JSON.parse(_template.param);
+
+            for (var key in paramObj) {
+                paramObj[key] = $("#" + key + "").val();
+            }
+            postData["param"] = JSON.stringify(paramObj);
+
+            $.ajax({
+                url: "{{url('/manage/record/template/create')}}",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                type: "post",
+                data: postData,
+                timeout: 30000,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
+                    $(".state").text(data.msg);
+                    if (data.code == 0) {
+                        $('#templateModal').modal('toggle')
+                    }
+                },
+                error: function (XHR, textStatus, errorThrown) {
                     alert("XHR=" + XHR + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
                 }
             });

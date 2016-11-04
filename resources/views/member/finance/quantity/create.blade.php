@@ -13,20 +13,21 @@
                     <div class="panel-heading">财务结算</div>
 
                     <div class="panel-body ">
-
                         <ul>
                             <li>
                                 <a href="{{url('/member/finance/recharge')}}">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}" class="active">充值管理</a>
+                                <a href="{{url('/member/finance/invoice')}}">发票申请</a>
                             </li>
-                            <li>
-                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
-                            </li>
-                        </ul>
-                        </ul>
 
+                        </ul>
+                        <hr/>
+                        <ul>
+                            <li>
+                                <a href="{{url('/member/finance/quantity')}}"  class="active">充值管理</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

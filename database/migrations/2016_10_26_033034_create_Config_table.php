@@ -22,10 +22,14 @@ class CreateConfigTable extends Migration
             $table->string('addres');//地址
 
 
-            $table->string('weixin_Token');//Token
-            $table->string('weixin_AppID');//Appid
-            $table->string('wexin_AppSecret');//Secret
-            $table->string('wexin_AES');//AES
+            $table->string('weixinToken');//Token
+            $table->string('weixinAppID');//Appid
+            $table->string('wexinAppSecret');//Secret
+            $table->string('wexinAES');//AES
+
+            $table->string('payMchId');//商户号
+            $table->string('payNotifyUrl');//支付回调地址
+            $table->string('payKey');//支付密钥
             $table->timestamps();
         });
     }

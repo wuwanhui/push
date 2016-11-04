@@ -25,7 +25,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $enterpriseId = $this->eid;
+        $enterpriseId = Base::user('enterpriseId');
         $lists = User::where(function ($query) use ($key, $enterpriseId) {
             if ($enterpriseId) {
                 $query->where('enterpriseId', $enterpriseId);

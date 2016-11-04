@@ -19,15 +19,17 @@ class BaseService
     public function __construct()
     {
         if (Auth::check()) {
-            if ($this->config == null) {
-                $this->config = Config::first();
-            }
-            if ($this->enterprise == null) {
-                $this->enterprise = Enterprise::first();
-            }
+
             if ($this->user == null) {
                 $this->user = Auth::user();
             }
+            if ($this->enterprise == null) {
+                $this->enterprise = $this->user->enterprise;
+            }
+            if ($this->config == null) {
+                $this->config = $this->enterprise->config;
+            }
+
         }
     }
 
@@ -45,14 +47,30 @@ class BaseService
 
 
     /**
+     * 获取企业ID
+     * @return mixed
+     */
+    public function eid()
+    {
+        if ($this->enterprise) {
+            return $this->enterprise->id;
+        }
+    }
+
+    /**
      *获取用户信息
      * @param $key
      * @return mixed
      */
-    public function user($key)
+    public function user($key = null)
     {
+
         if ($this->user) {
-            return $this->user->$key;
+            if ($key) {
+                return $this->user->$key;
+            } else {
+                return $this->user;
+            }
         }
     }
 
@@ -62,10 +80,14 @@ class BaseService
      * @param $key
      * @return mixed
      */
-    public function enterprise($key)
+    public function enterprise($key = null)
     {
         if ($this->enterprise) {
-            return $this->enterprise->$key;
+            if ($key) {
+                return $this->enterprise->$key;
+            } else {
+                return $this->enterprise;
+            }
         }
     }
 
@@ -75,10 +97,15 @@ class BaseService
      * @param $key
      * @return mixed
      */
-    public function config($key)
+    public function config($key = null)
     {
+
         if ($this->config) {
-            return $this->config->$key;
+            if ($key) {
+                return $this->config->$key;
+            } else {
+                return $this->config;
+            }
         }
     }
 

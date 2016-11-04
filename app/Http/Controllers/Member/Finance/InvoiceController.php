@@ -29,11 +29,9 @@ class InvoiceController extends BaseController
      */
     public function index(Request $request)
     {
-
         $key = $request->key;
-
         $lists = Finance_Invoice::where(function ($query) use ($key) {
-            $query->where('userId', Base::uid());
+            $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }

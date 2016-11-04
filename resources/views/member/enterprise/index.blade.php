@@ -19,10 +19,9 @@
                             </li>
                             @if(Base::user("type")==2)
                                 <li>
-                                    <a href="{{url('/member/enterprise/user')}}">用户管理</a>
+                                    <a href="{{url('/member/enterprise/user')}}" class="active">用户管理</a>
                                 </li>
                             @endif
-
                         </ul>
 
                     </div>

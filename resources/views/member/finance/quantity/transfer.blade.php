@@ -15,19 +15,19 @@
                     <div class="panel-body ">
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/recharge/create')}}">充值</a>
+                                <a href="{{url('/member/finance/recharge')}}">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/recharge/transfer')}}" class="active">转账</a>
+                                <a href="{{url('/member/finance/invoice')}}">发票申请</a>
                             </li>
+
                         </ul>
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/recharge')}}">财务明细</a>
+                                <a href="{{url('/member/finance/quantity')}}" class="active">充值管理</a>
                             </li>
                         </ul>
-
                     </div>
                 </div>
             </div>

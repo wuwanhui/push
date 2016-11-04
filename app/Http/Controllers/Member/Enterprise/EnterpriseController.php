@@ -59,6 +59,8 @@ class EnterpriseController extends BaseController
     {
         try {
             $enterprise = new Enterprise();
+            $this->authorize('create', $enterprise);//权限检查
+
             if ($request->isMethod('POST')) {
                 $input = $request->all();
                 $validator = Validator::make($input, $enterprise->Rules(), $enterprise->messages());
@@ -89,6 +91,9 @@ class EnterpriseController extends BaseController
     {
         try {
             $enterprise = Enterprise::find(Base::user("enterpriseId"));
+            $this->authorize('update', $enterprise);//权限检查
+
+
             if ($request->isMethod('POST')) {
                 $input = $request->all();
                 $validator = Validator::make($input, $enterprise->Rules(), $enterprise->messages());

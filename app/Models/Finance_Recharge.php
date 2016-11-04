@@ -67,6 +67,15 @@ class Finance_Recharge extends Model
     }
 
     /**
+     * 经办人
+     */
+    public function liable()
+    {
+        return $this->belongsTo('App\Models\User', 'liableId');
+    }
+
+
+    /**
      * 用户信息
      */
     public function parent()

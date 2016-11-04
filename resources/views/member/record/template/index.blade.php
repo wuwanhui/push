@@ -66,6 +66,7 @@
                                     <th><a href="">内容</a></th>
                                     <th><a href="">参数</a></th>
                                     <th style="width: 80px;"><a href="">分享</a></th>
+                                    <th style="width: 80px;"><a href="">所有者</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 120px;">操作</th>
                                 </tr>
@@ -86,13 +87,16 @@
                                         <td> {{$item->content}}</td>
                                         <td> {{$item->param}}</td>
                                         <td style="text-align: center">   {{$item->share==0?"私有":"分享"}}</td>
+                                        <td style="text-align: center"> {{$item->user->name}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 
                                         <td style="text-align: center"><a
                                                     href="{{url('/member/record/create/'.$item->id)}}">发送</a>
-                                            | <a
-                                                    href="{{url('/member/record/template/delete/'.$item->id)}}">删除</a>
+                                            @if($item->userId==Base::uid()||Base::user('type')==2)
+                                                | <a
+                                                        href="{{url('/member/record/template/delete/'.$item->id)}}">删除</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

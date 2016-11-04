@@ -18,10 +18,14 @@
                                 <a href="{{url('/member/finance/recharge')}}">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}">充值管理</a>
-                            </li>
-                            <li>
                                 <a href="{{url('/member/finance/invoice')}}" class="active">发票申请</a>
+                            </li>
+
+                        </ul>
+                        <hr/>
+                        <ul>
+                            <li>
+                                <a href="{{url('/member/finance/quantity')}}">充值管理</a>
                             </li>
                         </ul>
                     </div>

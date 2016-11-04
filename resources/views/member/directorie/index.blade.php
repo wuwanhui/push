@@ -86,13 +86,21 @@
                                             {{$item->share==0?"私有":"分享"}}
                                         </td>
                                         <td style="text-align: center">
-                                            {{$item->share==0?"正常":"禁用"}}
+                                            {{$item->state==0?"正常":"禁用"}}
                                         </td>
 
-                                        <td style="text-align: center"><a
-                                                    href="{{url('/member/directorie/edit/'.$item->id)}}">编辑</a>
-                                            | <a
-                                                    href="{{url('/member/directorie/delete/'.$item->id)}}">删除</a>
+                                        <td style="text-align: center">
+                                            <a
+                                                    href="{{url('/member/directorie/detail/'.$item->id)}}">详情</a>
+
+
+                                            @if($item->userId==Base::uid()||Base::user('type')==2)
+                                                | <a
+                                                        href="{{url('/member/directorie/edit/'.$item->id)}}">编辑</a>
+
+                                                | <a
+                                                        href="{{url('/member/directorie/delete/'.$item->id)}}">删除</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

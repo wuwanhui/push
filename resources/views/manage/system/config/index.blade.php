@@ -215,73 +215,75 @@
                                         </div>
                                     </div>
 
-                                </fieldset> <fieldset>
-                                    <legend>微信参数</legend>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>微信公众号</legend>
 
-                                    <div class="form-group{{ $errors->has('weixin_Token') ? ' has-error' : '' }}">
-                                        <label for="weixin_Token" class="col-md-3 control-label">Token：</label>
+                                    <div class="form-group{{ $errors->has('weixinToken') ? ' has-error' : '' }}">
+                                        <label for="weixinToken" class="col-md-3 control-label">Token：</label>
 
                                         <div class="col-md-9">
-                                            <input id="weixin_Token" type="text" class="form-control"
-                                                   name="weixin_Token"
+                                            <input id="weixinToken" type="text" class="form-control"
+                                                   name="weixinToken"
 
-                                                   value="{{ $config->weixin_Token}}">
+                                                   value="{{ $config->weixinToken}}">
 
-                                            @if ($errors->has('weixin_Token'))
+                                            @if ($errors->has('weixinToken'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('weixin_Token') }}</strong>
+                                        <strong>{{ $errors->first('weixinToken') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('weixin_AppID') ? ' has-error' : '' }}">
-                                        <label for="weixin_AppID" class="col-md-3 control-label">AppID：</label>
+                                    <div class="form-group{{ $errors->has('weixinAppID') ? ' has-error' : '' }}">
+                                        <label for="weixinAppID" class="col-md-3 control-label">AppID：</label>
 
                                         <div class="col-md-9">
-                                            <input id="weixin_AppID" type="text" class="form-control auto" name="weixin_AppID"
+                                            <input id="weixinAppID" type="text" class="form-control auto"
+                                                   name="weixinAppID"
 
-                                                   value="{{ $config->weixin_AppID}}">
+                                                   value="{{ $config->weixinAppID}}">
 
-                                            @if ($errors->has('weixin_AppID'))
+                                            @if ($errors->has('weixinAppID'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('weixin_AppID') }}</strong>
+                                        <strong>{{ $errors->first('weixinAppID') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('wexin_AppSecret') ? ' has-error' : '' }}">
-                                        <label for="wexin_AppSecret" class="col-md-3 control-label">AppSecret：</label>
+                                    <div class="form-group{{ $errors->has('wexinAppSecret') ? ' has-error' : '' }}">
+                                        <label for="wexinAppSecret" class="col-md-3 control-label">AppSecret：</label>
 
                                         <div class="col-md-9">
-                                            <input id="wexin_AppSecret" type="text" class="form-control"
-                                                   name="wexin_AppSecret"
+                                            <input id="wexinAppSecret" type="text" class="form-control"
+                                                   name="wexinAppSecret"
 
-                                                   value="{{ $config->wexin_AppSecret}}">
+                                                   value="{{ $config->wexinAppSecret}}">
 
-                                            @if ($errors->has('wexin_AppSecret'))
+                                            @if ($errors->has('wexinAppSecret'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('wexin_AppSecret') }}</strong>
+                                        <strong>{{ $errors->first('wexinAppSecret') }}</strong>
                                     </span>
                                             @endif
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('wexin_AES') ? ' has-error' : '' }}">
-                                        <label for="wexin_AES" class="col-md-3 control-label">EncodingAESKey：</label>
+                                    <div class="form-group{{ $errors->has('wexinAES') ? ' has-error' : '' }}">
+                                        <label for="wexinAES" class="col-md-3 control-label">EncodingAESKey：</label>
 
                                         <div class="col-md-9">
-                                            <input id="wexin_AES" type="text" class="form-control auto" name="tel"
+                                            <input id="wexinAES" type="text" class="form-control  " name="wexinAES"
 
-                                                   value="{{ $config->wexin_AES}}">
+                                                   value="{{ $config->wexinAES}}">
 
-                                            @if ($errors->has('wexin_AES'))
+                                            @if ($errors->has('wexinAES'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('wexin_AES') }}</strong>
+                                        <strong>{{ $errors->first('wexinAES') }}</strong>
                                     </span>
                                             @endif
                                         </div>
@@ -289,12 +291,69 @@
 
 
                                 </fieldset>
+
+                                <fieldset>
+                                    <legend>微信支付配置</legend>
+
+                                    <div class="form-group{{ $errors->has('payMchId') ? ' has-error' : '' }}">
+                                        <label for="weixinToken" class="col-md-3 control-label">商户号：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="payMchId" type="text" class="form-control"
+                                                   name="payMchId"
+
+                                                   value="{{ $config->payMchId}}">
+
+                                            @if ($errors->has('payMchId'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('payMchId') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $errors->has('payKey') ? ' has-error' : '' }}">
+                                        <label for="payKey" class="col-md-3 control-label">支付密钥：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="payKey" type="text" class="form-control  "
+                                                   name="payKey"
+
+                                                   value="{{ $config->payKey}}">
+
+                                            @if ($errors->has('payKey'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('payKey') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $errors->has('payNotifyUrl') ? ' has-error' : '' }}">
+                                        <label for="payNotifyUrl" class="col-md-3 control-label">支付回调：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="payNotifyUrl" type="text" class="form-control"
+                                                   name="payNotifyUrl"
+                                                   value="{{ $config->payNotifyUrl}}">
+                                            @if ($errors->has('payNotifyUrl'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('payNotifyUrl') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                </fieldset>
                             </div>
                         </div>
                     </form>
                 </div>
                 @include("common.success")
-                @include("common.errors")   </div>
+                @include("common.errors")
+            </div>
         </div>
     </div>
 @endsection

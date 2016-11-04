@@ -17,10 +17,6 @@
                             <li>
                                 <a href="{{url('/member/enterprise')}}" class="active">企业管理</a>
                             </li>
-                            <li>
-                                <a href="{{url('/member/enterprise/user')}}">用户信息</a>
-                            </li>
-
                             @if(Base::user("type")==2)
                                 <li>
                                     <a href="{{url('/member/enterprise/user')}}">用户管理</a>

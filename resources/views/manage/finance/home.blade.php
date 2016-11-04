@@ -3,7 +3,6 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
-
             <li><a href="#">管理中心</a></li>
             <li class="active">财务结算</li>
         </ol>
@@ -13,20 +12,20 @@
                     <div class="panel-heading">财务结算</div>
 
                     <div class="panel-body ">
+
                         <ul>
                             <li>
-                                <a href="{{url('/manage/finance/account')}}">帐户设置</a>
+                                <a href="{{url('/manage/finance/recharge')}}">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/manage/finance/payments')}}" class="active">收支记录</a>
+                                <a href="{{url('/manage/finance/invoice')}}">发票申请</a>
                             </li>
-
 
                         </ul>
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/manage/finance/credit')}}">授信管理</a>
+                                <a href="{{url('/manage/finance/quantity')}}">充值管理</a>
                             </li>
                         </ul>
 

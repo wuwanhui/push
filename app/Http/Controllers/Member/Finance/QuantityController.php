@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Member\BaseController;
+use App\Http\Facades\Base;
 use App\Models\Finance_Quantity;
 use App\Models\Distribution;
 use App\Models\Product;
@@ -29,6 +30,11 @@ class QuantityController extends BaseController
         $key = $request->key;
 
         $lists = Finance_Quantity::where(function ($query) use ($key) {
+            if (Base::user("type") == 2) {
+                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            } else {
+                $query->Where('userId', Base::uid());
+            }
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }

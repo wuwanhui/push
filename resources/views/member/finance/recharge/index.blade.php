@@ -18,10 +18,14 @@
                                 <a href="{{url('/member/finance/recharge')}}" class="active">支付记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
+                                <a href="{{url('/member/finance/invoice')}}">发票申请</a>
                             </li>
+
+                        </ul>
+                        <hr/>
+                        <ul>
                             <li>
-                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
+                                <a href="{{url('/member/finance/quantity')}}">充值管理</a>
                             </li>
                         </ul>
                     </div>
@@ -33,7 +37,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4"><a href="{{url('/member/finance/recharge/create')}}"
-                                                     class="btn btn-primary">充值</a> </div>
+                                                     class="btn btn-primary">充值</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">
@@ -68,7 +72,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr >
+                                    <tr>
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}}</td>

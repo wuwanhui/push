@@ -3,23 +3,20 @@
 @section('content')
     <div class="container-fluid">
         <ol class="breadcrumb">
+
             <li><a href="#">管理中心</a></li>
-            <li class="active">企业管理</li>
+            <li class="active">信息推送</li>
         </ol>
         <div class="row">
             <div class="col-md-2">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">企业管理</div>
+                    <div class="panel-heading">通讯录</div>
 
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/manage/enterprise')}}" class="active">企业管理</a>
+                                <a href="{{url('/manage/directorie')}}" class="active">通讯录</a>
                             </li>
-                            <li>
-                                <a href="{{url('/manage/enterprise/user')}}">用户管理</a>
-                            </li>
-
                         </ul>
 
                     </div>
@@ -47,10 +44,10 @@
                                     <legend>基本信息</legend>
 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                        <label for="name" class="col-md-3 control-label">全称：</label>
+                                        <label for="name" class="col-md-3 control-label">姓名：</label>
 
                                         <div class="col-md-9">
-                                            <input id="name" type="text" class="form-control" name="name"
+                                            <input id="name" type="text" class="form-control auto" name="name"
 
                                                    value="{{ old('name') }}" required autofocus>
 
@@ -61,36 +58,53 @@
                                             @endif
                                         </div>
                                     </div>
-
-                                    <div class="form-group{{ $errors->has('shortName') ? ' has-error' : '' }}">
-                                        <label for="shortName" class="col-md-3 control-label">简称：</label>
+                                    <div class="form-group{{ $errors->has('sex') ? ' has-error' : '' }}">
+                                        <label for="state" class="col-md-3 control-label">性别：</label>
 
                                         <div class="col-md-9">
-                                            <input id="shortName" type="text" class="form-control"
-                                                   name="shortName"
-                                                   style="width: auto;"
-                                                   value="{{ old('shortName') }}" required autofocus>
+                                            <select id="sex" name="sex" class="form-control auto">
+                                                <option value="0">未知</option>
+                                                <option value="1">先生</option>
+                                                <option value="2">女士</option>
+                                            </select>
 
-                                            @if ($errors->has('shortName'))
+                                            @if ($errors->has('sex'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('shortName') }}</strong>
+                                        <strong>{{ $errors->first('sex') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group{{ $errors->has('idCard') ? ' has-error' : '' }}">
+                                        <label for="idCard" class="col-md-3 control-label">身份证号：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="idCard" type="text" class="form-control"
+                                                   name="idCard"
+                                                   style="width: auto;"
+                                                   value="{{ old('idCard') }}" autofocus>
+
+                                            @if ($errors->has('idCard'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('idCard') }}</strong>
                                             </span>
                                             @endif
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('linkMan') ? ' has-error' : '' }}">
-                                        <label for="linkMan" class="col-md-3 control-label">联系人：</label>
+                                    <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
+                                        <label for="birthday" class="col-md-3 control-label">生日：</label>
 
                                         <div class="col-md-9">
-                                            <input id="linkMan" type="text" class="form-control" name="linkMan"
+                                            <input id="birthday" type="date" class="form-control" name="birthday"
                                                    style="width: auto;"
-                                                   value="{{ old('linkMan') }}" required autofocus>
+                                                   value="{{ old('birthday') }}" autofocus>
 
-                                            @if ($errors->has('linkMan'))
+                                            @if ($errors->has('birthday'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('linkMan') }}</strong>
+                                        <strong>{{ $errors->first('birthday') }}</strong>
                                             </span>
                                             @endif
                                         </div>
@@ -101,7 +115,7 @@
 
                                         <div class="col-md-9">
                                             <input id="mobile" type="tel" class="form-control" name="mobile"
-                                                   placeholder="手机号（必填）"
+                                                   placeholder="必填"
                                                    style="width: auto;"
                                                    value="{{ old('mobile') }}" required autofocus>
 
@@ -193,11 +207,28 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="form-group{{ $errors->has('share') ? ' has-error' : '' }}">
+                                        <label for="share" class="col-md-3 control-label">共享：</label>
+
+                                        <div class="col-md-9">
+                                            <select id="share" name="share" class="form-control auto">
+                                                <option value="0">私有</option>
+                                                <option value="1">分享</option>
+                                            </select>
+
+                                            @if ($errors->has('share'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('share') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
 
                                         <div class="col-md-9">
-                                            <select id="state" name="state" class="form-control" style="width: auto;">
+                                            <select id="state" name="state" class="form-control auto">
                                                 <option value="0">正常</option>
                                                 <option value="1">禁用</option>
                                             </select>
@@ -205,23 +236,6 @@
                                             @if ($errors->has('state'))
                                                 <span class="help-block">
                                         <strong>{{ $errors->first('state') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('remark') ? ' has-error' : '' }}">
-                                        <label for="remark" class="col-md-3 control-label">内部备注：</label>
-
-                                        <div class="col-md-9">
-
-                                            <textarea id="remark" type="text" class="form-control"
-                                                      name="remark"
-                                                      style=" height: 100px"
-                                            >{{old('refundable') }}</textarea>
-
-                                            @if ($errors->has('remark'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('remark') }}</strong>
                                     </span>
                                             @endif
                                         </div>

@@ -15,13 +15,17 @@
 
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/recharge')}}" >充值记录</a>
+                                <a href="{{url('/member/finance/recharge')}}">充值记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}" >充值管理</a>
+                                <a href="{{url('/member/finance/invoice')}}">发票申请</a>
                             </li>
+
+                        </ul>
+                        <hr/>
+                        <ul>
                             <li>
-                                <a href="{{url('/member/finance/invoice')}}" >发票申请</a>
+                                <a href="{{url('/member/finance/quantity')}}">充值管理</a>
                             </li>
                         </ul>
 

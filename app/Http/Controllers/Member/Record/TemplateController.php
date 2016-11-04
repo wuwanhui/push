@@ -33,8 +33,12 @@ class TemplateController extends BaseController
         $key = $request->key;
         $lists = Record_Template::where(function ($query) use ($key) {
 
-            $query->Where('userId', Base::uid());
-
+            if (Base::user("type") == 2) {
+                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            } else {
+                $query->Where('userId', Base::uid());
+            }
+            $query->orWhere('share', '1');//公有
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }

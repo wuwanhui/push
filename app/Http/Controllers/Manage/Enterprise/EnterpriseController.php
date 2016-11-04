@@ -46,9 +46,7 @@ class EnterpriseController extends ManageBaseController
      */
     public function index(Request $request)
     {
-        dd(Auth::check());
         $key = $request->key;
-
         $lists = Enterprise::where(function ($query) use ($key) {
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称

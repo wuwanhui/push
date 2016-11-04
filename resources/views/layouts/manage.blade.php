@@ -47,11 +47,13 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ url('/manage/enterprise') }}">企业管理</a></li>
+                    <li class="active"><a href="{{ url('/manage/enterprise') }}">企业信息</a></li>
                     <li><a href="{{ url('/manage/supplier') }}">资源管理</a></li>
                     <li><a href="{{ url('/manage/record') }}">信息推送</a></li>
+                    <li><a href="{{ url('/manage/directorie') }}">通讯录</a></li>
                     <li><a href="{{ url('/manage/report') }}">报表分析</a></li>
                     <li><a href="{{ url('/manage/open') }}">开放平台</a></li>
+                    <li><a href="{{ url('/manage/finance') }}">财务结算</a></li>
                     <li><a href="{{ url('/manage/system') }}">系统配置</a></li>
                 </ul>
 

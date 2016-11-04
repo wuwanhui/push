@@ -8,10 +8,12 @@ use App\Http\Controllers\Manage\BaseController;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Models\Record;
+use App\Models\Record_Template;
 use App\Models\Supplier_Resource_Signature;
 use App\Models\Supplier_Resource_Template;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -32,9 +34,7 @@ class RecordController extends BaseController
     {
         $key = $request->key;
         $lists = Record::where(function ($query) use ($key) {
-
-            $query->Where('userId', Base::uid());
-
+ 
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
@@ -47,88 +47,47 @@ class RecordController extends BaseController
 
     public function create(Request $request)
     {
-        $respJson = new RespJson();
+
         try {
             $record = new Record();
+
             if ($request->isMethod('POST')) {
                 $input = $request->all();
-
 
                 $validator = Validator::make($input, $record->Rules(), $record->messages());
                 if ($validator->fails()) {
                     return "效验失败";
                 }
-                $template = Supplier_Resource_Template::find($request->input("templateId"));
-                $signature = Supplier_Resource_Signature::find($request->input("signatureId"));
-                Log::info("signature：" . json_encode($signature));
+                $record->fill($input);
+                $record->userId = Base::uid();
+                $record->save();
 
-                $mobiles = $request->input("mobile");;
-                $param = $request->input("param");
-                $content = $request->input("content");
-                $sendTime = $request->input("sendTime");
-                $charging = ceil(mb_strlen($record->content . "【" . $signature->name . "】", 'utf8') / $template->resource->words);
-                $resp = Sms::send($mobiles, $param, $template->number, $signature->number);
-
-
-                $sendLog = json_encode($resp);
-                $sendList[] = array();
-                $list = explode(",", $mobiles);
-                foreach ($list as $item => $value) {
-                    $record = new Record();
-                    $record->signatureId = $signature->id;
-                    $record->templateId = $template->id;
-                    $record->mobile = $value;
-                    $record->content = $content;
-                    $record->param = $param;
-                    if ($sendTime) {
-                        $record->sendTime = $sendTime;
-                    }
-                    $record->charging = $charging;
-                    $record->sendLog = $sendLog;
-                    if (isset($resp->result)) {
-                        $record->bizId = $resp->result->model;
-                        $respJson->code = 0;
-                        $respJson->msg = "提交成功";
-                    } else {
-                        $record->state = 2;
-                        $respJson->code = 1;
-                        $respJson->msg = "提交失败:" . $resp->sub_msg;
-                        Log::info('短信发送失败： ' . json_encode($resp));
-                    }
-                    $record->userId = Base::uid();
-                    $record->save();
-                    array_push($sendList, $record);
-
-                }
-
-//                $record->fill($sendList)->save();
-//                //$record->insert($sendList);
-
-                return json_encode($respJson);
+                return $this->send($record->id);
             }
+            $record->mobile = $request->mobile;
+            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
 
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             $templates = Supplier_Resource_Template::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
-            return view('manage.record.create', compact('record', 'signatures', 'templates'));
+            return view('manage.record.create', compact('record', 'signatures', 'templates', 'templateList'));
         } catch (Exception $ex) {
-            $respJson->code = -1;
-            $respJson->msg = "异常：" . $ex->getMessage();
-            return json_encode($respJson);
-
+            return '异常！' . $ex->getMessage();
         }
     }
 
-    public function detail($id, Request $request)
+    public function createByid(Request $request, $id)
     {
         try {
-            $record = Record::find($id);
-            if (!$record) {
-                return Redirect::back()->withErrors('数据不存在！');
+            $template = Record_Template::find($id);
+            if (!$template) {
+                return redirect('/manage/record/create')->withSuccess('模板不存在！');
             }
 
-            return view('manage.record.detail', compact('record'));
+            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
+
+            return view('manage.record.template', compact('template', 'templateList'));
         } catch (Exception $ex) {
-            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+            return '异常！' . $ex->getMessage();
         }
     }
 
@@ -156,14 +115,12 @@ class RecordController extends BaseController
 
 
                     $resp = Sms::send($mobiles, $param, $templateCode, $sign);
-                    Log::info("发送短信日志：" . json_encode($resp));
                     $record->sendLog = json_encode($resp);
 
 
-                    if ($resp->result) {
+                    if (isset($resp->result)) {
                         $respJson->code = 0;
                         $respJson->msg = "提交成功";
-                        $record->bizId = $resp->result->model;
                     } else {
                         $record->state = 2;
                         $respJson->code = 1;
@@ -180,6 +137,8 @@ class RecordController extends BaseController
             Log::info('异常！' . $ex->getMessage());
         }
 
+//        v(json_encode($respJson));
+//        return;
         return json_encode($respJson);
 
     }

@@ -32,7 +32,7 @@ class RechargeController extends BaseController
         $key = $request->key;
 
         $lists = Finance_Recharge::where(function ($query) use ($key) {
-            $query->where('userId', Base::uid());
+            $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
@@ -60,7 +60,7 @@ class RechargeController extends BaseController
                 $recharge->userId = Base::uid();
                 $recharge->liableId = Base::uid();
                 $recharge->save();
- 
+
                 if ($recharge) {
                     return redirect('/member/finance/recharge')->withSuccess('保存成功！');
                 }

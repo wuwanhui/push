@@ -62,5 +62,11 @@ class Enterprise extends Model
         return $this->hasMany('App\Models\User', "enterpriseId");
     }
 
-
+    /**
+     * 企业参数
+     */
+    public function config()
+    {
+        return $this->belongsTo('App\Models\Config', 'configId');
+    }
 }
