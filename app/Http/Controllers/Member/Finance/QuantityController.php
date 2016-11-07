@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Validator;
  */
 class QuantityController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/finance']);
+    }
 
     /**
      * Show the application dashboard.
@@ -30,10 +35,10 @@ class QuantityController extends BaseController
         $key = $request->key;
 
         $lists = Finance_Quantity::where(function ($query) use ($key) {
-            if (Base::user("type") == 2) {
-                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            if (Base::member("type") == 0) {
+                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             } else {
-                $query->Where('userId', Base::uid());
+                $query->Where('memberId', Base::member("id"));
             }
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
@@ -115,27 +120,25 @@ class QuantityController extends BaseController
                         ->withInput()
                         ->withErrors($validator);
                 }
-                $userId = $request->userId;//转入账户
+                $memberId = $request->memberId;//转入账户
                 $money = $request->money;//转账金额
 
                 //转入用户
-                $quantity->userId = $userId;
+                $quantity->memberId = $memberId;
                 $quantity->money = $money;
                 $quantity->source = 5;
                 $quantity->type = 1;
                 $quantity->direction = 0;
-                $quantity->liableId = Base::uid();
                 $quantity->save();
 
                 //转出用户
                 $quantity = new Finance_Quantity();
-                $quantity->userId = Base::uid();
+                $quantity->memberId = Base::member("id");
                 $quantity->money = $money;
                 $quantity->source = 5;
                 $quantity->type = 1;
                 $quantity->direction = 1;
-                $quantity->userId = Base::uid();
-                $quantity->liableId = Base::uid();
+                $quantity->memberId = Base::member("id");
                 $quantity->save();
                 if ($quantity) {
                     return redirect('/member/finance/quantity')->withSuccess('保存成功！');

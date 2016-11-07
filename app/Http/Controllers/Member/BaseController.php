@@ -15,14 +15,8 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        if (!Auth::check()) {
-            return Redirect::guest('login');
-        }
-        if (Auth::user()->type != 1) {
-            return Redirect::back()->withErrors('对不起无权访问！');
-        }
-        $this->uid = Base::uid();
-        $this->eid = Base::user("enterpriseId");
+        view()->share(['_model' => 'member']);
     }
+
 
 }

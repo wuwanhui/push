@@ -65,6 +65,14 @@ class Supplier_Resource_Signature extends Model
     }
 
     /**
+     * 经办人
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'userId');
+    }
+    
+    /**
      * 所属资源
      */
     public function resource()

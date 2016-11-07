@@ -22,7 +22,11 @@ use Illuminate\Support\Facades\Validator;
  */
 class TemplateController extends BaseController
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/record']);
+    }
     /**
      * Show the application dashboard.
      *
@@ -33,10 +37,10 @@ class TemplateController extends BaseController
         $key = $request->key;
         $lists = Record_Template::where(function ($query) use ($key) {
 
-            if (Base::user("type") == 2) {
-                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            if (Base::member("type") == 0) {
+                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             } else {
-                $query->Where('userId', Base::uid());
+                $query->Where('memberId', Base::member("id"));
             }
             $query->orWhere('share', '1');//公有
             if ($key) {
@@ -65,7 +69,7 @@ class TemplateController extends BaseController
                     return json_encode($respJson);
                 }
                 $template->fill($input);
-                $template->userId = Base::uid();
+                $template->memberId = Base::member("id");
                 $template->save();
                 if ($template) {
                     $respJson->code = 0;

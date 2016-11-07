@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/manage/login') }}">
             {{ csrf_field() }}
 
             <div class="modal show " id="LoginForm" aria-labelledby="myModalLabel"
@@ -13,7 +13,7 @@
                         <div class="modal-header">
 
                             <h4 class="modal-title">
-                                <i class="icon-desktop"></i> {{Base::config("name") }}营销平台
+                                <i class="icon-desktop"></i> 营销平台-管理员
                             </h4>
                         </div>
                         <div class="modal-body">

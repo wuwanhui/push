@@ -25,7 +25,7 @@
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/finance/quantity')}}"  class="active">充值管理</a>
+                                <a href="{{url('/member/finance/quantity')}}" class="active">充值管理</a>
                             </li>
                         </ul>
                     </div>
@@ -60,33 +60,40 @@
                                     <th style="width: 20px"><input type="checkbox"
                                                                    name="CheckAll" value="Checkid"/></th>
                                     <th style="width: 60px;"><a href="">编号</a></th>
+                                    <th style="width: 120px;"><a href="">充值用户</a></th>
                                     <th style="width: 120px;"><a href="">收支方向</a></th>
                                     <th style="width: 120px;"><a href="">数量</a></th>
 
                                     <th style="width: 160px;"><a href="">有效期止</a></th>
-                                    <th  ><a href="">备注</a></th>
-
+                                    <th><a href="">备注</a></th>
+                                    <th style="width: 160px;"><a href="">创建时间</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 100px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr  >
+                                    <tr>
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
+                                        <td style="text-align: center">
+                                            @if(isset($item->member))
+                                                {{$item->member->name}}
+                                            @endif</td>
                                         <td style="text-align: center">
                                             @if($item->direction==0)
                                                 转入
                                             @else
                                                 转出
                                             @endif </td>
+
                                         <td style="text-align: center">{{$item->quantity}}</td>
-                                        <td  style="text-align: center"> {{$item->expiryDate}}
+                                        <td style="text-align: center"> {{$item->expiryDate}}
                                         </td>
                                         <td>
                                             {{$item->remark}}</td>
+                                        <td style="text-align: center">{{$item->created_at}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"有效":"无效"}}</td>
                                         <td style="text-align: center"><a

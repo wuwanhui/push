@@ -82,8 +82,8 @@
                                             <a
                                                     href="{{url('/manage/supplier/delete/'.$item->id)}}">删除</a>
                                             |
-                                            <a href="{{url('/manage/supplier/resource?supplierId='.$item->id)}}">资源({{$item->resources()->count()}}
-                                                )</a>
+                                            <a href="{{url('/manage/supplier/resource?supplierId='.$item->id)}}">资源-{{$item->resources()->count()}}
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

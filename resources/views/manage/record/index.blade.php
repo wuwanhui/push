@@ -16,7 +16,7 @@
 
                         <ul>
                             <li>
-                                <a href="{{url('/manage/record')}}" class="active">发送记录</a>
+                                <a href="{{url('/manage/record')}}" class="active">推送记录</a>
                             </li>
                             <li>
                                 <a href="{{url('/manage/record/template')}}">发送模板</a>
@@ -30,8 +30,7 @@
                     <div class="panel-heading">发送记录</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/manage/record/create')}}"
-                                                     class="btn btn-primary">新增推送</a></div>
+                            <div class="col-md-4"></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">

@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Validator;
 class EnterpriseController extends BaseController
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/enterprise']);
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -25,30 +31,11 @@ class EnterpriseController extends BaseController
     public function index(Request $request)
     {
         try {
-            $enterprise = Enterprise::find(Base::user("enterpriseId"));
 
-            if (Base::user("type") == 2) {
-                if ($request->isMethod('POST')) {
-                    $input = $request->all();
-                    $validator = Validator::make($input, $enterprise->Rules(), $enterprise->messages());
-                    if ($validator->fails()) {
-                        echo "效验失败";
-                        return redirect('/member/enterprise/create')
-                            ->withInput()
-                            ->withErrors($validator);
-                    }
-
-                    $enterprise->fill($input);
-                    $enterprise->save();
-                    if ($enterprise) {
-                        return redirect('/member/enterprise')->withSuccess('保存成功！');
-                    }
-                    return Redirect::back()->withErrors('保存失败！');
-                }
-
-                return view('member.enterprise.edit', compact('enterprise'));
+            if (Base::member("type") == 0) {
+                return redirect('/member/enterprise/edit');
             }
-            return view('member.enterprise.detail', compact('enterprise'));
+            return redirect('/member/enterprise/detail');
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
@@ -90,8 +77,8 @@ class EnterpriseController extends BaseController
     public function edit(Request $request)
     {
         try {
-            $enterprise = Enterprise::find(Base::user("enterpriseId"));
-            $this->authorize('update', $enterprise);//权限检查
+            $enterprise = Base::member()->enterprise;
+            //$this->authorize('update', $enterprise);//权限检查
 
 
             if ($request->isMethod('POST')) {
@@ -99,7 +86,7 @@ class EnterpriseController extends BaseController
                 $validator = Validator::make($input, $enterprise->Rules(), $enterprise->messages());
                 if ($validator->fails()) {
                     echo "效验失败";
-                    return redirect('/member/enterprise/create')
+                    return redirect('/member/enterprise/edit')
                         ->withInput()
                         ->withErrors($validator);
                 }
@@ -113,7 +100,18 @@ class EnterpriseController extends BaseController
             }
 
 
-            return view('member.enterprise.create', compact('enterprise'));
+            return view('member.enterprise.edit', compact('enterprise'));
+
+        } catch (Exception $ex) {
+            return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
+        }
+    }
+
+    public function detail(Request $request)
+    {
+        try {
+            $enterprise = $enterprise = Base::member()->enterprise;
+            return view('member.enterprise.detail', compact('enterprise'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

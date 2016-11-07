@@ -23,6 +23,7 @@ class CreateSupplierResourceTemplateTable extends Migration
             $table->string('number');//模板编号
             $table->string('content');//模板内容
             $table->string('param');//模板参数
+            $table->integer('userId')->default(0);//经办人
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

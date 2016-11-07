@@ -1,31 +1,56 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
 
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
-
-
-Auth::routes();
+//Auth::routes();
 
 Route::get('/', 'HomeController@index');
+
+Route::get('/home', 'HomeController@index');
 
 Route::any('/install', 'InstallController@index');
 
 
+
+
+
+/**
+ * 授权登录注册管理
+ */
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
+
+    Route::group(['prefix' => 'manage'], function () {
+        Route::get('/login', 'ManageLoginController@showLoginForm');
+        Route::post('/login', 'ManageLoginController@login');
+        Route::any('/logout', 'ManageLoginController@logout');
+        Route::get('/register', 'ManageRegisterController@showRegistrationForm');
+        Route::post('/register', 'ManageRegisterController@register');
+    });
+
+    Route::group(['prefix' => 'member'], function () {
+
+        Route::get('/login', 'MemberLoginController@showLoginForm');
+        Route::post('/login', 'MemberLoginController@login');
+        Route::any('/logout', 'MemberLoginController@logout');
+        Route::get('/register', 'ManageRegisterController@showRegistrationForm');
+        Route::post('/register', 'ManageRegisterController@register');
+
+    });
+
+});
+
 /**
  * 管理后台
  */
-Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Models\User'], 'namespace' => 'Manage'], function () {
-    Route::get('/', 'HomeController@index');
+Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' => 'Manage'], function () {
 
+
+    Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@index');
 
     /**
      * 企业管理
      */
-    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth', 'namespace' => 'Enterprise'], function () {
+    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth:manage', 'namespace' => 'Enterprise'], function () {
         Route::get('/', 'EnterpriseController@index');
         Route::any('/create', 'EnterpriseController@create');
         Route::any('/edit/{id}', 'EnterpriseController@edit');
@@ -47,7 +72,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
     /**
      * 供应商
      */
-    Route::group(['prefix' => 'supplier', 'middleware' => 'auth', 'namespace' => 'Supplier'], function () {
+    Route::group(['prefix' => 'supplier', 'middleware' => 'auth:manage', 'namespace' => 'Supplier'], function () {
         Route::get('/', 'SupplierController@index');
         Route::any('/create', 'SupplierController@create');
         Route::any('/edit/{id}', 'SupplierController@edit');
@@ -96,7 +121,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
     /**
      * 发送记录
      */
-    Route::group(['prefix' => 'record', 'middleware' => 'auth', 'namespace' => 'Record'], function () {
+    Route::group(['prefix' => 'record', 'middleware' => 'auth:manage', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
         Route::any('/create/{id}', 'RecordController@createByid');
@@ -134,7 +159,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
     /**
      * 通讯录
      */
-    Route::group(['prefix' => 'directorie', 'middleware' => 'auth', 'namespace' => 'Directorie'], function () {
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth:manage', 'namespace' => 'Directorie'], function () {
         Route::get('/', 'DirectorieController@index');
         Route::any('/create', 'DirectorieController@create');
         Route::any('/edit/{id}', 'DirectorieController@edit');
@@ -148,7 +173,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
     /**
      * 财务中心
      */
-    Route::group(['prefix' => 'finance', 'middleware' => 'auth', 'namespace' => 'Finance'], function () {
+    Route::group(['prefix' => 'finance', 'middleware' => 'auth:manage', 'namespace' => 'Finance'], function () {
         Route::get('/', 'HomeController@index');
 
 
@@ -194,7 +219,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
         });
 
         /**
-         * 发票申请
+         * 微信支付
          */
         Route::group(['prefix' => 'pay'], function () {
             Route::get('/', 'WeixinPayController@index');
@@ -210,7 +235,7 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
     /**
      * 系统配置
      */
-    Route::group(['prefix' => 'system', 'middleware' => 'auth', 'namespace' => 'System'], function () {
+    Route::group(['prefix' => 'system', 'middleware' => 'auth:manage', 'namespace' => 'System'], function () {
         Route::get('/', 'HomeController@index');
 
 
@@ -226,7 +251,16 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
             Route::get('/delete', 'ConfigController@delete');
 
         });
+        /**
+         * 企业用户
+         */
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', 'UserController@index');
+            Route::any('/create', 'UserController@create');
+            Route::any('/edit/{id}', 'UserController@edit');
+            Route::get('/delete', 'UserController@delete');
 
+        });
 
     });
 
@@ -234,18 +268,18 @@ Route::group(['prefix' => 'manage', 'middleware' => ['auth', 'can:manage,App\Mod
 /**
  * 会员后台
  */
-Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Models\User'], 'namespace' => 'Member'], function () {
-    Route::get('/', 'HomeController@index');
+Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' => 'Member'], function () {
 
+    Route::get('/', 'HomeController@index');
 
     /**
      * 企业管理
      */
-    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth', 'namespace' => 'Enterprise'], function () {
+    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth:member', 'namespace' => 'Enterprise'], function () {
         Route::get('/', 'EnterpriseController@index');
-        Route::any('/create', 'EnterpriseController@create');
-        Route::any('/edit/{id}', 'EnterpriseController@edit');
-        Route::get('/delete', 'EnterpriseController@delete');
+        Route::any('/create', 'EnterpriseController@create')->name('member/supplier/create');
+        Route::any('/edit', 'EnterpriseController@edit');
+        Route::get('/detail', 'EnterpriseController@detail');
 
         /**
          * 企业用户
@@ -263,7 +297,7 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Mod
     /**
      * 供应商
      */
-    Route::group(['prefix' => 'supplier', 'middleware' => 'auth', 'namespace' => 'Supplier'], function () {
+    Route::group(['prefix' => 'supplier', 'middleware' => 'auth:member', 'namespace' => 'Supplier'], function () {
         Route::get('/', 'SupplierController@index');
         Route::any('/create', 'SupplierController@create');
         Route::any('/edit/{id}', 'SupplierController@edit');
@@ -312,11 +346,12 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Mod
     /**
      * 发送记录
      */
-    Route::group(['prefix' => 'record', 'middleware' => 'auth', 'namespace' => 'Record'], function () {
+    Route::group(['prefix' => 'record', 'middleware' => 'auth:member', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
         Route::any('/create/{id}', 'RecordController@createByid');
         Route::any('/edit/{id}', 'RecordController@edit');
+        Route::any('/retry/{id}', 'RecordController@retry');
         Route::get('/delete', 'RecordController@delete');
         Route::post('/template', 'RecordController@template');
 
@@ -351,7 +386,7 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Mod
     /**
      * 通讯录
      */
-    Route::group(['prefix' => 'directorie', 'middleware' => 'auth', 'namespace' => 'Directorie'], function () {
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth:member', 'namespace' => 'Directorie'], function () {
         Route::get('/', 'DirectorieController@index');
         Route::any('/create', 'DirectorieController@create');
         Route::any('/edit/{id}', 'DirectorieController@edit');
@@ -410,7 +445,17 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'can:member,App\Mod
 
         });
 
+        /**
+         * 微信支付
+         */
+        Route::group(['prefix' => 'pay'], function () {
+            Route::get('/', 'WeixinPayController@index');
+            Route::any('/create', 'WeixinPayController@create');
+            Route::any('/edit/{id}', 'WeixinPayController@edit');
+            Route::get('/detail/{id}', 'WeixinPayController@detail');
+            Route::get('/delete', 'WeixinPayController@delete');
 
+        });
     });
 
     /**

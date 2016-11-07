@@ -40,52 +40,56 @@
 
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">{{Base::config('name')}}
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {{Base::config("name")}}
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
+
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ url('/manage/enterprise') }}">企业信息</a></li>
-                    <li><a href="{{ url('/manage/supplier') }}">资源管理</a></li>
-                    <li><a href="{{ url('/manage/record') }}">信息推送</a></li>
-                    <li><a href="{{ url('/manage/directorie') }}">通讯录</a></li>
-                    <li><a href="{{ url('/manage/report') }}">报表分析</a></li>
-                    <li><a href="{{ url('/manage/open') }}">开放平台</a></li>
-                    <li><a href="{{ url('/manage/finance') }}">财务结算</a></li>
-                    <li><a href="{{ url('/manage/system') }}">系统配置</a></li>
+                    <li @if($_model=='manage/enterprise') class="active" @endif><a
+                                href="{{ url('/member/enterprise') }}">企业信息</a>
+                    </li>
+                    <li @if($_model=='manage/supplier') class="active" @endif><a
+                                href="{{ url('/member/supplier') }}">资源管理</a>
+                    </li>
+                    <li @if($_model=='manage/record') class="active" @endif><a
+                                href="{{ url('/member/record') }}">信息推送</a>
+                    </li>
+                    <li @if($_model=='manage/directorie') class="active" @endif><a
+                                href="{{ url('/member/directorie') }}">通讯录</a></li>
+                    <li @if($_model=='manage/report') class="active" @endif><a
+                                href="{{ url('/member/report') }}">报表分析</a></li>
+                    <li @if($_model=='manage/open') class="active" @endif><a href="{{ url('/member/open') }}">开放平台</a>
+                    </li>
+                    <li @if($_model=='manage/finance') class="active" @endif><a
+                                href="{{ url('/member/finance') }}">财务结算</a></li>
+                    <li @if($_model=='manage/system') class="active" @endif><a
+                                href="{{ url('/member/system') }}">系统配置</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
+                    @if (Auth::guard("manage")->guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">@if(Auth::user()->enterprise)
-                                    {{ Auth::user()->enterprise->shortName }}-@endif{{ Auth::user()->name }}
-                                （ @if(Auth::user()->type==0)
-                                    系统用户
-                                @elseif(Auth::user()->type==1)
-                                    普通用户
-                                @else
-                                    管理员
-                                @endif）
+                               aria-expanded="false">  {{Auth::guard("manage")->user()->name}}
                                 <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('/logout') }}"
+                                    <a href="{{ url('/auth/manage/logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">退出
                                     </a>
 
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                                    <form id="logout-form" action="{{ url('/auth/manage/logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
@@ -103,7 +107,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <hr/>
-                {{Base::config('enterprise')}} @2010-2016
+                {{Base::config("enterprise")}}@2010-2016
 
             </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,13 @@ use Illuminate\Http\Request;
  * 微信支付
  * @package App\Http\Controllers\
  */
-class WeixinPayController extends BaseController
+class WeixinPayController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/finance']);
+    }
 
     //接口API URL前缀
     const API_URL_PREFIX = 'https://api.mch.weixin.qq.com';
@@ -50,11 +56,7 @@ class WeixinPayController extends BaseController
     private $SSLKEY_PATH;
     //所有参数
     private $params = array();
-
-    public function __construct()
-    {
-
-    }
+ 
 
     public function init()
     {

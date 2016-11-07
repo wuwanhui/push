@@ -21,6 +21,11 @@ use zgldh\QiniuStorage\QiniuStorage;
  */
 class ReceiveController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/record']);
+    }
 
     /**
      * Show the application dashboard.

@@ -20,6 +20,7 @@ class CreateSupplierResourceTable extends Migration
             $table->integer('words')->default(60);//计费字算
             $table->string('appkey')->nullable();//appkey
             $table->text('secretKey')->nullable();//secretKey
+            $table->integer('userId')->default(0);//经办人
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

@@ -12,6 +12,9 @@ class ManageBaseController extends Controller
     public $uid;
     public $eid;
 
-   
+    public function __construct()
+    {
+
+    }
 
 }

@@ -61,17 +61,18 @@ class Finance_Recharge extends Model
     /**
      * 用户信息
      */
-    public function user()
+   
+    public function member()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Member', "memberId");
     }
 
     /**
      * 经办人
      */
-    public function liable()
+    public function user()
     {
-        return $this->belongsTo('App\Models\User', 'liableId');
+        return $this->belongsTo('App\Models\User', 'userId');
     }
 
 

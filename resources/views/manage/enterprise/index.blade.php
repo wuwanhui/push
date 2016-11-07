@@ -84,8 +84,7 @@
                                                     href="{{url('/manage/enterprise/delete/'.$item->id)}}">删除</a>
                                             |
                                             <a
-                                                    href="{{url('/manage/enterprise/user?enterpriseId='.$item->id)}}">用户({{$item->users->count()}}
-                                                )</a>
+                                                    href="{{url('/manage/enterprise/user?enterpriseId='.$item->id)}}">用户({{$item->members->count()}})</a>
 
                                         </td>
                                     </tr>

@@ -27,8 +27,7 @@
                     <div class="panel-heading">通讯录</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/manage/directorie/create')}}"
-                                                     class="btn btn-primary">新增</a></div>
+                            <div class="col-md-4"></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">

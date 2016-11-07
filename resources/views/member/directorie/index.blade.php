@@ -44,69 +44,67 @@
                         </div>
                     </div>
                     <form method="Post" class="form-inline">
-                        <fieldset>
-                            <table class="table table-bordered table-hover  table-condensed">
-                                <thead>
-                                <tr style="text-align: center" class="text-center">
-                                    <th style="width: 20px"><input type="checkbox"
-                                                                   name="CheckAll" value="Checkid"/></th>
-                                    <th style="width: 60px;"><a href="">编号</a></th>
-                                    <th style="width: 120px;"><a href="">姓名</a></th>
-                                    <th style="width: 80px;"><a href="">性别</a></th>
-                                    <th style="width: 120px;"><a href="">手机号</a></th>
-                                    <th><a href="">QQ</a></th>
-                                    <th><a href="">电子邮件</a></th>
-                                    <th style="width: 60px;"><a href="">分享</a></th>
-                                    <th style="width: 60px;"><a href="">状态</a></th>
-                                    <th style="width: 160px;">操作</th>
+                        <table class="table table-bordered table-hover  table-condensed">
+                            <thead>
+                            <tr style="text-align: center" class="text-center">
+                                <th style="width: 20px"><input type="checkbox"
+                                                               name="CheckAll" value="Checkid"/></th>
+                                <th style="width: 60px;"><a href="">编号</a></th>
+                                <th style="width: 120px;"><a href="">姓名</a></th>
+                                <th style="width: 80px;"><a href="">性别</a></th>
+                                <th style="width: 120px;"><a href="">手机号</a></th>
+                                <th><a href="">QQ</a></th>
+                                <th><a href="">电子邮件</a></th>
+                                <th style="width: 60px;"><a href="">分享</a></th>
+                                <th style="width: 60px;"><a href="">状态</a></th>
+                                <th style="width: 160px;">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($lists as $item)
+                                <tr>
+                                    <td><input type="checkbox" value="{{$item->id}} "
+                                               name="id"/></td>
+                                    <td style="text-align: center">{{$item->id}} </td>
+
+                                    <td style="text-align: center">{{$item->name}}</td>
+                                    <td style="text-align: center">  @if($item->sex==0)
+                                            未知
+                                        @elseif($item->sex==1)
+                                            先生
+                                        @else
+                                            女士
+                                        @endif</td>
+                                    <td><a
+                                                href="{{url('/member/directorie/edit/'.$item->id)}}">{{$item->mobile}}</a>
+                                    </td>
+                                    <td> {{$item->qq}}
+                                    </td>
+                                    <td> {{$item->email}}</td>
+                                    <td style="text-align: center">
+                                        {{$item->share==0?"私有":"分享"}}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{$item->state==0?"正常":"禁用"}}
+                                    </td>
+
+                                    <td style="text-align: center">
+                                        <a
+                                                href="{{url('/member/directorie/detail/'.$item->id)}}">详情</a>
+
+
+                                        @if($item->memberId==Base::member("id")||Base::type('type')==0)
+                                            | <a
+                                                    href="{{url('/member/directorie/edit/'.$item->id)}}">编辑</a>
+
+                                            | <a
+                                                    href="{{url('/member/directorie/delete/'.$item->id)}}">删除</a>
+                                        @endif
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($lists as $item)
-                                    <tr>
-                                        <td><input type="checkbox" value="{{$item->id}} "
-                                                   name="id"/></td>
-                                        <td style="text-align: center">{{$item->id}} </td>
-
-                                        <td style="text-align: center">{{$item->name}}</td>
-                                        <td style="text-align: center">  @if($item->sex==0)
-                                                未知
-                                            @elseif($item->sex==1)
-                                                先生
-                                            @else
-                                                女士
-                                            @endif</td>
-                                        <td><a
-                                                    href="{{url('/member/directorie/edit/'.$item->id)}}">{{$item->mobile}}</a>
-                                        </td>
-                                        <td> {{$item->qq}}
-                                        </td>
-                                        <td> {{$item->email}}</td>
-                                        <td style="text-align: center">
-                                            {{$item->share==0?"私有":"分享"}}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{$item->state==0?"正常":"禁用"}}
-                                        </td>
-
-                                        <td style="text-align: center">
-                                            <a
-                                                    href="{{url('/member/directorie/detail/'.$item->id)}}">详情</a>
-
-
-                                            @if($item->userId==Base::uid()||Base::user('type')==2)
-                                                | <a
-                                                        href="{{url('/member/directorie/edit/'.$item->id)}}">编辑</a>
-
-                                                | <a
-                                                        href="{{url('/member/directorie/delete/'.$item->id)}}">删除</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </fieldset>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </form>
                     <div class="panel-footer">
                         <div class="row">

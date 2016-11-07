@@ -8,6 +8,7 @@ use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Quantity;
 use App\Models\Finance_Recharge;
+use App\Models\Member;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ use Illuminate\Support\Facades\Validator;
  */
 class RechargeController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/finance']);
+    }
 
     /**
      * Show the application dashboard.
@@ -32,7 +38,7 @@ class RechargeController extends BaseController
         $key = $request->key;
 
         $lists = Finance_Recharge::where(function ($query) use ($key) {
-            $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
@@ -57,8 +63,6 @@ class RechargeController extends BaseController
                 }
 
                 $recharge->fill($input);
-                $recharge->userId = Base::uid();
-                $recharge->liableId = Base::uid();
                 $recharge->save();
 
                 if ($recharge) {
@@ -67,9 +71,9 @@ class RechargeController extends BaseController
                 return Redirect::back()->withErrors('保存失败！');
             }
 
-            $users = User::all();
+            $members = Member::all();
 
-            return view('member.finance.recharge.create', compact('recharge', 'users'));
+            return view('member.finance.recharge.create', compact('recharge', 'members'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
@@ -94,18 +98,15 @@ class RechargeController extends BaseController
                 }
 
                 $recharge->fill($input);
-                $recharge->userId = Base::uid();
-                $recharge->liableId = Base::uid();
                 $recharge->save();
 
                 if ($recharge->state == 0) {
 
                     $quantity = new Finance_Quantity();
 
-                    $quantity->userId = $recharge->userId;
+                    $quantity->memberId = $recharge->memberId;
                     $quantity->quantity = $recharge->money * 10;
                     $quantity->direction = 0;
-                    $quantity->liableId = Base::uid();
                     $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
                     $quantity->rechargeId = $recharge->id;
                     $quantity->state = 0;
@@ -140,27 +141,27 @@ class RechargeController extends BaseController
                         ->withInput()
                         ->withErrors($validator);
                 }
-                $userId = $request->userId;//转入账户
+                $memberId = $request->memberId;//转入账户
                 $money = $request->money;//转账金额
 
                 //转入用户
-                $recharge->userId = $userId;
+                $recharge->memberId = $memberId;
                 $recharge->money = $money;
                 $recharge->source = 5;
                 $recharge->type = 1;
                 $recharge->direction = 0;
-                $recharge->liableId = Base::uid();
+                $recharge->liableId = Base::member("id");
                 $recharge->save();
 
                 //转出用户
                 $recharge = new Finance_Recharge();
-                $recharge->userId = Base::uid();
+                $recharge->memberId = Base::member("id");
                 $recharge->money = $money;
                 $recharge->source = 5;
                 $recharge->type = 1;
                 $recharge->direction = 1;
-                $recharge->userId = Base::uid();
-                $recharge->liableId = Base::uid();
+                $recharge->memberId = Base::member("id");
+                $recharge->liableId = Base::member("id");
                 $recharge->save();
                 if ($recharge) {
                     return redirect('/member/finance/recharge')->withSuccess('保存成功！');

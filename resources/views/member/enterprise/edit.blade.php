@@ -17,7 +17,7 @@
                             <li>
                                 <a href="{{url('/member/enterprise')}}" class="active">企业管理</a>
                             </li>
-                            @if(Base::user("type")==2)
+                            @if(Base::member("type")==2)
                                 <li>
                                     <a href="{{url('/member/enterprise/user')}}">用户管理</a>
                                 </li>
@@ -53,7 +53,9 @@
                                         <label for="name" class="col-md-3 control-label">全称：</label>
 
                                         <div class="col-md-9">
-                                            <input id="name" type="text" class="form-control" name="name"
+                                            <input type="hidden" id="name" name="name" value="{{$enterprise->name}}">
+
+                                            <input type="text" class="form-control"
                                                    disabled="true"
                                                    value="{{$enterprise->name}}" required autofocus>
 

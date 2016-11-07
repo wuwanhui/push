@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'enterpriseId', 'type', 'state',
+        'name', 'email', 'password', 'state',
     ];
 
     /**
@@ -77,66 +77,4 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-    /**
-     * 所属企业
-     */
-    public function enterprise()
-    {
-        return $this->belongsTo('App\Models\Enterprise', 'enterpriseId');
-    }
-
-    /**
-     *消费记录
-     */
-    public function records()
-    {
-        return $this->hasMany('App\Models\Record', "userId");
-    }
-
-
-    /**
-     *转账记录
-     */
-    public function recharges()
-    {
-        return $this->hasMany('App\Models\Finance_Recharge', "userId");
-    }
-
-    /**
-     *充值记录
-     */
-    public function quantitys()
-    {
-        return $this->hasMany('App\Models\Finance_Quantity', "userId");
-    }
-
-    /**
-     *发票记录
-     */
-    public function invoices()
-    {
-        return $this->hasMany('App\Models\Finance_Invoice', "userId");
-    }
-
-    /**
-     * 可用余额
-     */
-    public function getBalanceMoneyAttribute()
-    {
-        $quantitys = $this->quantitys()->where("state", 0);
-        return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->records()->sum("charging");
-
-    }
-
-    /**
-     * 可申请发票金额
-     */
-    public function getInvoiceMoneyAttribute()
-    {
-        $recharges = $this->recharges()->where("state", 0)->sum("money");
-        $invoices = $this->invoices()->where("state", 0)->sum("money");
-        return $recharges - $invoices;
-
-    }
 }

@@ -19,7 +19,11 @@ use Qiniu\Auth;
  */
 class DirectorieController extends BaseController
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/directorie']);
+    }
     /**
      * Show the application dashboard.
      *
@@ -30,10 +34,10 @@ class DirectorieController extends BaseController
         $key = $request->key;
 
         $lists = Directorie::where(function ($query) use ($key) {
-            if (Base::user("type") == 2) {
-                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            if (Base::member("type") == 0) {
+                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             } else {
-                $query->Where('userId', Base::uid());
+                $query->Where('memberId', Base::member("id"));
             }
             $query->orWhere('share', '1');//公有
             if ($key) {
@@ -58,7 +62,7 @@ class DirectorieController extends BaseController
                 }
 
                 $directorie->fill($input);
-                $directorie->userId = Base::uid();
+                $directorie->memberId = Base::member("id");
                 $directorie->save();
                 if ($directorie) {
                     return redirect('/member/directorie')->withSuccess('保存成功！');
@@ -92,7 +96,7 @@ class DirectorieController extends BaseController
                 }
 
                 $directorie->fill($input);
-                $directorie->userId = Base::uid();
+                $directorie->userId = Base::member("id");
                 $directorie->save();
                 if ($directorie) {
                     return redirect('/member/directorie')->withSuccess('保存成功！');

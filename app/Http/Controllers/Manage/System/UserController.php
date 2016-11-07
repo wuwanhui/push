@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\System;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Models\Distribution;
 use App\Models\User;
 use Exception;
@@ -15,8 +16,13 @@ use Illuminate\Support\Facades\Validator;
  * 用户管理
  * @package App\Http\Controllers\
  */
-class UserController extends BaseController
+class UserController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/system']);
+    }
 
     /**
      * Show the application dashboard.
@@ -62,8 +68,7 @@ class UserController extends BaseController
                 }
                 return Redirect::back()->withErrors('保存失败！');
             }
-            $systems = Distribution::all();
-            return view('manage.system.user.create', compact('user', 'systems'));
+            return view('manage.system.user.create', compact('user'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

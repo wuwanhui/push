@@ -56,7 +56,7 @@ class Record extends Model
             'mobile.required' => '手机号不能为空',
         ];
     }
- 
+
 
     /**
      *签名
@@ -78,9 +78,9 @@ class Record extends Model
     /**
      *发送者
      */
-    public function user()
+    public function member()
     {
-        return $this->belongsTo('App\Models\User', "userId");
+        return $this->belongsTo('App\Models\Member', "memberId");
     }
 
 }

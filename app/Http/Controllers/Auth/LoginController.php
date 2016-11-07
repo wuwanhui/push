@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -12,20 +14,21 @@ class LoginController extends Controller
     | Login Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles authenticating users for the application and
+    | This controller handles authenticating members for the application and
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
     */
+    use RegistersUsers;
 
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * Where to redirect members after login.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/member';
 
     /**
      * Create a new controller instance.
@@ -36,26 +39,9 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
-//
-//    public function authenticated(Request $request, $user)
-//    {
-//
-////        if ($user->type == 0) {
-////            Auth::guard('manage');
-////        } else {
-////            Auth::guard('member');
-////        }
-////
-////        Log::info("authenticated");
-////        return true;
-//    }
 
-//
-//    public function guard()
-//    {
-//        Log::info("guard");
-////        $email = Input::get('email');
-////        v($email);
-//        return Auth::guard('member');
-//    }
+    public function guard()
+    {
+        return Auth::guard('member');
+    }
 }

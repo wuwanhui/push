@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * 通讯录
+ * @package App\Models
+ */
+
 class Directorie extends Model
 {
     use SoftDeletes;
@@ -57,9 +62,9 @@ class Directorie extends Model
     /**
      *所属用户
      */
-    public function user()
+    public function member()
     {
-        return $this->belongsTo('App\Models\User', "userId");
+        return $this->belongsTo('App\Models\Member', "memberId");
     }
 
 }

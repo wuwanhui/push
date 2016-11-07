@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/manage/register') }}">
             {{ csrf_field() }}
 
             <div class="modal show " aria-labelledby="myModalLabel"
@@ -13,38 +13,10 @@
                         <div class="modal-header">
 
                             <h4 class="modal-title">
-                                <i class="icon-desktop"></i>营销平台-注册
+                                <i class="icon-desktop"></i>营销平台-管理员注册
                             </h4>
                         </div>
                         <div class="modal-body">
-                            <fieldset>
-                                <legend>企业信息</legend>
-                                <div class="form-group">
-                                    <label for="enterprise" class="col-md-4 control-label">企业名称</label>
-
-                                    <div class="col-md-6">
-                                        <input id="enterprise" type="text" class="form-control" name="enterprise"
-                                               value="{{ old('enterprise') }}" required autofocus>
-                                    </div>
-                                </div>
-
-                                <div class="form-group ">
-                                    <label for="linkMan" class="col-md-4 control-label">联系人</label>
-
-                                    <div class="col-md-6">
-                                        <input id="linkMan" type="text" class="form-control" name="linkMan"
-                                               value="{{ old('linkMan') }}" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="name" class="col-md-4 control-label">手机号</label>
-
-                                    <div class="col-md-6">
-                                        <input id="mobile" type="text" class="form-control" name="mobile"
-                                               value="{{ old('mobile') }}" required autofocus>
-                                    </div>
-                                </div>
-                            </fieldset>
                             <fieldset>
                                 <legend>用户信息</legend>
                                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

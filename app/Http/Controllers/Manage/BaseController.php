@@ -14,5 +14,6 @@ class BaseController extends Controller
 {
     public $uid;
     public $eid;
- 
+
+  
 }

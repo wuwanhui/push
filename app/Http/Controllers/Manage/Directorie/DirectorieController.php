@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers\Manage\Directorie;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
-use App\Models\Distribution;
 use App\Models\Directorie;
+use App\Models\Distribution;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Qiniu\Auth;
 
 /**
  * 通讯录管理
  * @package App\Http\Controllers\
  */
-class DirectorieController extends BaseController
+class DirectorieController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/directorie']);
+    }
 
     /**
      * Show the application dashboard.
@@ -30,7 +33,7 @@ class DirectorieController extends BaseController
         $key = $request->key;
 
         $lists = Directorie::where(function ($query) use ($key) {
-          
+
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }

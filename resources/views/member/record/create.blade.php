@@ -30,26 +30,30 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel   panel-info">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-lg-6"> 自定义模板</div>
-                            <div class="col-lg-6 text-right"><a href="{{url('/member/record/template')}}">管理 </a></div>
+                @if(count($templateList)>0)
+                    <div class="panel   panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6"> 自定义模板</div>
+                                <div class="col-lg-6 text-right"><a href="{{url('/member/record/template')}}">管理 </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <ul>
+                                @foreach($templateList as $item)
+                                    <li>
+                                        <a href="{{url('/member/record/create/'.$item->id)}}">{{$item->name}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
                         </div>
                     </div>
-
-                    <div class="panel-body">
-                        <ul>
-                            @foreach($templateList as $item)
-                                <li>
-                                    <a href="{{url('/member/record/create/'.$item->id)}}">{{$item->name}}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                    </div>
-                </div>
+                @endif
             </div>
+
             <div class="col-md-10">
                 <div class="panel panel-default">
                     <form class="form-horizontal" role="form" method="POST" id="form">
@@ -65,7 +69,7 @@
                                     <span class="state"></span>
                                 </div>
                                 <div class="col-xs-6 text-right ">
-                                    <button type="button" class="btn btn-primary " onclick="showModal()">
+                                    <button type="button" class="btn btn-info " onclick="showModal()">
                                         存为模板
                                     </button>
 

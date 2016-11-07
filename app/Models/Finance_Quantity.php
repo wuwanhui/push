@@ -67,13 +67,12 @@ class Finance_Quantity extends Model
     }
 
 
-    /**
-     * 经办人
-     */
-    public function liable()
+    public function member()
     {
-        return $this->belongsTo('App\Models\User', 'liableId');
+        return $this->belongsTo('App\Models\Member', "memberId");
     }
+
+
 
     /**
      * 充值记录

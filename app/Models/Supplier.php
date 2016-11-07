@@ -53,21 +53,12 @@ class Supplier extends Model
         ];
     }
 
-
     /**
-     * 创建者
+     * 经办人
      */
-    public function createUser()
+    public function user()
     {
-        return $this->belongsTo('App\Models\User', 'createId');
-    }
-
-    /**
-     * 编辑者
-     */
-    public function editUser()
-    {
-        return $this->belongsTo('App\Models\User', 'editId');
+        return $this->belongsTo('App\Models\User', 'userId');
     }
 
     /**

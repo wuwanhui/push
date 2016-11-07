@@ -57,10 +57,11 @@ class Enterprise extends Model
     /**
      *企业用户
      */
-    public function users()
+    public function members()
     {
-        return $this->hasMany('App\Models\User', "enterpriseId");
+        return $this->hasMany('App\Models\Member', "enterpriseId");
     }
+
 
     /**
      * 企业参数

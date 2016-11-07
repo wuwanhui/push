@@ -12,16 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        //   $this->middleware('auth');
+        parent::__construct();
+        view()->share(['_model' => 'member/finance']);
     }
-
+ 
     /**
      * Show the application dashboard.
      *

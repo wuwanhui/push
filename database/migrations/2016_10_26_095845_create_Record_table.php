@@ -15,7 +15,7 @@ class CreateRecordTable extends Migration
     {
         Schema::create('Record', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('userId');//发送者
+            $table->integer('memberId');//发送者
             $table->integer('signatureId')->nullable();//签名
             $table->integer('templateId')->nullable();//模板
             $table->string('mobile');//手机号

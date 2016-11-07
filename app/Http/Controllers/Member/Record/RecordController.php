@@ -14,6 +14,7 @@ use App\Models\Supplier_Resource_Template;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -24,6 +25,11 @@ use Illuminate\Support\Facades\Validator;
  */
 class RecordController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/record']);
+    }
 
     /**
      * Show the application dashboard.
@@ -35,10 +41,10 @@ class RecordController extends BaseController
         $key = $request->key;
         $lists = Record::where(function ($query) use ($key) {
 
-            if (Base::user("type") == 2) {
-                $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            if (Base::member("type") == 0) {
+                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             } else {
-                $query->Where('userId', Base::uid());
+                $query->Where('memberId', Base::member("id"));
             }
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
@@ -64,16 +70,16 @@ class RecordController extends BaseController
                     return "效验失败";
                 }
                 $record->fill($input);
-                $record->userId = Base::uid();
+                $record->memberId = Base::member("id");
                 $record->save();
 
-                return $this->send($record->id);
+                return json_encode($this->send($record->id));
             }
             $record->mobile = $request->mobile;
-            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
+            $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
 
-            $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
-            $templates = Supplier_Resource_Template::where("enterpriseId", Base::user("enterpriseId"))->orWhere("enterpriseId", 0)->get();
+            $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
+            $templates = Supplier_Resource_Template::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             return view('member.record.create', compact('record', 'signatures', 'templates', 'templateList'));
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage();
@@ -88,13 +94,43 @@ class RecordController extends BaseController
                 return redirect('/member/record/create')->withSuccess('模板不存在！');
             }
 
-            $templateList = Record_Template::where("userId", Base::uid())->orWhere("share", 1)->get();
+            $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
 
             return view('member.record.template', compact('template', 'templateList'));
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage();
         }
     }
+
+
+    public function retry(Request $request, $id)
+    {
+        try {
+            $record = Record::find($id);
+            if (!$record) {
+                return Redirect::back()->withErrors('数据不存在！');
+            }
+            $newRecord = new Record();
+            $newRecord->memberId = $record->memberId;
+            $newRecord->signatureId = $record->signatureId;
+            $newRecord->templateId = $record->templateId;
+            $newRecord->mobile = $record->mobile;
+            $newRecord->content = $record->content;
+            $newRecord->param = $record->param;
+            $newRecord->source = $record->source;
+            $newRecord->remark = '重发记录' . $record->id;
+            $newRecord->save();
+
+            $respJson = $this->send($newRecord->id);
+            if ($respJson->code == 0) {
+                return redirect('/member/record')->withSuccess('重发成功！');
+            }
+            return redirect('/member/record')->withErrors('重发失败！' . $respJson->msg);
+        } catch (Exception $ex) {
+            return '异常！' . $ex->getMessage();
+        }
+    }
+
 
     /**
      * 短信发送
@@ -142,9 +178,9 @@ class RecordController extends BaseController
             Log::info('异常！' . $ex->getMessage());
         }
 
-//        v(json_encode($respJson));
+//        Log::info(json_encode($respJson));
 //        return;
-        return json_encode($respJson);
+        return $respJson;
 
     }
 

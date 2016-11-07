@@ -21,6 +21,11 @@ use Qiniu\Auth;
  */
 class InvoiceController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/finance']);
+    }
 
     /**
      * Show the application dashboard.
@@ -31,7 +36,7 @@ class InvoiceController extends BaseController
     {
         $key = $request->key;
         $lists = Finance_Invoice::where(function ($query) use ($key) {
-            $query->whereIn('userId', Base::enterprise()->users()->pluck("id"));
+            $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
@@ -58,7 +63,7 @@ class InvoiceController extends BaseController
                 }
 
                 $invoice->fill($input);
-                $invoice->userId = Base::uid();
+                $invoice->memberId = Base::member("id");
                 $invoice->save();
 
                 if ($invoice) {
@@ -66,12 +71,12 @@ class InvoiceController extends BaseController
                 }
                 return Redirect::back()->withErrors('保存失败！');
             }
-            $invoice->money = Base::user("invoiceMoney");
-            $invoice->enterprise = Base::enterprise("name");
-            $invoice->linkMan = Base::enterprise("linkMan");
-            $invoice->mobile = Base::enterprise("mobile");
-            $invoice->tel = Base::enterprise("tel");
-            $invoice->addres = Base::enterprise("addres");
+            $invoice->money = Base::member("invoiceMoney");
+            $invoice->enterprise = Base::member()->enterprise->name;
+            $invoice->linkMan = Base::member("linkMan");
+            $invoice->mobile = Base::member("mobile");
+            $invoice->tel = Base::member("tel");
+            $invoice->addres = Base::member("addres");
 
             return view('member.finance.invoice.create', compact('invoice'));
 
@@ -98,18 +103,16 @@ class InvoiceController extends BaseController
                 }
 
                 $invoice->fill($input);
-                $invoice->userId = Base::uid();
-                $invoice->liableId = Base::uid();
+                $invoice->memberId = Base::member("id");
                 $invoice->save();
 
                 if ($invoice->state == 0) {
 
                     $quantity = new Finance_Quantity();
 
-                    $quantity->userId = $invoice->userId;
+                    $quantity->memberId = $invoice->memberId;
                     $quantity->quantity = $invoice->money * 10;
                     $quantity->direction = 0;
-                    $quantity->liableId = Base::uid();
                     $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
                     $quantity->invoiceId = $invoice->id;
                     $quantity->state = 0;
@@ -144,27 +147,25 @@ class InvoiceController extends BaseController
                         ->withInput()
                         ->withErrors($validator);
                 }
-                $userId = $request->userId;//转入账户
+                $memberId = $request->memberId;//转入账户
                 $money = $request->money;//转账金额
 
                 //转入用户
-                $invoice->userId = $userId;
+                $invoice->memberId = $memberId;
                 $invoice->money = $money;
                 $invoice->source = 5;
                 $invoice->type = 1;
                 $invoice->direction = 0;
-                $invoice->liableId = Base::uid();
                 $invoice->save();
 
                 //转出用户
                 $invoice = new Finance_Invoice();
-                $invoice->userId = Base::uid();
+                $invoice->memberId = Base::member("id");
                 $invoice->money = $money;
                 $invoice->source = 5;
                 $invoice->type = 1;
                 $invoice->direction = 1;
-                $invoice->userId = Base::uid();
-                $invoice->liableId = Base::uid();
+                $invoice->memberId = Base::member("id");
                 $invoice->save();
                 if ($invoice) {
                     return redirect('/member/finance/invoice')->withSuccess('保存成功！');

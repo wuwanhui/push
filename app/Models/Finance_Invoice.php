@@ -58,14 +58,21 @@ class Finance_Invoice extends Model
         ];
     }
 
-
     /**
      * 用户信息
+     */
+
+    public function member()
+    {
+        return $this->belongsTo('App\Models\Member', "memberId");
+    }
+
+    /**
+     * 经办人
      */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'userId');
     }
- 
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Enterprise;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -16,7 +17,7 @@ class RegisterController extends Controller
     | Register Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles the registration of new user as well as their
+    | This controller handles the registration of new member as well as their
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
@@ -25,11 +26,11 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect user after login / registration.
+     * Where to redirect member after login / registration.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/member';
 
     /**
      * Create a new controller instance.
@@ -51,13 +52,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:user',
+            'email' => 'required|email|max:255|unique:member',
             'password' => 'required|min:6|confirmed',
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new member instance after a valid registration.
      *
      * @param  array $data
      * @return User
@@ -65,25 +66,28 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $enterprise = Enterprise::where("name", $data['enterprise'])->first();
+
+
         if (!$enterprise) {
             $enterprise = new Enterprise();
             $enterprise->name = $data['enterprise'];
             $enterprise->shortName = $data['name'];
             $enterprise->linkMan = $data['linkMan'];
             $enterprise->mobile = $data['mobile'];
+            $enterprise->configId = 0;
             $enterprise->save();
         }
 
-        return User::create([
+        return Member::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'enterpriseId' => $enterprise->id,
         ]);
     }
-//
-//    protected function guard()
-//    {
-//        return Auth::guard();
-//    }
+
+    public function guard()
+    {
+        return Auth::guard('member');
+    }
 }

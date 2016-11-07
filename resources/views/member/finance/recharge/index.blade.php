@@ -53,7 +53,6 @@
                         </div>
                     </div>
                     <form method="Post" class="form-inline">
-                        <fieldset>
                             <table class="table table-bordered table-hover  table-condensed">
                                 <thead>
                                 <tr style="text-align: center" class="text-center">
@@ -77,8 +76,8 @@
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}}</td>
                                         <td style="text-align: center">
-                                            @if($item->user)
-                                                {{$item->user->name}}
+                                            @if($item->member)
+                                                {{$item->member->name}}
                                             @endif
                                         </td>
                                         <td style="text-align: center"> {{$item->money}}
@@ -108,16 +107,22 @@
                                             @else
                                                 失败
                                             @endif </td>
-                                        <td style="text-align: center"><a
-                                                    href="{{url('/member/finance/recharge/edit/'.$item->id)}}">编辑</a>
-                                            |
-                                            <a href="{{url('/member/finance/recharge/delete/'.$item->id)}}">删除</a>
+                                        <td style="text-align: center">
+                                            @if($item->state==0)
+                                                <a
+                                                        href="{{url('/member/finance/recharge/detail/'.$item->id)}}">详情</a>
+                                            @endif
+                                            @if($item->state!=0)
+                                                <a
+                                                        href="{{url('/member/finance/recharge/edit/'.$item->id)}}">编辑</a>
+                                                |
+                                                <a href="{{url('/member/finance/recharge/delete/'.$item->id)}}">删除</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-                        </fieldset>
                     </form>
                     <div class="panel-footer">
                         <div class="row">

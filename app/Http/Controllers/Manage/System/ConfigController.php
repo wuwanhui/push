@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\System;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Models\Config;
 use App\Models\Distribution;
@@ -18,9 +19,13 @@ use Illuminate\Support\Facades\Validator;
  * 应用中心
  * @package App\Http\Controllers\
  */
-class ConfigController extends BaseController
+class ConfigController extends ManageBaseController
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/system']);
+    }
     /**
      * Show the application dashboard.
      *
@@ -30,8 +35,7 @@ class ConfigController extends BaseController
     {
         try {
 
-            $enterprise = Base::enterprise();
-            $config = $enterprise->config;
+            $config = Config::first();
             if (!$config) {
                 $config = new Config();
             }
@@ -48,8 +52,6 @@ class ConfigController extends BaseController
 
                 $config->fill($input);
                 $config->save();
-                $enterprise->configId = $config->id;
-                $enterprise->save();
                 if ($config) {
                     return redirect('/manage/system/config')->withSuccess('保存成功！');
                 }

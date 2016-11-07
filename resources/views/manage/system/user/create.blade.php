@@ -109,25 +109,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                                        <label for="type" class="col-md-3 control-label">类型：</label>
 
-                                        <div class="col-md-9">
-                                            <select id="type" name="type" class="form-control" style="width: auto;">
-                                                <option value="0">系统帐户</option>
-                                                <option value="1">普通帐户</option>
-                                                <option value="2">供应商</option>
-                                                <option value="3">分销商</option>
-                                                <option value="4">会员</option>
-                                            </select>
-
-                                            @if ($errors->has('type'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('type') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
 

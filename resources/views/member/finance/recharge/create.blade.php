@@ -72,6 +72,28 @@
                                         </div>
                                     </div>
 
+                                    @if($members )
+                                        <div class="form-group{{ $errors->has('memberId') ? ' has-error' : '' }}">
+                                            <label for="memberId" class="col-md-3 control-label">充值用户：</label>
+
+                                            <div class="col-md-9">
+                                                <select id="memberId" name="memberId" class="form-control"
+                                                        style="width: auto;">
+                                                    <option value="">请选择</option>
+                                                    @foreach($members as $item)
+                                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('memberId'))
+                                                    <span class="help-block">
+                                        <strong>{{ $errors->first('memberId') }}</strong>
+                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
 
                                     <div class="form-group{{ $errors->has('money') ? ' has-error' : '' }}">
                                         <label for="money" class="col-md-3 control-label">充值金额：</label>

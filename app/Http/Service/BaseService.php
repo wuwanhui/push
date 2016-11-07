@@ -3,7 +3,6 @@
 namespace App\Http\Service;
 
 use App\Models\Config;
-use App\Models\Enterprise;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -14,47 +13,12 @@ class BaseService
 {
     private $config = null;
     private $enterprise = null;
-    private $user = null;
+    private $manage = null;
+    private $member = null;
 
     public function __construct()
     {
-        if (Auth::check()) {
 
-            if ($this->user == null) {
-                $this->user = Auth::user();
-            }
-            if ($this->enterprise == null) {
-                $this->enterprise = $this->user->enterprise;
-            }
-            if ($this->config == null) {
-                $this->config = $this->enterprise->config;
-            }
-
-        }
-    }
-
-
-    /**
-     * 获取用户ID
-     * @return mixed
-     */
-    public function uid()
-    {
-        if ($this->user) {
-            return $this->user->id;
-        }
-    }
-
-
-    /**
-     * 获取企业ID
-     * @return mixed
-     */
-    public function eid()
-    {
-        if ($this->enterprise) {
-            return $this->enterprise->id;
-        }
     }
 
     /**
@@ -62,32 +26,30 @@ class BaseService
      * @param $key
      * @return mixed
      */
-    public function user($key = null)
+    public function manage($key = null)
     {
 
-        if ($this->user) {
-            if ($key) {
-                return $this->user->$key;
-            } else {
-                return $this->user;
-            }
+        $this->manage = Auth::guard("manage")->user();
+        if ($key) {
+            return $this->manage->$key;
+        } else {
+            return $this->manage;
         }
+
     }
 
-
     /**
-     *获取企业信息
+     *获取用户信息
      * @param $key
      * @return mixed
      */
-    public function enterprise($key = null)
+    public function member($key = null)
     {
-        if ($this->enterprise) {
-            if ($key) {
-                return $this->enterprise->$key;
-            } else {
-                return $this->enterprise;
-            }
+        $this->member = Auth::guard("member")->user();
+        if ($key) {
+            return $this->member->$key;
+        } else {
+            return $this->member;
         }
     }
 
@@ -100,12 +62,13 @@ class BaseService
     public function config($key = null)
     {
 
-        if ($this->config) {
-            if ($key) {
-                return $this->config->$key;
-            } else {
-                return $this->config;
-            }
+        if (!$this->config) {
+            $this->config = Config::first();
+        }
+        if ($key) {
+            return $this->config->$key;
+        } else {
+            return $this->config;
         }
     }
 

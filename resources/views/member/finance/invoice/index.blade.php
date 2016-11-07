@@ -77,8 +77,8 @@
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}}</td>
                                         <td style="text-align: center">
-                                            @if($item->user)
-                                                {{$item->user->name}}
+                                            @if($item->member)
+                                                {{$item->member->name}}
                                             @endif
                                         </td>
                                         <td style="text-align: center"> {{$item->money}}
@@ -97,7 +97,7 @@
                                             @if($item->state==0)
                                                 成功
                                             @elseif($item->state==1)
-                                                待开具
+                                                待开
                                             @else
                                                 失败
                                             @endif </td>

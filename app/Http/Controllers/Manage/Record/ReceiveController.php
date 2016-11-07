@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Sms;
 use App\Models\Enterprise;
 use App\Models\Supplier_Resource;
@@ -20,8 +21,14 @@ use zgldh\QiniuStorage\QiniuStorage;
  * 回执记录
  * @package App\Http\Controllers\
  */
-class ReceiveController extends BaseController
+class ReceiveController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/record']);
+    }
+
 
     /**
      * Show the application dashboard.

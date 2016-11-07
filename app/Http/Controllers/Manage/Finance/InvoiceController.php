@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Quantity;
@@ -19,8 +20,13 @@ use Qiniu\Auth;
  * 发票申请
  * @package App\Http\Controllers\
  */
-class InvoiceController extends BaseController
+class InvoiceController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/finance']);
+    }
 
     /**
      * Show the application dashboard.

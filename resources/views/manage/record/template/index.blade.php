@@ -14,7 +14,7 @@
 
                     <div class="panel-body">
                         <li>
-                            <a href="{{url('/manage/record')}}">发送记录</a>
+                            <a href="{{url('/manage/record')}}">推送记录</a>
                         </li>
                         <li>
                             <a href="{{url('/manage/record/template')}}" class="active">发送模板</a>
@@ -86,7 +86,7 @@
 
                                         <td style="text-align: center"><a
                                                     href="{{url('/manage/record/create/'.$item->id)}}">发送</a>
-                                            @if($item->userId==Base::uid()||Base::user('type')==2)
+                                            @if($item->userId==Base::member("id")||Base::user('type')==2)
                                                 | <a
                                                         href="{{url('/manage/record/template/delete/'.$item->id)}}">删除</a>
                                             @endif

@@ -87,13 +87,13 @@
                                         <td> {{$item->content}}</td>
                                         <td> {{$item->param}}</td>
                                         <td style="text-align: center">   {{$item->share==0?"私有":"分享"}}</td>
-                                        <td style="text-align: center"> {{$item->user->name}}</td>
+                                        <td style="text-align: center"> {{$item->member->name}}</td>
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 
                                         <td style="text-align: center"><a
                                                     href="{{url('/member/record/create/'.$item->id)}}">发送</a>
-                                            @if($item->userId==Base::uid()||Base::user('type')==2)
+                                            @if($item->memberId==Base::member("id")||Base::member('type')==2)
                                                 | <a
                                                         href="{{url('/member/record/template/delete/'.$item->id)}}">删除</a>
                                             @endif

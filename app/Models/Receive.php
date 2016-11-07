@@ -56,31 +56,6 @@ class Receive extends Model
         return [
             'name.required' => '产品名称不能为空',
         ];
-    }
-
-    /**
-     * 所属供应商
-     */
-    public function supplier()
-    {
-        return $this->belongsTo('App\Models\Supplier', 'supplierId');
-    }
-
-    /**
-     * 原始产品
-     */
-    public function product()
-    {
-        return $this->belongsTo('App\Models\Product', 'productId');
-    }
-
-
-    /**
-     * 所属景区
-     */
-    public function scenic()
-    {
-        return $this->belongsTo('App\Models\Scenic', 'scenicId');
-    }
+    } 
 
 }

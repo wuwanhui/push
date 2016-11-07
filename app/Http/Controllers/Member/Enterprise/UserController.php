@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member\Enterprise;
 
 use App\Http\Controllers\Member\BaseController;
 use App\Http\Facades\Base;
+use App\Models\Member;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,6 +17,11 @@ use Illuminate\Support\Facades\Validator;
  */
 class UserController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'member/enterprise']);
+    }
 
     /**
      * Show the application dashboard.
@@ -25,8 +31,8 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $enterpriseId = Base::user('enterpriseId');
-        $lists = User::where(function ($query) use ($key, $enterpriseId) {
+        $enterpriseId = Base::member('enterpriseId');
+        $lists = Member::where(function ($query) use ($key, $enterpriseId) {
             if ($enterpriseId) {
                 $query->where('enterpriseId', $enterpriseId);
             }
@@ -41,10 +47,10 @@ class UserController extends BaseController
     public function create(Request $request)
     {
         try {
-            $user = new User();
+            $merber = new Member();
             if ($request->isMethod('POST')) {
                 $input = $request->all();
-                $validator = Validator::make($input, $user->Rules(), $user->messages());
+                $validator = Validator::make($input, $merber->Rules(), $merber->messages());
                 if ($validator->fails()) {
                     echo "效验失败";
                     return redirect('/member/enterprise/user/create')
@@ -52,11 +58,11 @@ class UserController extends BaseController
                         ->withErrors($validator);
                 }
 
-                $user->fill($input);
-                $user->password = bcrypt($request->input('password'));
-                $user->enterpriseId = Base::user("enterpriseId");
-                $user->save();
-                if ($user) {
+                $merber->fill($input);
+                $merber->password = bcrypt($request->input('password'));
+                $merber->enterpriseId = Base::member("enterpriseId");
+                $merber->save();
+                if ($merber) {
                     return redirect('/member/enterprise/user')->withSuccess('保存成功！');
                 }
                 return Redirect::back()->withErrors('保存失败！');
@@ -71,18 +77,18 @@ class UserController extends BaseController
     public function edit($id, Request $request)
     {
         try {
-            $user = User::find($id);
-            if (!$user) {
+            $merber = Member::find($id);
+            if (!$merber) {
                 return Redirect::back()->withErrors('数据不存在！');
             }
-            if ($user->enterpriseId != Base::user("enterpriseId") || Base::user("type") != 2) {
+            if ($merber->enterpriseId != Base::member("enterpriseId") || Base::member("type") != 2) {
                 return Redirect::back()->withErrors('无权修改！');
             }
             if ($request->isMethod('POST')) {
 
-                $oldPassword = $user->password;
+                $oldPassword = $merber->password;
                 $input = $request->all();
-                $validator = Validator::make($input, $user->Rules(), $user->messages());
+                $validator = Validator::make($input, $merber->Rules(), $merber->messages());
                 if ($validator->fails()) {
                     echo "效验失败";
                     return redirect('/member/enterprise/user/edit/' . $id)
@@ -91,15 +97,15 @@ class UserController extends BaseController
                 }
 
 
-                $user->fill($input);
+                $merber->fill($input);
                 if ($request->input('password')) {
-                    $user->password = bcrypt($request->input('password'));
+                    $merber->password = bcrypt($request->input('password'));
                 } else {
-                    $user->password = $oldPassword;
+                    $merber->password = $oldPassword;
                 }
 
-                $user->save();
-                if ($user) {
+                $merber->save();
+                if ($merber) {
                     return redirect('/member/enterprise/user')->withSuccess('保存成功！');
                 }
                 return Redirect::back()->withErrors('保存失败！');
@@ -115,11 +121,11 @@ class UserController extends BaseController
     public function delete($id, Request $request)
     {
         try {
-            $user = User::find($id);
-            if (!$user) {
+            $merber = Member::find($id);
+            if (!$merber) {
                 return Redirect::back()->withErrors('数据不存在！');
             }
-            $user->delete();
+            $merber->delete();
             return redirect('/member/enterprise/user')->withSuccess('删除成功！');
 
         } catch (Exception $ex) {

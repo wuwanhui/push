@@ -22,7 +22,7 @@ class CreateRecordTemplateTable extends Migration
             $table->string('content')->nullable();;//内容
             $table->string('param');//短信参数
             $table->dateTime('sendTime')->nullable();//定时发送时间
-            $table->integer('userId');//模板所有者
+            $table->integer('memberId');//模板所有者
             $table->integer('share')->default(0);//分享0私有1公有，企业内可看
             $table->integer('state')->default(0);//状态0正常1无效
             $table->integer('sort')->default(0);//排序

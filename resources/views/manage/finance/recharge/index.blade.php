@@ -77,8 +77,8 @@
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}}</td>
                                         <td style="text-align: center">
-                                            {{$item->user->enterprise->name}}
-                                            -{{$item->user->name}}
+                                            {{$item->member->enterprise->name}}
+                                            -{{$item->member->name}}
                                         </td>
                                         <td style="text-align: center"> {{$item->money}}
                                         </td>
@@ -95,8 +95,8 @@
                                         <td style="text-align: center">{{$item->created_at}}</td>
                                         <td style="text-align: center">{{$item->remark}}</td>
                                         <td style="text-align: center">
-                                            @if($item->liable)
-                                                {{$item->liable->name}}
+                                            @if($item->user)
+                                                {{$item->user->name}}
                                             @endif
                                         </td>
                                         <td style="text-align: center">
@@ -107,11 +107,12 @@
                                             @else
                                                 失败
                                             @endif </td>
-                                        <td style="text-align: center"><a
-                                                    href="{{url('/manage/finance/recharge/detail/'.$item->id)}}">详情</a>
-                                            @if($item->state!=0)
-                                                |
-                                                <a href="{{url('/manage/finance/recharge/delete/'.$item->id)}}">删除</a>
+                                        <td style="text-align: center">  @if($item->state==0)<a
+                                                    href="{{url('/manage/finance/recharge/detail/'.$item->id)}}">详情</a> @endif
+                                            @if($item->state!=0) <a
+                                                    href="{{url('/manage/finance/recharge/edit/'.$item->id)}}">编辑</a>
+                                            |
+                                            <a href="{{url('/manage/finance/recharge/delete/'.$item->id)}}">删除</a>
                                             @endif
                                         </td>
                                     </tr>

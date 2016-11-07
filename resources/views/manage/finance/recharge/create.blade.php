@@ -53,21 +53,21 @@
                                     <legend>基本信息</legend>
                                     {!! csrf_field() !!}
 
-                                    @if($users )
-                                        <div class="form-group{{ $errors->has('userId') ? ' has-error' : '' }}">
-                                            <label for="userId" class="col-md-3 control-label">充值用户：</label>
+                                    @if($members )
+                                        <div class="form-group{{ $errors->has('memberId') ? ' has-error' : '' }}">
+                                            <label for="memberId" class="col-md-3 control-label">充值用户：</label>
 
                                             <div class="col-md-9">
-                                                <select name="userId" class="form-control" style="width: auto;">
-                                                    @foreach($users as $item)
+                                                <select name="memberId" class="form-control" style="width: auto;">
+                                                    @foreach($members as $item)
                                                         <option value="{{$item->id}}">{{$item->enterprise->name}}
                                                             -{{$item->name}}</option>
                                                     @endforeach
                                                 </select>
 
-                                                @if ($errors->has('userId'))
+                                                @if ($errors->has('memberId'))
                                                     <span class="help-block">
-                                        <strong>{{ $errors->first('userId') }}</strong>
+                                        <strong>{{ $errors->first('memberId') }}</strong>
                                     </span>
                                                 @endif
                                             </div>

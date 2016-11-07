@@ -66,7 +66,7 @@
 
                                     <th style="width: 160px;"><a href="">有效期止</a></th>
                                     <th><a href="">备注</a></th>
-                                    <th style="width: 60px;"><a href="">经办人</a></th>
+                                    <th style="width: 80px;"><a href="">经办人</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 100px;">操作</th>
                                 </tr>
@@ -78,8 +78,8 @@
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
                                         <td style="text-align: center">
-                                            {{$item->user->enterprise->name}}
-                                            -{{$item->user->name}}
+                                            {{$item->member->enterprise->name}}
+                                            -{{$item->member->name}}
                                         </td>
                                         <td style="text-align: center">
                                             @if($item->direction==0)
@@ -93,8 +93,8 @@
                                         <td>
                                             {{$item->remark}}</td>
                                         <td style="text-align: center">
-                                            @if($item->liable)
-                                                {{$item->liable->name}}
+                                            @if($item->user)
+                                                {{$item->user->name}}
                                             @endif
                                         </td>
                                         <td style="text-align: center">

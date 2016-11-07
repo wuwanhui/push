@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Supplier;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Models\Supplier;
 use Exception;
@@ -11,9 +12,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class SupplierController extends BaseController
+class SupplierController extends ManageBaseController
 {
- 
+
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/supplier']);
+    }
     /**
      * Show the application dashboard.
      *
@@ -48,6 +54,7 @@ class SupplierController extends BaseController
                         ->withErrors($validator);
                 }
                 $supplier->fill($input);
+                $supplier->userId = Base::manage()->id;
                 $supplier->save();
                 if ($supplier) {
                     return redirect('/manage/supplier')->withSuccess('保存成功！');

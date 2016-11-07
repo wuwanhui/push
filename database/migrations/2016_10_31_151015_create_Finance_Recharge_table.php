@@ -15,11 +15,12 @@ class CreateFinanceRechargeTable extends Migration
     {
         Schema::create('Finance_Recharge', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('userId');//充值者
+
+            $table->integer('memberId');//充值者
             $table->float('money');//充值金额
             $table->integer('source');//充值方式0现金1支付宝2微信3银行4其它
             $table->string('orderNum')->nullable();//订单号
-            $table->integer('liableId')->default(0);//责任人
+            $table->integer('userId')->default(0);//经办人
             $table->integer('state')->default(1);//状态0成功1待审核2失败
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

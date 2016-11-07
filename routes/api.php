@@ -13,6 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
+
+/**
+ * 通知
+ */
+Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
+    Route::any('/home', 'HomeController@home');
+
+
+});
+/**
+ * 通知
+ */
+Route::group(['prefix' => 'notice', 'middleware' => 'api', 'namespace' => 'API'], function () {
+    Route::any('/wxpay', 'NoticeController@wxpay');
+});
+
+
 Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+
+    return "test";
+});

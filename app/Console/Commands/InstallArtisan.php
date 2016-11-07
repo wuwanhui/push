@@ -13,7 +13,7 @@ class InstallArtisan extends Command
      *
      * @var string
      */
-    protected $signature = 'tour:install {name?}';
+    protected $signature = 'push:install {name?}';
 
     /**
      * The console command description.

@@ -4,22 +4,19 @@ namespace App\Http\Controllers\Manage\System;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Sms;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-class HomeController extends BaseController
+class HomeController extends ManageBaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        //   $this->middleware('auth');
+        parent::__construct();
+        view()->share(['_model' => 'manage/system']);
     }
 
     /**

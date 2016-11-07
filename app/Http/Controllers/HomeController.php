@@ -28,13 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) {
-            return Redirect::to('login');
-        }
-        if (Auth::user()->type == 0) {
-            return Redirect::to('manage');
-        }
-        return Redirect::to('member');
+        return view('home');
 
     }
 

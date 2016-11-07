@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Models\Distribution;
 use App\Models\Finance_Quantity;
 use App\Models\Finance_Recharge;
+use App\Models\Member;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,8 +20,13 @@ use Illuminate\Support\Facades\Validator;
  * 支付记录
  * @package App\Http\Controllers\
  */
-class RechargeController extends BaseController
+class RechargeController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/finance']);
+    }
 
     /**
      * Show the application dashboard.
@@ -56,7 +63,7 @@ class RechargeController extends BaseController
                 }
 
                 $recharge->fill($input);
-                $recharge->liableId = Base::uid();
+                $recharge->userId = Base::manage("id");
                 $recharge->save();
 
                 if ($recharge) {
@@ -65,9 +72,9 @@ class RechargeController extends BaseController
                 return Redirect::back()->withErrors('保存失败！');
             }
 
-            $users = User::where("type", 2)->get();
+            $members = Member::where("type", 2)->get();
 
-            return view('manage.finance.recharge.create', compact('recharge', 'users'));
+            return view('manage.finance.recharge.create', compact('recharge', 'members'));
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());
@@ -92,18 +99,17 @@ class RechargeController extends BaseController
                 }
 
                 $recharge->fill($input);
-                $recharge->userId = Base::uid();
-                $recharge->liableId = Base::uid();
+                $recharge->userId = Base::manage("id");
                 $recharge->save();
 
                 if ($recharge->state == 0) {
 
                     $quantity = new Finance_Quantity();
 
-                    $quantity->userId = $recharge->userId;
+                    $quantity->memberId = $recharge->memberId;
                     $quantity->quantity = $recharge->money * 10;
                     $quantity->direction = 0;
-                    $quantity->liableId = Base::uid();
+                    $quantity->userId = Base::manage("id");
                     $quantity->expiryDate = date('Y-m-d H:i:s', strtotime("+1 year"));
                     $quantity->rechargeId = $recharge->id;
                     $quantity->state = 0;
@@ -147,18 +153,18 @@ class RechargeController extends BaseController
                 $recharge->source = 5;
                 $recharge->type = 1;
                 $recharge->direction = 0;
-                $recharge->liableId = Base::uid();
+                $recharge->liableId = Base::member("id");
                 $recharge->save();
 
                 //转出用户
                 $recharge = new Finance_Recharge();
-                $recharge->userId = Base::uid();
+                $recharge->userId = Base::member("id");
                 $recharge->money = $money;
                 $recharge->source = 5;
                 $recharge->type = 1;
                 $recharge->direction = 1;
-                $recharge->userId = Base::uid();
-                $recharge->liableId = Base::uid();
+                $recharge->userId = Base::member("id");
+                $recharge->liableId = Base::member("id");
                 $recharge->save();
                 if ($recharge) {
                     return redirect('/manage/finance/recharge')->withSuccess('保存成功！');

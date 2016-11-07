@@ -67,6 +67,7 @@
                                     <th><a href="">内容</a></th>
                                     <th style="width: 60px;"><a href="">计费</a></th>
                                     <th style="width: 80px;"><a href="">来源</a></th>
+                                    <th><a href="">备注</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 100px;">操作</th>
                                 </tr>
@@ -77,7 +78,7 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">   {{$item->user->name}}
+                                        <td style="text-align: center">   {{$item->member->name}}
                                         </td>
                                         <td style="text-align: center">{{$item->signature->name}}</td>
                                         <td style="text-align: center">{{$item->template->name}}</td>
@@ -87,6 +88,9 @@
                                         <td> {{$item->content}}</td>
                                         <td style="text-align: center"> {{$item->charging}}</td>
                                         <td style="text-align: center">     {{$item->source==0?"平台":"接口"}}</td>
+                                        <td> {{$item->remark}}
+                                        </td>
+
                                         <td style="text-align: center">
                                             @if($item->state==0)
                                                 成功

@@ -19,24 +19,8 @@ class EnterpriseController extends ManageBaseController
 {
     public function __construct()
     {
-
-        if (!Auth::check()) {
-            return Redirect::guest('login');
-        }
-
-
-        if (Auth::check()) {
-            if (Auth::user()->type != 1) {
-                return Redirect::back()->withErrors('对不起无权访问！');
-            }
-        }
-
-
-        if (Auth::user()->type != 0) {
-            return Redirect::back()->withErrors('对不起无权访问！');
-        }
-        $this->uid = Base::uid();
-        $this->eid = Base::user("enterpriseId");
+        parent::__construct();
+        view()->share(['_model' => 'manage/enterprise']);
     }
 
     /**

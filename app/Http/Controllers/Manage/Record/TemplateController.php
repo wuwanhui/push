@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manage\Record;
 use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Models\Record_Template;
@@ -20,8 +21,14 @@ use Illuminate\Support\Facades\Validator;
  * 发送模板
  * @package App\Http\Controllers\Manage\Template
  */
-class TemplateController extends BaseController
+class TemplateController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/record']);
+    }
+
 
     /**
      * Show the application dashboard.

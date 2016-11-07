@@ -18,7 +18,7 @@ class InstallController extends Controller
     public function index(Request $request)
     {
         if ($request->isMethod('post')) {
-            $exitCode = Artisan::call('tour:install', [
+            $exitCode = Artisan::call('push:install', [
                 'name' => '元佑科技']);
             if ($exitCode == 0) {
                 return redirect("/login");

@@ -73,7 +73,6 @@
                                     <th style="width: 60px;"><a href="">编号</a></th>
                                     <th><a href="">姓名</a></th>
                                     <th><a href="">邮箱</a></th>
-                                    <th style="width: 120px;"><a href="">类型</a></th>
                                     <th style="width: 100px;">状态</th>
                                     <th style="width: 100px;">操作</th>
                                 </tr>
@@ -88,26 +87,14 @@
 
                                         <td> {{$item->email}}
                                         </td>
-                                        <td style="text-align: center">
-                                            @if($item->type==0)
-                                                系统用户
-                                            @elseif($item->type==1)
-                                                普通用户
-                                            @elseif($item->type==2)
-                                                供应商
-                                            @elseif($item->type==3)
-                                                分销商
-                                            @else
-                                                会员
-                                            @endif
-                                        </td>
+
                                         <td style="text-align: center">
                                             {{$item->state==0?"正常":"禁用"}}</td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/supplier/scenic/edit/'.$item->id)}}">编辑</a>
+                                                    href="{{url('/manage/system/user/edit/'.$item->id)}}">编辑</a>
                                             |
-                                            <a href="{{url('/manage/supplier/scenic/delete/'.$item->id)}}">删除</a>
+                                            <a href="{{url('/manage/system/user/delete/'.$item->id)}}">删除</a>
 
                                         </td>
                                     </tr>

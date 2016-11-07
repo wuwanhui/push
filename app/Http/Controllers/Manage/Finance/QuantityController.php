@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manage\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
+use App\Http\Controllers\Manage\ManageBaseController;
 use App\Http\Facades\Base;
 use App\Models\Finance_Quantity;
 use App\Models\Distribution;
@@ -17,8 +18,13 @@ use Illuminate\Support\Facades\Validator;
  * 财务帐户
  * @package App\Http\Controllers\
  */
-class QuantityController extends BaseController
+class QuantityController extends ManageBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        view()->share(['_model' => 'manage/finance']);
+    }
 
     /**
      * Show the application dashboard.

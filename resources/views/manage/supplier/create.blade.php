@@ -186,22 +186,6 @@
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('sort') ? ' has-error' : '' }}">
-                                        <label for="sort" class="col-md-3 control-label">排序：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="sort" type="text" class="form-control" name="sort"
-                                                   style="width: auto;"
-                                                   value="{{ old('sort') }}" autofocus>
-
-                                            @if ($errors->has('sort'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('sort') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
 
