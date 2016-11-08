@@ -70,14 +70,21 @@
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr >
+                                    <tr>
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
                                         <td>
                                             <a href="{{url('/manage/supplier/resource/detail/'.$item->id)}}">{{$item->name}}</a>
                                         </td>
-                                        <td>{{$item->supplier->name}}</td>
+                                        <td>
+                                            @if($item->supplier==0)
+                                                阿里
+                                            @elseif($item->supplier==1)
+                                                腾讯
+                                            @else
+                                                慢道
+                                            @endif </td>
 
                                         <td style="text-align: center"> {{$item->words}}
                                         </td>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Enterprise;
 
+use App\Http\Controllers\Manage\BaseController;
 use App\Http\Controllers\Manage\ManageBaseController;
 use App\Models\Distribution;
 use App\Models\Enterprise;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 企业管理
  * @package App\Http\Controllers\
  */
-class EnterpriseController extends ManageBaseController
+class EnterpriseController extends BaseController
 {
     public function __construct()
     {

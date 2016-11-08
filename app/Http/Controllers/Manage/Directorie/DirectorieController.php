@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
  * 通讯录管理
  * @package App\Http\Controllers\
  */
-class DirectorieController extends ManageBaseController
+class DirectorieController extends BaseController
 {
     public function __construct()
     {

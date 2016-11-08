@@ -1,4 +1,4 @@
-@extends('layouts.member')
+@extends('layouts.manage')
 
 @section('content')
     <div class="container-fluid">
@@ -22,10 +22,10 @@
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/record')}}" class="active">发送记录</a>
+                                <a href="{{url('/member/record')}}" >发送记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/record/receive')}}" >回执报告</a>
+                                <a href="{{url('/member/record/receive')}}" class="active">回执报告</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/template')}}">发送模板</a>
@@ -36,11 +36,11 @@
             </div>
             <div class="col-md-10">
                 <div class="panel panel-info">
-                    <div class="panel-heading">发送记录</div>
+                    <div class="panel-heading">回执报告</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/member/record/create')}}"
-                                                     class="btn btn-primary">新增推送</a></div>
+                            <div class="col-md-4"><a href="{{url('/member/record/receive/update')}}"
+                                                     class="btn btn-primary">同步</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
                                     <div class="input-group">
@@ -63,50 +63,44 @@
                                     <th style="width: 20px"><input type="checkbox"
                                                                    name="CheckAll" value="Checkid"/></th>
                                     <th style="width: 60px;"><a href="">编号</a></th>
-                                    <th style="width: 100px;"><a href="">发送者</a></th>
-                                    <th style="width: 100px;"><a href="">签名</a></th>
-                                    <th style="width: 140px;"><a href="">模板</a></th>
-                                    <th style="width: 100px;"><a href="">手机号</a></th>
-                                    <th><a href="">内容</a></th>
-                                    <th style="width: 60px;"><a href="">计费</a></th>
-                                    <th style="width: 80px;"><a href="">来源</a></th>
-                                    <th><a href="">备注</a></th>
+                                    <th><a href="">手机号</a></th>
+                                    <th><a href="">批号</a></th>
+                                    <th style="width: 160px;"><a href="">发送时间</a></th>
+                                    <th style="width: 160px;"><a href="">接收时间</a></th>
+                                    <th style="width: 60px;"><a href="">耗时</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 100px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $item)
-                                    <tr @if($item->state==2) class="warning" @endif >
+                                    <tr @if($item->state==1) class="warning" @endif >
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">   {{$item->member->name}}
+                                        <td>
+                                            <a href="{{url('/manage/record/receive?mobile='.$item->mobile)}}">{{$item->mobile}}</a>
                                         </td>
-                                        <td style="text-align: center">{{$item->signature->name}}</td>
-                                        <td style="text-align: center">{{$item->template->name}}</td>
+                                        <td>
+                                            <a href="{{url('/manage/record/receive?bizId='.$item->bizId)}}">{{$item->bizId}}</a>
+                                        </td>
+                                        <td>{{$item->sendTime}}</td>
 
-                                        <td> {{$item->mobile}}
+                                        <td> {{$item->reptTime}}
                                         </td>
-                                        <td> {{$item->content}}</td>
-                                        <td style="text-align: center"> {{$item->charging}}</td>
-                                        <td style="text-align: center">     {{$item->source==0?"平台":"接口"}}</td>
-                                        <td> {{$item->remark}}
+                                        <td style="text-align: center"> {{floor((strtotime($item->reptTime)-strtotime($item->sendTime))%86400%60)}}
                                         </td>
-
                                         <td style="text-align: center">
                                             @if($item->state==0)
                                                 成功
-                                            @elseif($item->state==1)
-                                                已提交
                                             @else
                                                 失败
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/record/receive?bizId='.$item->bizId)}}">回执-{{count($item->receives)}} </a>
+                                                    href="{{url('/manage/record/detail/'.$item->id)}}">详情</a>
                                             | <a
-                                                    href="{{url('/member/record/retry/'.$item->id)}}">重发</a>
+                                                    href="{{url('/manage/record/retry/'.$item->id)}}">重发</a>
                                         </td>
                                     </tr>
                                 @endforeach

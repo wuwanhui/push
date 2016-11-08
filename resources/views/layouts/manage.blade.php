@@ -49,24 +49,24 @@
 
                 <ul class="nav navbar-nav">
                     <li @if($_model=='manage/enterprise') class="active" @endif><a
-                                href="{{ url('/member/enterprise') }}">企业信息</a>
+                                href="{{ url('/manage/enterprise') }}">企业信息</a>
                     </li>
                     <li @if($_model=='manage/supplier') class="active" @endif><a
-                                href="{{ url('/member/supplier') }}">资源管理</a>
+                                href="{{ url('/manage/supplier') }}">资源管理</a>
                     </li>
                     <li @if($_model=='manage/record') class="active" @endif><a
-                                href="{{ url('/member/record') }}">信息推送</a>
+                                href="{{ url('/manage/record') }}">信息推送</a>
                     </li>
                     <li @if($_model=='manage/directorie') class="active" @endif><a
-                                href="{{ url('/member/directorie') }}">通讯录</a></li>
+                                href="{{ url('/manage/directorie') }}">通讯录</a></li>
                     <li @if($_model=='manage/report') class="active" @endif><a
-                                href="{{ url('/member/report') }}">报表分析</a></li>
-                    <li @if($_model=='manage/open') class="active" @endif><a href="{{ url('/member/open') }}">开放平台</a>
+                                href="{{ url('/manage/report') }}">报表分析</a></li>
+                    <li @if($_model=='manage/open') class="active" @endif><a href="{{ url('/manage/open') }}">开放平台</a>
                     </li>
                     <li @if($_model=='manage/finance') class="active" @endif><a
-                                href="{{ url('/member/finance') }}">财务结算</a></li>
+                                href="{{ url('/manage/finance') }}">财务结算</a></li>
                     <li @if($_model=='manage/system') class="active" @endif><a
-                                href="{{ url('/member/system') }}">系统配置</a></li>
+                                href="{{ url('/manage/system') }}">系统配置</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

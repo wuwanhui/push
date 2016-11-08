@@ -71,9 +71,8 @@ class RecordController extends BaseController
                 }
                 $record->fill($input);
                 $record->memberId = Base::member("id");
-                $record->save();
-
-                return json_encode($this->send($record->id));
+                $resp = $this->send($record);
+                return json_encode($resp);
             }
             $record->mobile = $request->mobile;
             $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
@@ -119,9 +118,8 @@ class RecordController extends BaseController
             $newRecord->param = $record->param;
             $newRecord->source = $record->source;
             $newRecord->remark = '重发记录' . $record->id;
-            $newRecord->save();
-
-            $respJson = $this->send($newRecord->id);
+            $respJson = $this->send($newRecord);
+         
             if ($respJson->code == 0) {
                 return redirect('/member/record')->withSuccess('重发成功！');
             }
@@ -132,44 +130,78 @@ class RecordController extends BaseController
     }
 
 
+    public function detail(Request $request, $id)
+    {
+        try {
+            $record = Record::find($id);
+            if (!$record) {
+                return Redirect::back()->withErrors('数据不存在！');
+            }
+            $sendData = date('Ymd', strtotime($record->created_at));
+            $req = Sms::query($record->bizId, $record->mobile, $sendData, 1, 1);
+
+            if (isset($req->error_response)) {
+                return Redirect::back()->withErrors('获取数据错误！' . $req->error_response->sub_msg);
+            }
+            $record->
+
+            dd($req);
+            return;
+            $newRecord->templateId = $record->templateId;
+            $newRecord->mobile = $record->mobile;
+            $newRecord->content = $record->content;
+            $newRecord->param = $record->param;
+            $newRecord->source = $record->source;
+            $newRecord->remark = '重发记录' . $record->id;
+            $newRecord->save();
+
+            return view('member.record.detail', compact('$record'));
+        } catch (Exception $ex) {
+            return '异常！' . $ex->getMessage();
+        }
+    }
+
+
     /**
      * 短信发送
      * @param $id
      */
-    protected function send($id)
+    protected function send($record)
     {
         $respJson = new RespJson();
         try {
-            $record = Record::find($id);
             if ($record) {
-                if ($record->state == 1) {
-                    $signature = Supplier_Resource_Signature::find($record->signatureId);
-                    $template = Supplier_Resource_Template::find($record->templateId);
+                $signature = Supplier_Resource_Signature::find($record->signatureId);
+                $template = Supplier_Resource_Template::find($record->templateId);
 
-                    $mobiles = $record->mobile;
-                    $param = $record->param;
-                    $templateCode = $template->number;
-                    $sign = $signature->name;
-                    //计费计算
-
-                    $record->charging = count(explode(",", $mobiles)) * ceil(mb_strlen($record->content . "【" . $signature->name . "】", 'utf8') / $template->resource->words);
-
-
-                    $resp = Sms::send($mobiles, $param, $templateCode, $sign);
-                    $record->sendLog = json_encode($resp);
-
-
-                    if (isset($resp->result)) {
-                        $respJson->code = 0;
-                        $respJson->msg = "提交成功";
-                    } else {
-                        $record->state = 2;
-                        $respJson->code = 1;
-                        $respJson->msg = "提交失败:" . $resp->sub_msg;
-                        Log::info('短信发送失败： ' . json_encode($resp));
-                    }
-                    $record->save();
+                $mobiles = $record->mobile;
+                $param = $record->param;
+                $templateCode = $template->number;
+                $sign = $signature->name;
+                //计费计算
+                $charging = ceil(mb_strlen($record->content . "【" . $signature->name . "】", 'utf8') / $template->resource->words);
+                $record->charging = count(explode(",", $mobiles)) * $charging;
+                if ($record->charging > Base::member()->balanceMoney) {
+                    $respJson->code = 3;
+                    $respJson->msg = "余额不足！";
+                    return $respJson;
                 }
+
+                $resp = Sms::send($mobiles, $param, $templateCode, $sign);
+                $record->sendLog = json_encode($resp);
+
+
+                if (isset($resp->result) && $resp->result->success) {
+                    $record->bizId = $resp->result->model;
+                    $respJson->code = 0;
+                    $respJson->msg = "提交成功";
+                } else {
+                    $record->state = 2;
+                    $respJson->code = 1;
+                    $respJson->msg = "提交失败:" . $resp->sub_msg;
+                    Log::info('短信发送失败： ' . json_encode($resp));
+                }
+                $record->save();
 
             }
         } catch (Exception $ex) {

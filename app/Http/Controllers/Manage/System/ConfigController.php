@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
  * 应用中心
  * @package App\Http\Controllers\
  */
-class ConfigController extends ManageBaseController
+class ConfigController extends BaseController
 {
     public function __construct()
     {

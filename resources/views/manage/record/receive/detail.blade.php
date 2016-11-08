@@ -31,13 +31,7 @@
                         <div style="line-height: 30px;">
                             <div class="row">
                                 <div class="col-md-6">资源名称：{{$resource->name}}</div>
-                                <div class="col-md-6">所属供应商：  @if($resource->supplier==0)
-                                        阿里
-                                    @elseif($resource->supplier==1)
-                                        腾讯
-                                    @else
-                                        慢道
-                                    @endif</div>
+                                <div class="col-md-6">所属供应商：{{$resource->supplier->name}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">计费字算：{{$resource->words}}</div>
@@ -81,14 +75,7 @@
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td>
-                                                @if($item->enterprise)
-                                                    {{$item->enterprise->name}}
-                                                @else
-                                                    公共
-                                                @endif
-
-                                            </td>
+                                            <td>{{$item->enterprise->name}}</td>
                                             <td>
                                                 {{$item->name}}
                                             </td>
@@ -148,11 +135,7 @@
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td> @if($item->enterprise)
-                                                    {{$item->enterprise->name}}
-                                                @else
-                                                    公共
-                                                @endif</td>
+                                            <td>{{$item->enterprise->name}}</td>
                                             <td style="text-align: center">@if($item->type==0)
                                                     验证码
                                                 @elseif($item->type==1)

@@ -16,7 +16,7 @@ class CreateSupplierResourceTable extends Migration
         Schema::create('Supplier_Resource', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//资源名称
-            $table->integer('supplierId');//所属供应商
+            $table->integer('supplier');//所属供应商0阿里1腾讯2慢道
             $table->integer('words')->default(60);//计费字算
             $table->string('appkey')->nullable();//appkey
             $table->text('secretKey')->nullable();//secretKey

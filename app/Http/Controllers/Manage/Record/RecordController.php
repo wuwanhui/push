@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Validator;
  * 发送记录
  * @package App\Http\Controllers\Manage\Record
  */
-class RecordController extends ManageBaseController
+class RecordController extends BaseController
 {
     public function __construct()
     {
@@ -40,10 +40,18 @@ class RecordController extends ManageBaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $lists = Record::where(function ($query) use ($key) {
- 
+        $bizId = $request->bizId;
+        $mobile = $request->mobile;
+        $lists = Record::where(function ($query) use ($key, $bizId, $mobile) {
+            if ($bizId) {
+                $query->Where('bizId', $bizId);//按批号
+            }
+            if ($mobile) {
+                $query->Where('mobile', $mobile);//按手机号
+            }
             if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//名称
+                $query->Where('bizId', $key);//按批号
+                $query->orWhere('mobile', 'like', '%' . $key . '%');//按手机号
             }
         })->orderBy('id', 'desc')->paginate($this->pageSize);
 

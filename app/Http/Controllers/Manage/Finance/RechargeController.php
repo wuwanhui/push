@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
  * 支付记录
  * @package App\Http\Controllers\
  */
-class RechargeController extends ManageBaseController
+class RechargeController extends BaseController
 {
     public function __construct()
     {

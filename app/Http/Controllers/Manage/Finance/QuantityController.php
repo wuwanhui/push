@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
  * 财务帐户
  * @package App\Http\Controllers\
  */
-class QuantityController extends ManageBaseController
+class QuantityController extends BaseController
 {
     public function __construct()
     {

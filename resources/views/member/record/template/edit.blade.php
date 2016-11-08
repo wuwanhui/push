@@ -18,6 +18,9 @@
                                 <a href="{{url('/member/supplier')}}" >供应商</a>
                             </li>
                             <li>
+                                <a href="{{url('/member/record/receive')}}" >回执报告</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/member/supplier/resource')}}" class="active">产品资源</a>
                             </li>
                         </ul>

@@ -20,7 +20,7 @@ use zgldh\QiniuStorage\QiniuStorage;
  * 模板配置
  * @package App\Http\Controllers\
  */
-class TemplateController extends ManageBaseController
+class TemplateController extends BaseController
 {
     public function __construct()
     {

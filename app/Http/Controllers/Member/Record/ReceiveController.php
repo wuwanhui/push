@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Member\Record;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Member\BaseController;
+use App\Http\Controllers\member\BaseController;
+use App\Http\Controllers\member\memberBaseController;
+use App\Http\Facades\Sms;
 use App\Models\Enterprise;
+use App\Models\Record_Receive;
 use App\Models\Supplier_Resource;
 use App\Models\Supplier_Resource_Signature;
 use Exception;
@@ -35,50 +38,21 @@ class ReceiveController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $lists = Supplier_Resource_Signature::where(function ($query) use ($key) {
+        $lists = Record_Receive::where(function ($query) use ($key) {
 
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
         })->orderBy('id', 'desc')->paginate($this->pageSize);
 
-        return view('member.supplier.signature.index', compact('lists'));
+        return view('member.record.receive.index', compact('lists'));
     }
 
-    public function create($id, Request $request)
+    public function update(Request $request)
     {
         try {
-            $signature = new Supplier_Resource_Signature();
-            $resource = Supplier_Resource::find($id);
-            if (!$resource) {
-                return redirect('/member/supplier/resource/detail/' . $id)->withSuccess('资源不存在！');
-            }
-
-
-            if ($request->isMethod('POST')) {
-                $input = $request->all();
-                $validator = Validator::make($input, $signature->Rules(), $signature->messages());
-                if ($validator->fails()) {
-                    return redirect('/member/supplier/resource/signature/create/')
-                        ->withInput()
-                        ->withErrors($validator);
-                }
-
-
-                $signature->fill($input);
-                $signature->resourceId = $id;
-                $signature->save();
-                if ($signature) {
-                    return redirect('/member/supplier/resource/detail/' . $id)->withSuccess('保存成功！');
-                }
-
-
-                return Redirect::back()->withErrors('保存失败！');
-            }
-            $enterprises = Enterprise::all();
-            $signature->resource = $resource;
-            $signature->resourceId = $id;
-            return view('member.supplier.resource.signature.create', compact('signature', 'enterprises'));
+            Sms::getReceive();
+            return Redirect::back()->withSuccess('更新成功！');
 
         } catch (Exception $ex) {
             return Redirect::back()->withInput()->withErrors('异常！' . $ex->getMessage());

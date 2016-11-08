@@ -25,6 +25,9 @@
                                 <a href="{{url('/member/record')}}">发送记录</a>
                             </li>
                             <li>
+                                <a href="{{url('/member/record/receive')}}" >回执报告</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/member/record/template')}}" class="active">发送模板</a>
                             </li>
                         </ul>

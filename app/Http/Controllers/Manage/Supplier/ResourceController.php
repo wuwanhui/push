@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class  ResourceController extends ManageBaseController
+class  ResourceController extends BaseController
 {
 
     public function __construct()

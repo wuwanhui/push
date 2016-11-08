@@ -20,7 +20,7 @@ use zgldh\QiniuStorage\QiniuStorage;
  * 签名配置
  * @package App\Http\Controllers\
  */
-class SignatureController extends ManageBaseController
+class SignatureController extends BaseController
 {
 
     public function __construct()

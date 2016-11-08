@@ -10,9 +10,6 @@ Route::get('/home', 'HomeController@index');
 Route::any('/install', 'InstallController@index');
 
 
-
-
-
 /**
  * 授权登录注册管理
  */
@@ -128,6 +125,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
         Route::any('/edit/{id}', 'RecordController@edit');
         Route::get('/delete', 'RecordController@delete');
         Route::post('/template', 'RecordController@template');
+        Route::get('/detail/{id}', 'RecordController@detail');
 
 
         /**
@@ -148,10 +146,9 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
          */
         Route::group(['prefix' => 'receive'], function () {
             Route::get('/', 'ReceiveController@index');
-            Route::any('/create', 'ReceiveController@create');
-            Route::any('/edit/{id}', 'ReceiveController@edit');
+            Route::get('/update', 'ReceiveController@update');
             Route::get('/detail/{id}', 'ReceiveController@detail');
-            Route::get('/delete', 'ReceiveController@delete');
+            Route::get('/delete/{id}', 'ReceiveController@delete');
 
         });
     });
@@ -354,6 +351,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
         Route::any('/retry/{id}', 'RecordController@retry');
         Route::get('/delete', 'RecordController@delete');
         Route::post('/template', 'RecordController@template');
+        Route::get('/detail/{id}', 'RecordController@detail');
 
 
         /**
@@ -374,13 +372,11 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
          */
         Route::group(['prefix' => 'receive'], function () {
             Route::get('/', 'ReceiveController@index');
-            Route::any('/create', 'ReceiveController@create');
-            Route::any('/edit/{id}', 'ReceiveController@edit');
+            Route::get('/update', 'ReceiveController@update');
             Route::get('/detail/{id}', 'ReceiveController@detail');
-            Route::get('/delete', 'ReceiveController@delete');
+            Route::get('/delete/{id}', 'ReceiveController@delete');
 
         });
-
 
     });
     /**

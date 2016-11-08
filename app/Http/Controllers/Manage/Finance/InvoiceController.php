@@ -20,7 +20,7 @@ use Qiniu\Auth;
  * 发票申请
  * @package App\Http\Controllers\
  */
-class InvoiceController extends ManageBaseController
+class InvoiceController extends BaseController
 {
     public function __construct()
     {

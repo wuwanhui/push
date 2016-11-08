@@ -60,15 +60,7 @@ class Supplier_Resource extends Model
     {
         return $this->belongsTo('App\Models\User', 'userId');
     }
-
-    /**
-     * 所属供应商
-     */
-    public function supplier()
-    {
-        return $this->belongsTo('App\Models\Supplier', 'supplierId');
-    }
-
+ 
 
     /**
      *签名

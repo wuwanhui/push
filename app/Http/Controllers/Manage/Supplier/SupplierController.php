@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class SupplierController extends ManageBaseController
+class SupplierController extends BaseController
 {
 
     public function __construct()

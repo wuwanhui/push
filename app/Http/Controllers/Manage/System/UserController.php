@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  * 用户管理
  * @package App\Http\Controllers\
  */
-class UserController extends ManageBaseController
+class UserController extends BaseController
 {
     public function __construct()
     {

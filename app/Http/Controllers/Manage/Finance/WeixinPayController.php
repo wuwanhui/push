@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
  * 微信支付
  * @package App\Http\Controllers\
  */
-class WeixinPayController extends ManageBaseController
+class WeixinPayController extends BaseController
 {
     public function __construct()
     {

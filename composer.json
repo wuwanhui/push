@@ -29,7 +29,6 @@
     },
     "files": [
       "app/Libary/taobao/TopSdk.php",
-      "app/Libary/qianfan/QianfanSdk.php",
       "app/Libary/function/helper.php"
     ]
   },

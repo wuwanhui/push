@@ -2,11 +2,11 @@
 
 namespace App\Http\Service;
 
+use AlibabaAliqinFcSmsNumQueryRequest;
 use AlibabaAliqinFcSmsNumSendRequest;
 use App\Models\Receive;
-use App\Models\Record;
+use App\Models\Record_Receive;
 use Illuminate\Support\Facades\Log;
-use Psy\Util\Json;
 use TmcMessagesConfirmRequest;
 use TmcMessagesConsumeRequest;
 use TopClient;
@@ -44,7 +44,7 @@ class SmsService
     public function send($mobiles, $param, $templateCode, $sign, $type = "normal")
     {
         $req = new AlibabaAliqinFcSmsNumSendRequest;
-        $req->setSmsType("normal");
+        $req->setSmsType($type);
         $req->setSmsFreeSignName($sign);
         $req->setSmsParam($param);
         $req->setRecNum($mobiles);
@@ -58,6 +58,28 @@ class SmsService
 
 
     /**
+     * 短信发送记录查询
+     * @param $bizId短信发送流水
+     * @param $recNum短信接收号码
+     * @param $queryDate短信发送日期 ，支持近30天记录查询，格式yyyyMMdd
+     * @param $currentPage分页参数 ,页码
+     * @param $pageSize分页参数 ，每页数量。最大值50
+     * @return mixed|\ResultSet|\SimpleXMLElement
+     */
+    public function query($bizId, $recNum, $queryDate, $currentPage, $pageSize)
+    {
+        $req = new AlibabaAliqinFcSmsNumQueryRequest;
+        $req->setBizId($bizId);
+        $req->setRecNum($recNum);
+        $req->setQueryDate($queryDate);
+        $req->setCurrentPage($currentPage);
+        $req->setPageSize($pageSize);
+        $resp = $this->client->execute($req);
+
+        return $resp;
+    }
+
+    /**
      * 获取回执信息
      */
     public function getReceive()
@@ -66,23 +88,33 @@ class SmsService
 //        $req->setGroupName("vip_user");
         $req->setQuantity("100");
         $resp = $this->client->execute($req);
+//
+//        dd($resp);
+
+
         if (isset($resp->messages->tmc_message)) {
             $list = $resp->messages->tmc_message;
             foreach ($list as $item => $value) {
-                $content = json_decode($value->content);
-                $record = Record::where("bizId", $content->biz_id)->where("mobile", $content->receiver)->first();
-                Log::info("回执记录:" . $record->mobile . $content->biz_id . "------" . $content->receiver);
-                if ($record) {
-                    $record->receiptLog = $value->content;
-                    $record->receiptTime = $content->rept_time;
-                    $record->state = $content->state == 1 ? 0 : 2;
-                    $record->save();
-                    $this->confirmReceive($content->biz_id);
-                }
+                Log::info("回执记录id:" . (string)$value->id);
+                if ($value->content) {
+                    $content = json_decode($value->content);
+                    $receive = new Record_Receive();
+                    $receive->mobile = $content->receiver;
+                    $receive->sendTime = $content->send_time;
+                    $receive->bizId = $content->biz_id;
+                    $receive->reptTime = $content->rept_time;
+                    $receive->receiptLog = json_encode($value->content);
+                    $receive->state = $content->state == 1 ? 0 : 2;
+                    $receive->confirmLog = json_encode($this->confirmReceive($content->biz_id));
+                    if (Record_Receive::where("mobile", $content->receiver)->where("bizId", $content->biz_id)->count() == 0) {
+                        $receive->save();
+                    }
 
-//                Log::info("send_time：" . $content->send_time . "err_code：" . $content->err_code . "biz_id：" . $content->biz_id . "receiver：" . $content->receiver . "rept_time：" . $content->rept_time . "state：" . $content->state);
+                }
             }
         }
+        Log::info("回执记录:" . json_encode($resp));
+
         return $resp;
     }
 

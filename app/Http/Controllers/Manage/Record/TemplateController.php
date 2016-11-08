@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
  * 发送模板
  * @package App\Http\Controllers\Manage\Template
  */
-class TemplateController extends ManageBaseController
+class TemplateController extends BaseController
 {
     public function __construct()
     {

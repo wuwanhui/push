@@ -19,6 +19,9 @@
                                 <a href="{{url('/manage/record')}}" class="active">推送记录</a>
                             </li>
                             <li>
+                                <a href="{{url('/manage/record/receive')}}">回执报告</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/manage/record/template')}}">发送模板</a>
                             </li>
                         </ul>
@@ -70,13 +73,14 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center"> {{$item->user->enterprise->name}}
-                                            -{{$item->user->name}}
+                                        <td style="text-align: center"> {{$item->member->enterprise->name}}
+                                            -{{$item->member->name}}
                                         </td>
                                         <td style="text-align: center">{{$item->signature->name}}</td>
                                         <td style="text-align: center">{{$item->template->name}}</td>
 
-                                        <td> {{$item->mobile}}
+                                        <td>
+                                            <a href="{{url('/manage/record/receive?mobile='.$item->mobile)}}">{{$item->mobile}}</a>
                                         </td>
                                         <td> {{$item->content}}</td>
                                         <td style="text-align: center"> {{$item->charging}}</td>
@@ -91,7 +95,7 @@
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/record/detail/'.$item->id)}}">详情</a>
+                                                    href="{{url('/manage/record/receive?bizId='.$item->bizId)}}">回执-{{count($item->receives)}} </a>
                                             | <a
                                                     href="{{url('/manage/record/retry/'.$item->id)}}">重发</a>
                                         </td>

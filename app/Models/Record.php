@@ -83,4 +83,12 @@ class Record extends Model
         return $this->belongsTo('App\Models\Member', "memberId");
     }
 
+    /**
+     *回执报告
+     */
+    public function receives()
+    {
+        return $this->hasMany('App\Models\Record_Receive', "bizId", "bizId");
+    }
+
 }
