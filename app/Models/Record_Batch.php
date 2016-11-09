@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Supplier_Resource_Signature extends Model
+/**
+ *发送批号
+ * @package App\Models
+ */
+class Record_Batch extends Model
 {
     use SoftDeletes;
 
 
-    protected $table = "Supplier_Resource_Signature";
+    protected $table = "Record_Batch";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];
@@ -37,18 +41,9 @@ class Supplier_Resource_Signature extends Model
     public function Rules()
     {
         return [
-            'name' => 'required|max:8|min:2',
+            'mobile' => 'required|min:11',
         ];
     }
-
-    public function EditRules()
-    {
-        return [
-            //  'name' => 'required|max:10|unique:Supplier_Resource_Signature|min:2',
-
-        ];
-    }
-
 
     /**
      * 获取应用到请求的验证规则
@@ -58,35 +53,51 @@ class Supplier_Resource_Signature extends Model
     public function messages()
     {
         return [
-            'name.required' => '签名不能为空',
-            'name.unique' => '签名已存在',
+            'mobile.required' => '手机号不能为空',
         ];
     }
 
-    /**
-     * 经办人
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User', 'userId');
-    }
 
     /**
-     * 所属资源
+     *签名
      */
-    public function resource()
+    public function signature()
     {
-        return $this->belongsTo('App\Models\Supplier_Resource', 'resourceId');
+        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signatureId");
     }
 
 
     /**
-     * 所属企业
+     *模板
      */
-    public function enterprise()
+    public function template()
     {
-        return $this->belongsTo('App\Models\Enterprise', 'enterpriseId');
+        return $this->belongsTo('App\Models\Supplier_Resource_Template', "templateId");
     }
 
+    /**
+     *发送者
+     */
+    public function member()
+    {
+        return $this->belongsTo('App\Models\Member', "memberId");
+    }
+
+    /**
+     *发送记录
+     */
+    public function record()
+    {
+        return $this->hasMany('App\Models\Record', "batchId");
+    }
+
+    /**
+     * 可用余额
+     */
+    public function getChargingAttribute()
+    {
+        return $this->record()->sum("charging");
+
+    }
 
 }

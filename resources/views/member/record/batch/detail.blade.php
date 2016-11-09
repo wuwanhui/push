@@ -26,20 +26,16 @@
             </div>
             <div class="col-md-10">
                 <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-6">{{$resource->name}}-资源详情</div>
-                            <div class="col-md-6 text-right">当前余额：{{$resource->balance or "未知"}}
-                            </div>
-                        </div>
-                    </div>
+                    <div class="panel-heading">{{$resource->name}}-资源详情</div>
                     <div class="panel-body">
                         <div style="line-height: 30px;">
                             <div class="row">
                                 <div class="col-md-6">资源名称：{{$resource->name}}</div>
-                                <div class="col-md-6">所属供应商：
-                                    <td>{{$resource->supplier->name}}
-                                </div>
+                                <div class="col-md-6">所属供应商：{{$resource->supplier->name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">计费字算：{{$resource->words}}</div>
+                                <div class="col-md-6">当前余额：{{$resource->balance}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">appkey：{{$resource->appkey}}</div>
@@ -79,14 +75,7 @@
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td>
-                                                @if($item->enterprise)
-                                                    {{$item->enterprise->name}}
-                                                @else
-                                                    公共
-                                                @endif
-
-                                            </td>
+                                            <td>{{$item->enterprise->name}}</td>
                                             <td>
                                                 {{$item->name}}
                                             </td>
@@ -135,7 +124,6 @@
                                         <th><a href="">模板类型</a></th>
                                         <th><a href="">模板名称</a></th>
                                         <th style="width: 80px;"><a href="">模板编号</a></th>
-                                        <th style="width: 80px;"><a href="">计费字数</a></th>
                                         <th><a href="">模板内容</a></th>
                                         <th style="width: 60px;"><a href="">状态</a></th>
                                         <th style="width: 120px;">操作</th>
@@ -143,15 +131,11 @@
                                     </thead>
                                     <tbody>
                                     @foreach($resource->templates as $item)
-                                        <tr>
+                                        <tr >
                                             <td><input type="checkbox" value="{{$item->id}} "
                                                        name="id"/></td>
                                             <td style="text-align: center">{{$item->id}} </td>
-                                            <td> @if($item->enterprise)
-                                                    {{$item->enterprise->name}}
-                                                @else
-                                                    公共
-                                                @endif</td>
+                                            <td>{{$item->enterprise->name}}</td>
                                             <td style="text-align: center">@if($item->type==0)
                                                     验证码
                                                 @elseif($item->type==1)
@@ -161,8 +145,6 @@
                                                 @endif </td>
                                             <td>{{$item->name}}</td>
                                             <td style="text-align: center"> {{$item->number}}</td>
-                                            <td style="text-align: center">  {{ $item->words }}</td>
-
                                             <td> {{$item->content}}</td>
                                             <td style="text-align: center">
                                                 {{$item->state==0?"正常":"禁用"}}</td>

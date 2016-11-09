@@ -37,7 +37,7 @@ class Supplier_Resource_Template extends Model
     public function Rules()
     {
         return [
-            'name' => 'required|max:255|min:2',
+            'name' => 'required|max:20|min:2',
         ];
     }
 

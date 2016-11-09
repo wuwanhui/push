@@ -55,7 +55,7 @@
                                                 <select name="enterpriseId" class="form-control" style="width: auto;">
                                                     <option value="0">公共模板</option>
                                                     @foreach($enterprises as $item)
-                                                        <option value="{{$item->id}}" {{$template->enterpriseId==$item->id?"selected":""}} >{{$item->name}}</option>
+                                                        <option value="{{$item->id}}">{{$item->name}}</option>
                                                     @endforeach
                                                 </select>
 
@@ -110,6 +110,21 @@
                                             @if ($errors->has('number'))
                                                 <span class="help-block">
                                         <strong>{{ $errors->first('number') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group{{ $errors->has('words') ? ' has-error' : '' }}">
+                                        <label for="words" class="col-md-3 control-label">计费字数：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="words" type="text" class="form-control" name="words"
+                                                   style="width:auto;"
+                                                   value="{{ $template->words }}">
+
+                                            @if ($errors->has('words'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('words') }}</strong>
                                     </span>
                                             @endif
                                         </div>

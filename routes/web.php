@@ -355,6 +355,18 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
 
 
         /**
+         * 发送批号
+         */
+        Route::group(['prefix' => 'batch'], function () {
+            Route::get('/', 'BatchController@index');
+            Route::any('/create', 'BatchController@create');
+            Route::any('/edit/{id}', 'BatchController@edit');
+            Route::get('/delete/{id}', 'BatchController@delete');
+
+
+        });
+
+        /**
          * 发送模板
          */
         Route::group(['prefix' => 'template'], function () {

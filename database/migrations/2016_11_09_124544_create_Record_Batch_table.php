@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecordTable extends Migration
+class CreateRecordBatchTable extends Migration
 {
     /**
      * 发送记录
@@ -13,17 +13,17 @@ class CreateRecordTable extends Migration
      */
     public function up()
     {
-        Schema::create('Record', function (Blueprint $table) {
+        Schema::create('Record_Batch', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('batchId')->nullable();//批号
+            $table->integer('memberId');//发送者
+            $table->integer('signatureId')->nullable();//签名
+            $table->integer('templateId')->nullable();//模板
             $table->string('mobile');//手机号
             $table->string('content');//内容
             $table->string('param');//短信参数
-            $table->integer('charging')->default(1);//计费数量
-            $table->string('sid')->nullable();//发送编号
-            $table->text('receiptLog')->nullable();//回执报告
-            $table->dateTime('receiptTime')->nullable();//回执时间
-            $table->integer('state')->default(1);//状态0成功1已提交2失败3待提交
+            $table->integer('source')->default(0);//发送来源0在线平台1接口
+            $table->dateTime('sendTime')->nullable();//定时发送时间
+            $table->integer('state')->default(3);//状态0成功1已提交2失败3待提交4余额不足
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注
             $table->softDeletes();

@@ -9,6 +9,7 @@ use App\Http\Facades\Base;
 use App\Http\Facades\Sms;
 use App\Http\SDK\TencentSmsSdk;
 use App\Models\Record;
+use App\Models\Record_Batch;
 use App\Models\Record_Template;
 use App\Models\Supplier_Resource_Signature;
 use App\Models\Supplier_Resource_Template;
@@ -25,7 +26,7 @@ use stdClass;
  * 发送记录
  * @package App\Http\Controllers\Member\Record
  */
-class RecordController extends BaseController
+class BatchController extends BaseController
 {
     public function __construct()
     {
@@ -41,7 +42,7 @@ class RecordController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $lists = Record::where(function ($query) use ($key) {
+        $lists = Record_Batch::where(function ($query) use ($key) {
 
             if (Base::member("type") == 0) {
                 $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
@@ -54,36 +55,42 @@ class RecordController extends BaseController
         })->orderBy('id', 'desc')->paginate($this->pageSize);
 
 
-        return view('member.record.index', compact('lists'));
+        return view('member.record.batch.index', compact('lists'));
     }
 
 
     public function create(Request $request)
     {
-
+        $respJson = new RespJson();
         try {
-            $record = new Record();
+            $batch = new Record_Batch();
 
             if ($request->isMethod('POST')) {
                 $input = $request->all();
-
-                $validator = Validator::make($input, $record->Rules(), $record->messages());
+                $validator = Validator::make($input, $batch->Rules(), $batch->messages());
                 if ($validator->fails()) {
                     return "效验失败";
                 }
-                $record->fill($input);
-                $record->memberId = Base::member("id");
-                $resp = $this->send($record);
-                return json_encode($resp);
+                $batch->fill($input);
+                $batch->memberId = Base::member("id");
+                $batch->save();
+                $resp = $this->send($batch);
+                if ($resp) {
+                    $respJson->code = 0;
+                    $respJson->msg = "提交成功";
+                } else {
+                    $respJson->code = 1;
+                    $respJson->msg = "失败";
+                }
+                Log::info(json_encode($resp));
+                return $resp;
             }
-            $record->mobile = $request->mobile;
             $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
-
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
             $templates = Supplier_Resource_Template::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
-            return view('member.record.create', compact('record', 'signatures', 'templates', 'templateList'));
+            return view('member.record.batch.create', compact('record', 'signatures', 'templates', 'templateList'));
         } catch (Exception $ex) {
-            return '异常！' . $ex->getMessage();
+            return '异常！' . $ex->getMessage() . $ex->getLine();
         }
     }
 
@@ -97,7 +104,7 @@ class RecordController extends BaseController
 
             $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
 
-            return view('member.record.template', compact('template', 'templateList'));
+            return view('member.record.batch.template', compact('template', 'templateList'));
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage();
         }
@@ -123,9 +130,9 @@ class RecordController extends BaseController
             $respJson = $this->send($newRecord);
 
             if ($respJson->code == 0) {
-                return redirect('/member/record')->withSuccess('重发成功！');
+                return redirect('/member/record/batch')->withSuccess('重发成功！');
             }
-            return redirect('/member/record')->withErrors('重发失败！' . $respJson->msg);
+            return redirect('/member/record/batch')->withErrors('重发失败！' . $respJson->msg);
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage();
         }
@@ -168,50 +175,54 @@ class RecordController extends BaseController
      * 短信发送
      * @param $id
      */
-    protected function send($record)
+    protected function send(Record_Batch $batch)
     {
         $respJson = new RespJson();
         try {
-            if ($record) {
-                $signature = Supplier_Resource_Signature::find($record->signatureId);
-                $template = Supplier_Resource_Template::find($record->templateId);
+            if ($batch) {
+                $signature = Supplier_Resource_Signature::find($batch->signatureId);
+                $template = Supplier_Resource_Template::find($batch->templateId);
+
+                //计费计算
+                $price = ceil(mb_strlen($batch->content . "【" . $signature->name . "】", 'utf8') / $template->words);//单价
+                $total = count(explode(",", $batch->mobiles)) * $price;//合计金额
+
+                if ($total > Base::member()->balanceMoney) {
+                    $batch->state = 4;
+                    $batch->save();
+                    $respJson->code = 0;
+                    $respJson->msg = "余额不足";
+                    return $respJson;
+                }
+
                 $smsParam = new stdClass();
-                $smsParam->mobiles = $record->mobile;
-                $smsParam->param = $record->param;
-                $smsParam->content = $record->content;
+                $smsParam->mobiles = $batch->mobile;
+                $smsParam->param = $batch->param;
+                $smsParam->content = $batch->content;
                 $smsParam->templateId = $template->number;
                 $smsParam->template = $template->content;
                 $smsParam->signId = $signature->number;
                 $smsParam->sign = $signature->name;
-                //计费计算
-                $charging = ceil(mb_strlen($record->content . "【" . $signature->name . "】", 'utf8') / $template->words);
-                $record->charging = count(explode(",", $smsParam->mobiles)) * $charging;
-                if ($record->charging > Base::member()->balanceMoney) {
-                    $respJson->code = 3;
-                    $respJson->msg = "余额不足！";
-                    return $respJson;
-                }
 
 
-                $resp = $this->distribute($signature->resource, $smsParam);
-                $record->sendLog = $resp->sendLog;
+                $resp = $this->distribute($batch, $smsParam);
+
                 if ($resp->code == 0) {
-                    $record->bizId = $resp->bizId;
                     $respJson->code = 0;
                     $respJson->msg = $resp->msg;
                 } else {
-                    $record->state = 2;
+
                     $respJson->code = 1;
                     $respJson->msg = $resp->msg;
                     Log::info('短信发送失败： ' . json_encode($resp));
                 }
-                $record->save();
+
 
             }
         } catch (Exception $ex) {
             $respJson->code = -1;
             $respJson->msg = '异常！' . $ex->getMessage();
-            Log::info('异常！' . $ex->getMessage());
+            Log::info('异常！' . $ex->getMessage() . $ex->getLine());
         }
 
 //        Log::info(json_encode($respJson));
@@ -223,60 +234,84 @@ class RecordController extends BaseController
     /**
      * 短信分发
      */
-    protected function distribute($resource, $smsParam)
+    protected function distribute($batch, $smsParam)
     {
 
-        $resp = new stdClass();
-        switch ($resource->supplier->id) {
-            case 1:
-                $resq = Sms::send($smsParam->mobiles, $smsParam->param, $smsParam->templateId, $smsParam->sign);
-                $resp->sendLog = json_encode($resq);
-                if (isset($resq->result) && $resq->result->success) {
-                    $resp->bizId = $resq->result->model;
-                    $resp->code = 0;
-                    $resp->msg = "提交成功";
-                } else {
-                    $resp->code = 1;
-                    $resp->msg = "提交失败" . $resq->sub_msg;
-                }
-                break;
-            case 2:
-                $sms = new TencentSmsSdk($resource->appKey, $resource->secretKey);
+        $respJson = new RespJson();
+        try {
+            $resource = $batch->signature->resource;
+            switch ($resource->supplier->id) {
+                case 1:
+                    $resq = Sms::send($smsParam->mobiles, $smsParam->param, $smsParam->templateId, $smsParam->sign);
 
-                $mobiles = explode(",", $smsParam->mobiles);
-                $content = "【" . $smsParam->sign . "】" . $smsParam->content;
+                    if (isset($resq->result) && $resq->result->success) {
+                        $respJson->code = 0;
+                        $respJson->msg = "提交成功";
+                    } else {
+                        $respJson->code = 1;
+                        $respJson->msg = "提交失败" . $resq->sub_msg;
+                    }
+                    break;
+                case 2:
+                    //腾讯短信
+                    $sms = new TencentSmsSdk($resource->appKey, $resource->secretKey);
 
-                if (count($mobiles) > 1) {
-                    $resq = $sms->multipleSms($mobiles, $content);
-                } else {
-                    $resq = $sms->sendSms($smsParam->mobiles, $content);
-                }
-                $resp->sendLog = $resq;
-                $resqJson=json_decode($resq);
-             
-                if (isset($resqJson->result) && $resqJson->result==0) {
-                    $resp->bizId = $resq->result->model;
-                    $resp->code = 0;
-                    $resp->msg = "提交成功";
-                } else {
-                    $resp->code = 1;
-                    $resp->msg = "提交失败" . $resq->sub_msg;
-                }
-                break;
-            default:
-                $resq = Sms::send($smsParam->mobiles, $smsParam->param, $smsParam->templateId, $smsParam->sign);
-                $resp->sendLog = json_encode($resq);
-                if (isset($resq->result) && $resq->result->success) {
-                    $resp->bizId = $resq->result->model;
-                    $resp->code = 0;
-                    $resp->msg = "提交成功";
-                } else {
-                    $resp->code = 1;
-                    $resp->msg = "提交失败" . $resq->sub_msg;
-                }
-                break;
+                    $mobiles = explode(",", $smsParam->mobiles);
+                    $content = "【" . $smsParam->sign . "】" . $smsParam->content;
+                    $price = ceil(mb_strlen($content, 'utf8') / $batch->template->words);//单价
+
+                    if (count($mobiles) > 0) {
+                        $resq = $sms->multipleSms($mobiles, $content);
+                    } else {
+                        $resq = $sms->sendSms($smsParam->mobiles, $content);
+                    }
+
+
+                    if (isset($resq->result) && $resq->result == 0) {
+                        $batch->state = 1;
+                    } else {
+                        $batch->state = 2;
+                        $batch->remark = $resq->errmsg;
+                    }
+
+                    foreach ($mobiles as $item) {
+                        $record = new Record();
+                        $record->batchId = $batch->id;
+                        $record->mobile = $item;
+                        $record->content = $content;
+                        $record->param = $smsParam->param;
+                        $record->charging = $price;
+
+                        if (isset($resq->result) && $resq->result == 0) {
+                            foreach ($resq->detail as $smsItem) {
+                                if ($smsItem->mobile == $item) {
+                                    if ($smsItem->result == 0) {
+                                        $record->state = 1;
+                                        $record->sid = $smsItem->sid;
+                                    } else {
+                                        $record->state = 2;
+                                        $record->remark = $smsItem->errmsg;
+                                    }
+
+                                }
+                            }
+                        } else {
+                            $record->state = 2;
+                            $record->remark = "提交失败" . $resq->errmsg;
+                        }
+                        $record->save();
+                    }
+                    break;
+                default:
+
+                    break;
+            }
+        } catch (Exception $ex) {
+            $respJson->code = -1;
+            $respJson->msg = '异常！' . $ex->getMessage();
+            Log::info('异常！' . $ex->getMessage() . $ex->getLine());
         }
-        return $resp;
+        return $respJson;
     }
 
 

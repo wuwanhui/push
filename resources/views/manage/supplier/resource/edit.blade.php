@@ -110,21 +110,7 @@
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('words') ? ' has-error' : '' }}">
-                                        <label for="words" class="col-md-3 control-label">计费字算：</label>
 
-                                        <div class="col-md-9">
-                                            <input id="words" type="text" class="form-control" name="words"
-                                                   style="width:auto;"
-                                                   value="{{ $resource->words }}">
-
-                                            @if ($errors->has('words'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('words') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
 
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>

@@ -15,7 +15,7 @@ class CreateSupplierResourceSignatureTable extends Migration
     {
         Schema::create('Supplier_Resource_Signature', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();//签名名称
+            $table->string('name');//签名名称
             $table->integer('resourceId');//所属资源
             $table->integer('enterpriseId')->default(0);//所属企业为空可通用
             $table->string('number');//签名编号

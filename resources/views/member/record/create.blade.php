@@ -312,7 +312,7 @@
         function charging() {
             var content = _content + "【" + $("#signatureId   option:selected").text() + "】";
             if (_template) {
-                $("#charging").text("有效号码：" + _mobiles.length + "条，短信内容：" + content.length + "字,计费：" + Math.ceil(content.length / 60) * _mobiles.length + "条");
+                $("#charging").text("有效号码：" + _mobiles.length + "条，短信内容：" + content.length + "字,计费：" + Math.ceil(content.length / _template.words) * _mobiles.length + "条");
             } else {
                 $("#charging").text("有效号码：" + _mobiles.length + "条");
             }

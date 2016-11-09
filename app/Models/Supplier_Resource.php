@@ -54,13 +54,21 @@ class Supplier_Resource extends Model
     }
 
     /**
+     * 所属供应商
+     */
+    public function supplier()
+    {
+        return $this->belongsTo('App\Models\Supplier', 'supplierId');
+    }
+
+    /**
      * 经办人
      */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'userId');
     }
- 
+
 
     /**
      *签名

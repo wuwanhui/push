@@ -15,14 +15,14 @@
                     <div class="panel-body">
                         <ul>
                             <li>
-                                <a href="{{url('/member/record/batch/create')}}">信息推送</a>
+                                <a href="{{url('/member/record/create')}}">信息推送</a>
                             </li>
 
                         </ul>
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/record/batch')}}" class="active">发送记录</a>
+                                <a href="{{url('/member/record')}}" class="active">发送记录</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/receive')}}" >回执报告</a>

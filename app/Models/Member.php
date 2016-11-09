@@ -86,14 +86,6 @@ class Member extends Authenticatable
         return $this->belongsTo('App\Models\Enterprise', 'enterpriseId');
     }
 
-    /**
-     *消费记录
-     */
-    public function records()
-    {
-        return $this->hasMany('App\Models\Record', "memberId");
-    }
-
 
     /**
      *转账记录
@@ -120,12 +112,21 @@ class Member extends Authenticatable
     }
 
     /**
+     *消费记录
+     */
+    public function batch()
+    {
+        return $this->hasMany('App\Models\Record_Batch', "memberId");
+    }
+
+
+    /**
      * 可用余额
      */
     public function getBalanceMoneyAttribute()
     {
         $quantitys = $this->quantitys()->where("state", 0);
-        return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->records()->sum("charging");
+        return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->batch->sum("charging");
 
     }
 

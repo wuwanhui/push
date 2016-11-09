@@ -60,7 +60,6 @@
                                     <th style="width: 60px;"><a href="">编号</a></th>
                                     <th><a href="">资源名称</a></th>
                                     <th><a href="">供应商</a></th>
-                                    <th style="width: 80px;"><a href="">计费字算</a></th>
                                     <th style="width: 80px;"><a href="">Appkey</a></th>
                                     <th style="width: 80px;"><a href="">SecretKey</a></th>
                                     <th style="width: 80px;"><a href="">余额</a></th>
@@ -77,17 +76,8 @@
                                         <td>
                                             <a href="{{url('/manage/supplier/resource/detail/'.$item->id)}}">{{$item->name}}</a>
                                         </td>
-                                        <td>
-                                            @if($item->supplier==0)
-                                                阿里
-                                            @elseif($item->supplier==1)
-                                                腾讯
-                                            @else
-                                                慢道
-                                            @endif </td>
+                                        <td>{{$item->supplier->name}}</td>
 
-                                        <td style="text-align: center"> {{$item->words}}
-                                        </td>
                                         <td style="text-align: center"> {{$item->appkey}}</td>
                                         <td style="text-align: center"> {{$item->secretKey}}</td>
                                         <td style="text-align: center"> {{$item->balance}}</td>

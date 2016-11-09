@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -182,9 +183,10 @@ return [
         App\Providers\BaseServiceProvider::class,
         App\Providers\CommonServiceProvider::class,
         App\Providers\SmsServiceProvider::class,
-        App\Providers\QianfanServiceProvider::class,
 
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,//七牛
+
+        Barryvdh\Debugbar\ServiceProvider::class,//调试工具
     ],
 
     /*
@@ -237,7 +239,7 @@ return [
         'Common' => App\Http\Facades\Common::class,
         'Base' => App\Http\Facades\Base::class,
         'Sms' => App\Http\Facades\Sms::class,
-        'Qianfan' => App\Http\Facades\Qianfan::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

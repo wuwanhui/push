@@ -114,6 +114,21 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="form-group{{ $errors->has('words') ? ' has-error' : '' }}">
+                                        <label for="words" class="col-md-3 control-label">计费字数：</label>
+
+                                        <div class="col-md-9">
+                                            <input id="words" type="text" class="form-control" name="words"
+                                                   style="width:auto;"
+                                                   value="{{ $template->words }}">
+
+                                            @if ($errors->has('words'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('words') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
                                     <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
                                         <label for="content" class="col-md-3 control-label">模板内容：</label>
@@ -140,7 +155,7 @@
                                             <textarea id="param" type="text" class="form-control"
                                                       name="param"
                                                       style=" height: 100px"
-                                            >{{old('param') }}</textarea>
+                                            >{{$template->param }}</textarea>
 
                                             @if ($errors->has('param'))
                                                 <span class="help-block">
@@ -174,7 +189,7 @@
                                             <textarea id="remark" type="text" class="form-control"
                                                       name="remark"
                                                       style=" height: 100px"
-                                            >{{old('refundable') }}</textarea>
+                                            >{{$template->remark }}</textarea>
 
                                             @if ($errors->has('remark'))
                                                 <span class="help-block">
