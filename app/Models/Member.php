@@ -125,6 +125,7 @@ class Member extends Authenticatable
      */
     public function getBalanceMoneyAttribute()
     {
+        return 100;
         $quantitys = $this->quantitys()->where("state", 0);
         return $quantitys->where("direction", 0)->sum("quantity") - $quantitys->where("direction", 1)->sum("quantity") - $this->batch->sum("charging");
 

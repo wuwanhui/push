@@ -22,10 +22,10 @@
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/record')}}" class="active">发送记录</a>
+                                <a href="{{url('/member/record/batch')}}" class="active">发送记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/record/receive')}}" >回执报告</a>
+                                <a href="{{url('/member/record/receive')}}">回执报告</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/template')}}">发送模板</a>
@@ -39,7 +39,7 @@
                     <div class="panel-heading">发送记录</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/member/record/create')}}"
+                            <div class="col-md-4"><a href="{{url('/member/record/batch/create')}}"
                                                      class="btn btn-primary">新增推送</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
@@ -81,10 +81,10 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">   {{$item->member->name}}
+                                        <td style="text-align: center">   {{$item->memberName}}
                                         </td>
-                                        <td style="text-align: center">{{$item->signature->name}}</td>
-                                        <td style="text-align: center">{{$item->template->name}}</td>
+                                        <td style="text-align: center">{{$item->signatureName}}</td>
+                                        <td style="text-align: center">{{$item->templateName}}</td>
 
                                         <td> {{$item->mobile}}
                                         </td>
@@ -104,7 +104,7 @@
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/record/receive?bizId='.$item->bizId)}}">回执-{{count($item->receives)}} </a>
+                                                    href="{{url('/member/record?batchId='.$item->id)}}">明细</a>
                                             | <a
                                                     href="{{url('/member/record/retry/'.$item->id)}}">重发</a>
                                         </td>

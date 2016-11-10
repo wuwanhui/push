@@ -25,7 +25,7 @@
                                 <a href="{{url('/member/record/batch')}}" class="active">发送记录</a>
                             </li>
                             <li>
-                                <a href="{{url('/member/record/receive')}}" >回执报告</a>
+                                <a href="{{url('/member/record/receive')}}">回执报告</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/template')}}">发送模板</a>
@@ -39,7 +39,7 @@
                     <div class="panel-heading">发送记录</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4"><a href="{{url('/member/record/create')}}"
+                            <div class="col-md-4"><a href="{{url('/member/record/batch/create')}}"
                                                      class="btn btn-primary">新增推送</a></div>
                             <div class="col-md-8 text-right">
                                 <form method="get" class="form-inline">
@@ -63,13 +63,12 @@
                                     <th style="width: 20px"><input type="checkbox"
                                                                    name="CheckAll" value="Checkid"/></th>
                                     <th style="width: 60px;"><a href="">编号</a></th>
-                                    <th style="width: 100px;"><a href="">发送者</a></th>
-                                    <th style="width: 100px;"><a href="">签名</a></th>
-                                    <th style="width: 140px;"><a href="">模板</a></th>
                                     <th style="width: 100px;"><a href="">手机号</a></th>
                                     <th><a href="">内容</a></th>
                                     <th style="width: 60px;"><a href="">计费</a></th>
-                                    <th style="width: 80px;"><a href="">来源</a></th>
+                                    <th style="width: 160px;"><a href="">到达时间</a></th>
+
+
                                     <th><a href="">备注</a></th>
                                     <th style="width: 60px;"><a href="">状态</a></th>
                                     <th style="width: 100px;">操作</th>
@@ -81,30 +80,28 @@
                                         <td><input type="checkbox" value="{{$item->id}} "
                                                    name="id"/></td>
                                         <td style="text-align: center">{{$item->id}} </td>
-                                        <td style="text-align: center">   {{$item->member->name}}
-                                        </td>
-                                        <td style="text-align: center">{{$item->signature->name}}</td>
-                                        <td style="text-align: center">{{$item->template->name}}</td>
+
 
                                         <td> {{$item->mobile}}
                                         </td>
                                         <td> {{$item->content}}</td>
                                         <td style="text-align: center"> {{$item->charging}}</td>
-                                        <td style="text-align: center">     {{$item->source==0?"平台":"接口"}}</td>
+                                        <td> {{$item->receiptTime}}
+                                        </td>
                                         <td> {{$item->remark}}
                                         </td>
 
                                         <td style="text-align: center">
                                             @if($item->state==0)
-                                                成功
+                                                到达
                                             @elseif($item->state==1)
-                                                已提交
+                                                发送中
                                             @else
                                                 失败
                                             @endif </td>
 
                                         <td style="text-align: center"><a
-                                                    href="{{url('/manage/record/receive?bizId='.$item->bizId)}}">回执-{{count($item->receives)}} </a>
+                                                    href="{{url('/member/record/receive/'.$item->id)}}">回执</a>
                                             | <a
                                                     href="{{url('/member/record/retry/'.$item->id)}}">重发</a>
                                         </td>

@@ -37,7 +37,7 @@ class RecordController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request,$id)
     {
         $key = $request->key;
         $bizId = $request->bizId;

@@ -22,7 +22,7 @@
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/record')}}">发送记录</a>
+                                <a href="{{url('/member/record/batch')}}">发送记录</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/receive')}}" >回执报告</a>

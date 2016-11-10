@@ -22,7 +22,7 @@
                         <hr/>
                         <ul>
                             <li>
-                                <a href="{{url('/member/record')}}">发送记录</a>
+                                <a href="{{url('/member/record/batch')}}">发送记录</a>
                             </li>
                             <li>
                                 <a href="{{url('/member/record/receive')}}">回执报告</a>
@@ -381,29 +381,21 @@
 
             $.ajax({
                 url: "{{url('/member/record/batch/create')}}",
-                type: "post",
+                type: "POST",
                 dataType: "json",
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                contentType: "application/x-www-form-urlencoded",
                 data: postData,
-                timeout: 30000,
+                //timeout: 30000,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (data) {
-                    $(".state").text(data.msg);
-                    if (data.code == 0) {
-                        $("#mobile").val("");
-                    }
-                    preview();
-
-                    submit.text("发送");
-                    submit.removeAttr('disabled'); //设置按钮可用
+                    alert("ok");
                 },
-                error: function (XHR, textStatus, errorThrown) {
-                    submit.text("发送");
-                    submit.removeAttr('disabled'); //设置按钮可用
-                    alert("XHR=" + XHR + "\ntextStatus=" + textStatus + "\nerrorThrown=" + errorThrown);
+                error: function (xhr, txtStatus, errThrow) {
+                    alert("error:\n " + errThrow);
                 }
+
             });
         }
         function showModal() {

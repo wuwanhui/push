@@ -42,17 +42,22 @@ class BatchController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
-        $lists = Record_Batch::where(function ($query) use ($key) {
+        $lists = Record_Batch::
+        leftJoin('Member', 'Record_Batch.memberId', '=', 'Member.id')
+            ->leftJoin('Supplier_Resource_Template', 'Record_Batch.templateId', '=', 'Supplier_Resource_Template.id')
+            ->leftJoin('Supplier_Resource_Signature', 'Record_Batch.signatureId', '=', 'Supplier_Resource_Signature.id')
+            ->select('Record_Batch.*', 'Member.name as memberName', 'Supplier_Resource_Template.name as templateName', 'Supplier_Resource_Signature.name as signatureName')
+            ->where(function ($query) use ($key) {
 
-            if (Base::member("type") == 0) {
-                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
-            } else {
-                $query->Where('memberId', Base::member("id"));
-            }
-            if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//名称
-            }
-        })->orderBy('id', 'desc')->paginate($this->pageSize);
+                if (Base::member("type") == 0) {
+                    $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
+                } else {
+                    $query->Where('memberId', Base::member("id"));
+                }
+                if ($key) {
+                    $query->orWhere('name', 'like', '%' . $key . '%');//名称
+                }
+            })->orderBy('id', 'desc')->paginate($this->pageSize);
 
 
         return view('member.record.batch.index', compact('lists'));
@@ -61,10 +66,10 @@ class BatchController extends BaseController
 
     public function create(Request $request)
     {
-        $respJson = new RespJson();
         try {
             $batch = new Record_Batch();
 
+            $respJson = new RespJson();
             if ($request->isMethod('POST')) {
                 $input = $request->all();
                 $validator = Validator::make($input, $batch->Rules(), $batch->messages());
@@ -74,16 +79,20 @@ class BatchController extends BaseController
                 $batch->fill($input);
                 $batch->memberId = Base::member("id");
                 $batch->save();
+
                 $resp = $this->send($batch);
-                if ($resp) {
-                    $respJson->code = 0;
-                    $respJson->msg = "提交成功";
+
+                if ($resp->code == 0) {
+                    $respJson->code = "0";
+                    $respJson->msg = "发送成功";
                 } else {
-                    $respJson->code = 1;
-                    $respJson->msg = "失败";
+                    $respJson->code = "0";
+                    $respJson->msg = "发送失败";
                 }
-                Log::info(json_encode($resp));
-                return $resp;
+                return response('Hello World');
+//                $json = json_encode($respJson,true);
+//                Log::info(isjson(json_encode($resp)));
+                return json_encode($respJson, true);
             }
             $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
@@ -190,7 +199,7 @@ class BatchController extends BaseController
                 if ($total > Base::member()->balanceMoney) {
                     $batch->state = 4;
                     $batch->save();
-                    $respJson->code = 0;
+                    $respJson->code = 1;
                     $respJson->msg = "余额不足";
                     return $respJson;
                 }
@@ -203,30 +212,23 @@ class BatchController extends BaseController
                 $smsParam->template = $template->content;
                 $smsParam->signId = $signature->number;
                 $smsParam->sign = $signature->name;
-
-
                 $resp = $this->distribute($batch, $smsParam);
-
                 if ($resp->code == 0) {
                     $respJson->code = 0;
                     $respJson->msg = $resp->msg;
                 } else {
-
                     $respJson->code = 1;
                     $respJson->msg = $resp->msg;
-                    Log::info('短信发送失败： ' . json_encode($resp));
+                    //Log::info('短信发送失败： ' . json_encode($resp));
                 }
-
 
             }
         } catch (Exception $ex) {
             $respJson->code = -1;
             $respJson->msg = '异常！' . $ex->getMessage();
-            Log::info('异常！' . $ex->getMessage() . $ex->getLine());
+            Log::info('异常！' . $ex->getMessage() . '行号：' . $ex->getLine());
         }
-
-//        Log::info(json_encode($respJson));
-//        return;
+        //Log::info(json_encode($respJson));
         return $respJson;
 
     }
@@ -265,13 +267,20 @@ class BatchController extends BaseController
                     } else {
                         $resq = $sms->sendSms($smsParam->mobiles, $content);
                     }
-
-
                     if (isset($resq->result) && $resq->result == 0) {
                         $batch->state = 1;
+                        $respJson->code = 0;
+                        $respJson->msg = "提交成功";
                     } else {
+                        $errmsg = "提交失败";
+                        if (isset($resq->errmsg)) {
+                            $errmsg = $resq->errmsg;
+                        }
                         $batch->state = 2;
-                        $batch->remark = $resq->errmsg;
+                        $batch->remark = $errmsg;
+                        $respJson->code = 1;
+                        $respJson->msg = $errmsg;
+
                     }
 
                     foreach ($mobiles as $item) {
@@ -292,25 +301,20 @@ class BatchController extends BaseController
                                         $record->state = 2;
                                         $record->remark = $smsItem->errmsg;
                                     }
-
                                 }
                             }
-                        } else {
-                            $record->state = 2;
-                            $record->remark = "提交失败" . $resq->errmsg;
                         }
                         $record->save();
                     }
                     break;
-                default:
 
-                    break;
             }
         } catch (Exception $ex) {
             $respJson->code = -1;
             $respJson->msg = '异常！' . $ex->getMessage();
             Log::info('异常！' . $ex->getMessage() . $ex->getLine());
         }
+
         return $respJson;
     }
 

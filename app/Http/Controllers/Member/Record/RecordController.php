@@ -40,14 +40,10 @@ class RecordController extends BaseController
      */
     public function index(Request $request)
     {
+        $batchId = $request->batchId;
         $key = $request->key;
-        $lists = Record::where(function ($query) use ($key) {
-
-            if (Base::member("type") == 0) {
-                $query->whereIn('memberId', Base::member()->enterprise->members->pluck("id"));
-            } else {
-                $query->Where('memberId', Base::member("id"));
-            }
+        $lists = Record::where(function ($query) use ($key, $batchId) {
+            $query->Where('batchId', $batchId);
             if ($key) {
                 $query->orWhere('name', 'like', '%' . $key . '%');//名称
             }
@@ -252,9 +248,9 @@ class RecordController extends BaseController
                     $resq = $sms->sendSms($smsParam->mobiles, $content);
                 }
                 $resp->sendLog = $resq;
-                $resqJson=json_decode($resq);
-             
-                if (isset($resqJson->result) && $resqJson->result==0) {
+                $resqJson = json_decode($resq);
+
+                if (isset($resqJson->result) && $resqJson->result == 0) {
                     $resp->bizId = $resq->result->model;
                     $resp->code = 0;
                     $resp->msg = "提交成功";

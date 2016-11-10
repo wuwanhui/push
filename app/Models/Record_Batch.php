@@ -86,7 +86,7 @@ class Record_Batch extends Model
     /**
      *发送记录
      */
-    public function record()
+    public function records()
     {
         return $this->hasMany('App\Models\Record', "batchId");
     }
@@ -96,7 +96,7 @@ class Record_Batch extends Model
      */
     public function getChargingAttribute()
     {
-        return $this->record()->sum("charging");
+        return $this->records()->sum("charging");
 
     }
 
