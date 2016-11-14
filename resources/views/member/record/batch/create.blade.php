@@ -222,6 +222,29 @@
         </div>
     </div>
     <script type="application/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                message: '1312313',
+                sendData: _data,
+
+            },
+            methods: {
+                send: function () {
+                    var _self = this;
+                    $.ajax({
+                        type: 'POST',
+                        url: '...',
+                        data: _self.sendData,
+                        success: function (data) {
+                            _self.message = JSON.stringify(data);
+                        }
+                    });
+                }
+            }
+        })
+
+
         var _template = null;
         var _mobiles = Array();
         var _content = null;
@@ -331,7 +354,7 @@
                 return alert("定时发送时间格式错误!如:2016-12-20 12:00");
             }
         }
-
+        var _data = null;
         //短信发送
         function send() {
             if (!_template) {
@@ -372,7 +395,7 @@
             postData["param"] = JSON.stringify(paramObj);
 
             var submit = $(this);
-
+            _data = postData;
             submit.text("发送中");
             submit.attr("disabled", "true"); //设置变灰按钮
             //setTimeout("$('#submit').removeAttr('disabled')", 3000); //设置三秒后提交按钮 显示
@@ -383,7 +406,7 @@
                 url: "{{url('/member/record/batch/create')}}",
                 type: "POST",
                 dataType: "json",
-                contentType: "application/x-www-form-urlencoded",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 data: postData,
                 //timeout: 30000,
                 headers: {
@@ -393,7 +416,7 @@
                     alert("ok");
                 },
                 error: function (xhr, txtStatus, errThrow) {
-                    alert("error:\n " + errThrow);
+                    $(".state").text("error:\n " + errThrow);
                 }
 
             });

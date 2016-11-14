@@ -83,6 +83,7 @@ function curl($url, $type = "GET", $data = false, &$err_msg = null, $timeout = 2
         if ($err_msg !== null) {
             $err_msg = '(' . $curl_no . ')' . $curl_err;
         }
+        Log::info("curl有异常");
     }
     Log::info($response);
     return $response;

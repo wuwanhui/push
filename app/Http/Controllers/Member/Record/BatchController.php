@@ -66,10 +66,9 @@ class BatchController extends BaseController
 
     public function create(Request $request)
     {
+        $respJson = new RespJson();
         try {
             $batch = new Record_Batch();
-
-            $respJson = new RespJson();
             if ($request->isMethod('POST')) {
                 $input = $request->all();
                 $validator = Validator::make($input, $batch->Rules(), $batch->messages());
@@ -80,19 +79,20 @@ class BatchController extends BaseController
                 $batch->memberId = Base::member("id");
                 $batch->save();
 
-                $resp = $this->send($batch);
-
-                if ($resp->code == 0) {
-                    $respJson->code = "0";
-                    $respJson->msg = "发送成功";
-                } else {
-                    $respJson->code = "0";
-                    $respJson->msg = "发送失败";
-                }
-                return response('Hello World');
-//                $json = json_encode($respJson,true);
-//                Log::info(isjson(json_encode($resp)));
-                return json_encode($respJson, true);
+                $respJson = $this->send($batch);
+////                Log::info(json_encode($resp, true));
+////                Log::info(json_encode($respJson, true));
+//                $respJson->code = "0";
+//                $respJson->msg = "发送成功";
+//                if ($resp->code == 0) {
+//                    $respJson->code = "0";
+//                    $respJson->msg = "发送成功";
+//                } else {
+//                    $respJson->code = "0";
+//                    $respJson->msg = "发送失败";
+//                }
+                //return '{"code":1,"msg":"\u63d0\u4ea4\u5931\u8d25"}';
+                return response()->json($respJson);
             }
             $templateList = Record_Template::where("memberId", Base::member("id"))->orWhere("share", 1)->get();
             $signatures = Supplier_Resource_Signature::where("enterpriseId", Base::member("enterpriseId"))->orWhere("enterpriseId", 0)->get();
@@ -101,6 +101,7 @@ class BatchController extends BaseController
         } catch (Exception $ex) {
             return '异常！' . $ex->getMessage() . $ex->getLine();
         }
+
     }
 
     public function createByid(Request $request, $id)
@@ -184,7 +185,7 @@ class BatchController extends BaseController
      * 短信发送
      * @param $id
      */
-    protected function send(Record_Batch $batch)
+    public function send(Record_Batch $batch)
     {
         $respJson = new RespJson();
         try {
@@ -236,7 +237,7 @@ class BatchController extends BaseController
     /**
      * 短信分发
      */
-    protected function distribute($batch, $smsParam)
+    public function distribute($batch, $smsParam)
     {
 
         $respJson = new RespJson();
@@ -261,12 +262,12 @@ class BatchController extends BaseController
                     $mobiles = explode(",", $smsParam->mobiles);
                     $content = "【" . $smsParam->sign . "】" . $smsParam->content;
                     $price = ceil(mb_strlen($content, 'utf8') / $batch->template->words);//单价
-
-                    if (count($mobiles) > 0) {
-                        $resq = $sms->multipleSms($mobiles, $content);
-                    } else {
-                        $resq = $sms->sendSms($smsParam->mobiles, $content);
-                    }
+                    $resq = $sms->multipleSms($mobiles, $content);
+//                    if (count($mobiles) > 0) {
+//                        $resq = $sms->multipleSms($mobiles, $content);
+//                    } else {
+//                        $resq = $sms->sendSms($smsParam->mobiles, $content);
+//                    }
                     if (isset($resq->result) && $resq->result == 0) {
                         $batch->state = 1;
                         $respJson->code = 0;
