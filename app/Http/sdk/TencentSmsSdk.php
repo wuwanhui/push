@@ -2,7 +2,9 @@
 
 namespace App\Http\SDK;
 
+use App\Http\Controllers\Common\RespJson;
 use App\Models\Receive;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 
 /**
@@ -40,44 +42,26 @@ class TencentSmsSdk
         $jsondata->extend = $extend;     // 根据需要添加，一般保持默认
         $jsondata->ext = $ext;        // 根据需要添加，一般保持默认
         $curlPost = json_encode($jsondata);
-        echo $curlPost;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $wholeUrl);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        $ret = curl_exec($ch);
-        if ($ret === false) {
-            var_dump(curl_error($ch));
-        } else {
-            $json = json_decode($ret);
-            if ($json === false) {
-                var_dump($ret);
-            } else {
-                var_dump($json);
-            }
-        }
-        curl_close($ch);
-        return;
+        $ret = curl($wholeUrl, "POST", $curlPost);
+        Log::info("腾讯短信单一发送服务端返回：" . $ret);
+        return $ret;
     }
 
     // 全部参数使用字符串即可
-    function multipleSms($nationCode, $phoneNumbers, $content)
+    function multipleSms($phoneNumbers, $content)
     {
         $this->url = "https://yun.tim.qq.com/v3/tlssmssvr/sendmultisms2";
         if (0 == count($phoneNumbers)) {
             return;
         }
+
         $randNum = rand(100000, 999999);
         $wholeUrl = $this->url . "?sdkappid=" . $this->sdkappid . "&random=" . $randNum;
         echo $wholeUrl . "\n";
         $tel = array();
         for ($i = 0; $i < count($phoneNumbers); $i++) {
             $telElement = new stdClass();
-            $telElement->nationcode = $nationCode;
+            $telElement->nationcode = "86";
             $telElement->phone = $phoneNumbers[$i];
             $tel[] = $telElement;
         }
@@ -89,28 +73,10 @@ class TencentSmsSdk
         $jsondata->extend = "";     // 根据需要添加，一般保持默认
         $jsondata->ext = "";        // 根据需要添加，一般保持默认
         $curlPost = json_encode($jsondata);
-        echo $curlPost;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $wholeUrl);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        $ret = curl_exec($ch);
-        if ($ret === false) {
-            var_dump(curl_error($ch));
-        } else {
-            $json = json_decode($ret);
-            if ($json === false) {
-                var_dump($ret);
-            } else {
-                var_dump($json);
-            }
-        }
-        curl_close($ch);
-        return;
+        $ret = curl($wholeUrl, "POST", $curlPost);
+        Log::info("腾讯短信批量发送服务端返回：" . $ret);
+
+        return new RespJson();
     }
 
     function calculateSig($appkey, $phoneNumbers)

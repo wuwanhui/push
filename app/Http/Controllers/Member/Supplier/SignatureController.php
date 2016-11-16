@@ -30,6 +30,10 @@ class SignatureController extends BaseController
     public function index(Request $request)
     {
         $key = $request->key;
+        if (!$request->json) {
+            $lists = Supplier_Resource_Signature::select('id', 'name')->get();
+            return response()->json($lists);
+        }
         $lists = Supplier_Resource_Signature::where(function ($query) use ($key) {
 
             if ($key) {
