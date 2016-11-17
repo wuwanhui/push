@@ -96,7 +96,7 @@
                                                         v-model="form.signatureId"
                                                         style="width: auto;">
                                                     <option value="">请选择签名</option>
-                                                    <option v-for="item  in signatureOptions" v-bind:value="item.id">
+                                                    <option v-for="item  in signatureOptions" v-bind:value="item">
                                                         @{{ item.name }}
                                                     </option>
 
@@ -257,13 +257,8 @@
 
                     },
                     watch: {
-                        'form.signatureId': function (newVal, oldVal) {
-                            this.signature = '';
-                            for (var i = 0; i < this.signatureOptions.length; i++) {
-                                if (this.signatureOptions[i].id == newVal) {
-                                    this.signature = this.signatureOptions[i].name;
-                                }
-                            }
+                        'form.signatureId': function (val) {
+                            this.signature = val.name;
                             this.preview();
                         }
 
@@ -369,7 +364,7 @@
                                 for (var key in paramObj) {
                                     _content = _content.replace("${" + key + "}", $("#" + key).val());
                                 }
-                                this.previewUi = _content + "【" + this.signature + "】";
+                                this.previewUi = _content + "【" + this.signature.name + "】";
                             }
                             this.charging();
                         }

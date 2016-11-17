@@ -44,23 +44,25 @@
                                 <fieldset>
                                     <legend>基本信息</legend>
                                     {!! csrf_field() !!}
-                                    <div class="form-group{{ $errors->has('supplier') ? ' has-error' : '' }}">
-                                        <label for="supplier" class="col-md-3 control-label">供应商：</label>
+                                    @if($suppliers )
+                                        <div class="form-group{{ $errors->has('supplierId') ? ' has-error' : '' }}">
+                                            <label for="supplierId" class="col-md-3 control-label">所属供应商：</label>
 
-                                        <div class="col-md-9">
-                                            <select id="supplier" name="supplier" class="form-control"
-                                                    style="width: auto;">
-                                                <option value="0">阿里</option>
-                                                <option value="1">腾讯</option>
-                                                <option value="1">慢道</option>
-                                            </select>
-                                            @if ($errors->has('supplier'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('supplier') }}</strong>
+                                            <div class="col-md-9">
+                                                <select name="supplierId" class="form-control" style="width: auto;">
+                                                    @foreach($suppliers as $item)
+                                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('supplierId'))
+                                                    <span class="help-block">
+                                        <strong>{{ $errors->first('supplierId') }}</strong>
                                     </span>
-                                            @endif
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                         <label for="name" class="col-md-3 control-label">资源名称：</label>
@@ -108,21 +110,6 @@
                                     </div>
 
 
-                                    <div class="form-group{{ $errors->has('words') ? ' has-error' : '' }}">
-                                        <label for="words" class="col-md-3 control-label">计费字算：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="words" type="text" class="form-control" name="words"
-                                                   style="width:auto;"
-                                                   value="{{ old('words') }}">
-
-                                            @if ($errors->has('words'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('words') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
 
                                     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                                         <label for="state" class="col-md-3 control-label">状态：</label>
