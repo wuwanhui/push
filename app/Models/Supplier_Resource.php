@@ -10,7 +10,7 @@ class Supplier_Resource extends Model
     use SoftDeletes;
 
 
-    protected $table = "Supplier_Resource";
+    protected $table = "supplier_resource";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

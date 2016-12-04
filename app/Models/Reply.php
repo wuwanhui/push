@@ -10,7 +10,7 @@ class Reply extends Model
     use SoftDeletes;
 
 
-    protected $table = "Reply";
+    protected $table = "reply";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

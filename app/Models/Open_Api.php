@@ -10,7 +10,7 @@ class Open_Api extends Model
     use SoftDeletes;
 
 
-    protected $table = "Open_Api";
+    protected $table = "open_api";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

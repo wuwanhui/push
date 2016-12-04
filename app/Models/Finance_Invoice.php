@@ -14,7 +14,7 @@ class Finance_Invoice extends Model
     use SoftDeletes;
 
 
-    protected $table = "Finance_Invoice";
+    protected $table = "finance_invoice";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

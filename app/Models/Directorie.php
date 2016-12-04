@@ -15,7 +15,7 @@ class Directorie extends Model
     use SoftDeletes;
 
 
-    protected $table = "Directorie";
+    protected $table = "directorie";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

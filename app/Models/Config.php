@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Config extends Model
 {
-    protected $table = 'Config';//表名
+    protected $table = 'config';//表名
     protected $primaryKey = "id";//主键
     protected $fillable = [];
     protected $guarded = ['_token'];

@@ -14,7 +14,7 @@ class Finance_Quantity extends Model
     use SoftDeletes;
 
 
-    protected $table = "Finance_Quantity";
+    protected $table = "finance_quantity";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

@@ -9,7 +9,7 @@ class Template extends Model
 {
     use SoftDeletes;
 
-    protected $table = "Template";
+    protected $table = "template";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

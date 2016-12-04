@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Manage;
 
-class HomeController extends BaseController
+use App\Http\Controllers\Controller;
+
+class HomeController extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
-        view()->share(['_model' => 'manage']);
+        $this->middleware('auth.manage');
     }
 
     /**

@@ -15,7 +15,7 @@ class User extends Authenticatable
     use HasApiTokens;
 
 
-    protected $table = "User";
+    protected $table = "user";
     protected $primaryKey = "id";//主键
     protected $dates = ['deleted_at'];
     /**

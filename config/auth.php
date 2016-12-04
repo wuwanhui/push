@@ -42,7 +42,7 @@ return [
         ],
         'manage' => [
             'driver' => 'session',
-            'provider' => 'user',
+            'provider' => 'manage',
         ],
 
         'member' => [
@@ -83,11 +83,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'manage' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Member_User::class,
+        ],
         'member' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Member::class,
+            'model' => App\Models\Manage_User::class,
         ],
-
         // 'user' => [
         //     'driver' => 'database',
         //     'table' => 'user',
@@ -115,9 +118,14 @@ return [
             'table' => 'user_reset',
             'expire' => 60,
         ],
+        'manage' => [
+            'provider' => 'manage',
+            'table' => 'manage_user_reset',
+            'expire' => 60,
+        ],
         'member' => [
             'provider' => 'member',
-            'table' => 'member_reset',
+            'table' => 'member_user_reset',
             'expire' => 60,
         ],
     ],

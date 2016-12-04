@@ -10,7 +10,7 @@ class Supplier_Resource_Signature extends Model
     use SoftDeletes;
 
 
-    protected $table = "Supplier_Resource_Signature";
+    protected $table = "supplier_resource_signature";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

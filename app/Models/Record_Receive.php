@@ -14,7 +14,7 @@ class Record_Receive extends Model
     use SoftDeletes;
 
 
-    protected $table = "Record_Receive";
+    protected $table = "record_receive";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

@@ -14,7 +14,7 @@ class Record_Template extends Model
     use SoftDeletes;
 
 
-    protected $table = "Record_Template";
+    protected $table = "record_template";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];

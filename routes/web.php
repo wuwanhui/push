@@ -1,8 +1,6 @@
 <?php
 
 
-//Auth::routes();
-
 Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');
@@ -38,16 +36,15 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 /**
  * 管理后台
  */
-Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' => 'Manage'], function () {
+Route::group(['prefix' => 'manage',  'namespace' => 'Manage'], function () {
 
-
+    Auth::routes();
     Route::get('/', 'HomeController@index');
-    Route::get('/home', 'HomeController@index');
 
     /**
      * 企业管理
      */
-    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth:manage', 'namespace' => 'Enterprise'], function () {
+    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth.manage', 'namespace' => 'Enterprise'], function () {
         Route::get('/', 'EnterpriseController@index');
         Route::any('/create', 'EnterpriseController@create');
         Route::any('/edit/{id}', 'EnterpriseController@edit');
@@ -69,7 +66,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
     /**
      * 供应商
      */
-    Route::group(['prefix' => 'supplier', 'middleware' => 'auth:manage', 'namespace' => 'Supplier'], function () {
+    Route::group(['prefix' => 'supplier', 'middleware' => 'auth.manage', 'namespace' => 'Supplier'], function () {
         Route::get('/', 'SupplierController@index');
         Route::any('/create', 'SupplierController@create');
         Route::any('/edit/{id}', 'SupplierController@edit');
@@ -118,7 +115,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
     /**
      * 发送记录
      */
-    Route::group(['prefix' => 'record', 'middleware' => 'auth:manage', 'namespace' => 'Record'], function () {
+    Route::group(['prefix' => 'record', 'middleware' => 'auth.manage', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
         Route::any('/create/{id}', 'RecordController@createByid');
@@ -156,7 +153,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
     /**
      * 通讯录
      */
-    Route::group(['prefix' => 'directorie', 'middleware' => 'auth:manage', 'namespace' => 'Directorie'], function () {
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth.manage', 'namespace' => 'Directorie'], function () {
         Route::get('/', 'DirectorieController@index');
         Route::any('/create', 'DirectorieController@create');
         Route::any('/edit/{id}', 'DirectorieController@edit');
@@ -170,7 +167,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
     /**
      * 财务中心
      */
-    Route::group(['prefix' => 'finance', 'middleware' => 'auth:manage', 'namespace' => 'Finance'], function () {
+    Route::group(['prefix' => 'finance', 'middleware' => 'auth.manage', 'namespace' => 'Finance'], function () {
         Route::get('/', 'HomeController@index');
 
 
@@ -232,7 +229,7 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
     /**
      * 系统配置
      */
-    Route::group(['prefix' => 'system', 'middleware' => 'auth:manage', 'namespace' => 'System'], function () {
+    Route::group(['prefix' => 'system', 'middleware' => 'auth.manage', 'namespace' => 'System'], function () {
         Route::get('/', 'HomeController@index');
 
 
@@ -265,14 +262,14 @@ Route::group(['prefix' => 'manage', 'middleware' => 'auth:manage', 'namespace' =
 /**
  * 会员后台
  */
-Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' => 'Member'], function () {
-
+Route::group(['prefix' => 'member',   'namespace' => 'Member'], function () {
+    Auth::routes();
     Route::get('/', 'HomeController@index');
 
     /**
      * 企业管理
      */
-    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth:member', 'namespace' => 'Enterprise'], function () {
+    Route::group(['prefix' => 'enterprise', 'middleware' => 'auth.member', 'namespace' => 'Enterprise'], function () {
         Route::get('/', 'EnterpriseController@index');
         Route::any('/create', 'EnterpriseController@create')->name('member/supplier/create');
         Route::any('/edit', 'EnterpriseController@edit');
@@ -294,7 +291,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
     /**
      * 供应商
      */
-    Route::group(['prefix' => 'supplier', 'middleware' => 'auth:member', 'namespace' => 'Supplier'], function () {
+    Route::group(['prefix' => 'supplier', 'middleware' => 'auth.member', 'namespace' => 'Supplier'], function () {
         Route::get('/', 'SupplierController@index');
         Route::any('/create', 'SupplierController@create');
         Route::any('/edit/{id}', 'SupplierController@edit');
@@ -343,7 +340,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
     /**
      * 发送记录
      */
-    Route::group(['prefix' => 'record', 'middleware' => 'auth:member', 'namespace' => 'Record'], function () {
+    Route::group(['prefix' => 'record', 'middleware' => 'auth.member', 'namespace' => 'Record'], function () {
         Route::get('/', 'RecordController@index');
         Route::any('/create', 'RecordController@create');
         Route::any('/create/{id}', 'RecordController@createByid');
@@ -394,7 +391,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth:member', 'namespace' =
     /**
      * 通讯录
      */
-    Route::group(['prefix' => 'directorie', 'middleware' => 'auth:member', 'namespace' => 'Directorie'], function () {
+    Route::group(['prefix' => 'directorie', 'middleware' => 'auth.member', 'namespace' => 'Directorie'], function () {
         Route::get('/', 'DirectorieController@index');
         Route::any('/create', 'DirectorieController@create');
         Route::any('/edit/{id}', 'DirectorieController@edit');

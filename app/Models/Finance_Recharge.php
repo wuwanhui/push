@@ -14,7 +14,7 @@ class Finance_Recharge extends Model
     use SoftDeletes;
 
 
-    protected $table = "Finance_Recharge";
+    protected $table = "finance_recharge";
     protected $primaryKey = "id";//主键
 
     protected $dates = ['deleted_at'];
