@@ -15,7 +15,7 @@ class CreateFinanceInvoiceTable extends Migration
     {
         Schema::create('Finance_Invoice', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('memberId');//申请者
+            $table->integer('member_id');//申请者
             $table->float('money');//申请金额
             $table->string('enterprise');//抬头企业
             $table->string('linkMan');//联系人
@@ -23,7 +23,7 @@ class CreateFinanceInvoiceTable extends Migration
             $table->string('tel')->nullable();//电话
             $table->string('addres')->nullable();//联系地址
             $table->string('express')->nullable();//快递单号
-             $table->integer('userId')->default(0);//经办人
+             $table->integer('manage_id')->default(0);//经办人
             $table->integer('state')->default(1);//状态0已邮寄1待审核2开具失败
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

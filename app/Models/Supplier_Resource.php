@@ -64,9 +64,9 @@ class Supplier_Resource extends Model
     /**
      * 经办人
      */
-    public function user()
+    public function manage()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Manage_User', 'manage_id');
     }
 
 

@@ -81,7 +81,7 @@ class Record_Template extends Model
      */
     public function member()
     {
-        return $this->belongsTo('App\Models\Member', "memberId");
+        return $this->belongsTo('App\Models\Member_User', "memberI_id");
     }
 
 }

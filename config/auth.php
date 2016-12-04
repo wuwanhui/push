@@ -85,11 +85,11 @@ return [
         ],
         'manage' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Member_User::class,
+            'model' => App\Models\Manage_User::class,
         ],
         'member' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Manage_User::class,
+            'model' => App\Models\Member_User::class,
         ],
         // 'user' => [
         //     'driver' => 'database',

@@ -66,9 +66,9 @@ class Supplier_Resource_Signature extends Model
     /**
      * 经办人
      */
-    public function user()
+    public function Manage()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Manage_User', 'manage_id');
     }
 
     /**

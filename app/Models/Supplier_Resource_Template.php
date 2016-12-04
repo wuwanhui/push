@@ -56,9 +56,9 @@ class Supplier_Resource_Template extends Model
     /**
      * 经办人
      */
-    public function user()
+    public function manage()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Manage_User', 'manage_id');
     }
 
     /**
@@ -75,7 +75,7 @@ class Supplier_Resource_Template extends Model
      */
     public function enterprise()
     {
-        return $this->belongsTo('App\Models\Enterprise', 'enterpriseId');
+        return $this->belongsTo('App\Models\Enterprise', 'enterprise_id');
     }
 
 }

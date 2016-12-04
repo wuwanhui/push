@@ -12,7 +12,7 @@ class CreateTemplateTable extends Migration
             $table->increments('id');
             $table->string('name');//版本名称
             $table->string('content');//模板内容
-            $table->integer('resourceId');//资源
+            $table->integer('resource_id');//资源
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

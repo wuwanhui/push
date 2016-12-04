@@ -59,7 +59,7 @@ class Enterprise extends Model
      */
     public function members()
     {
-        return $this->hasMany('App\Models\Member', "enterpriseId");
+        return $this->hasMany('App\Models\Member_User', "enterprise_id");
     }
 
 
@@ -68,6 +68,6 @@ class Enterprise extends Model
      */
     public function config()
     {
-        return $this->belongsTo('App\Models\Config', 'configId');
+        return $this->belongsTo('App\Models\Config', 'config_id');
     }
 }

@@ -39,7 +39,9 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 Route::group(['prefix' => 'manage',  'namespace' => 'Manage'], function () {
 
     Auth::routes();
+
     Route::get('/', 'HomeController@index');
+
 
     /**
      * 企业管理

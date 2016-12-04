@@ -24,7 +24,7 @@ class CreateSupplierTable extends Migration
             $table->string('qq');//QQ号
             $table->string('email');//电子邮件
             $table->string('addres');//联系地址
-            $table->integer('userId')->default(0);//经办人
+            $table->integer('manage_id')->default(0);//经办人
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

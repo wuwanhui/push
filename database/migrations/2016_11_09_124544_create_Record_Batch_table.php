@@ -16,8 +16,8 @@ class CreateRecordBatchTable extends Migration
         Schema::create('Record_Batch', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('memberId');//发送者
-            $table->integer('signatureId')->nullable();//签名
-            $table->integer('templateId')->nullable();//模板
+            $table->integer('signature_id')->nullable();//签名
+            $table->integer('template_id')->nullable();//模板
             $table->string('mobile');//手机号
             $table->string('content');//内容
             $table->string('param');//短信参数

@@ -64,15 +64,16 @@ class Finance_Invoice extends Model
 
     public function member()
     {
-        return $this->belongsTo('App\Models\Member', "memberId");
+        return $this->belongsTo('App\Models\Member_User', "member_id");
     }
+
 
     /**
      * 经办人
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Manage_User', 'manage_id');
     }
 
 }

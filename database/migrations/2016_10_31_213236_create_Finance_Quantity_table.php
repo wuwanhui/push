@@ -15,12 +15,12 @@ class CreateFinanceQuantityTable extends Migration
     {
         Schema::create('Finance_Quantity', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('memberId');//充值者
+            $table->integer('member_id');//充值者
             $table->integer('quantity');//数量
-            $table->integer('rechargeId')->default(0);//充值记录
+            $table->integer('recharge_id')->default(0);//充值记录
             $table->integer('direction')->default(0);//收支方向0收入1支出
             $table->date('expiryDate')->nullable();//有效期止
-            $table->integer('userId')->default(0);//经办人
+            $table->integer('manage_id')->default(0);//经办人
             $table->integer('state')->default(1);//状态0成功1待审核2失败
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

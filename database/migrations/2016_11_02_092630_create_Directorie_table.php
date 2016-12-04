@@ -28,7 +28,7 @@ class CreateDirectorieTable extends Migration
             $table->string('addres')->nullable();//联系地址
             $table->string('openId')->nullable();//微信绑定
             $table->integer('share')->default(0);//分享0私有1公有，企业内可看
-            $table->integer('memberId');//所有者
+            $table->integer('member_id');//所有者
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序
             $table->text('remark')->nullable();//备注

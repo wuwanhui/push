@@ -93,7 +93,7 @@ class Template extends Model
      */
     public function member()
     {
-        return $this->belongsTo('App\Models\Member', 'memberId');
+        return $this->belongsTo('App\Models\Member_User', 'member_id');
     }
 
 }

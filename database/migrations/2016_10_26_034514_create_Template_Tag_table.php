@@ -13,7 +13,7 @@ class CreateTemplateTagTable extends Migration
             $table->string('name');//标签名称
             $table->string('code');//标识
             $table->string('default');//默认值
-            $table->integer('templateId');//关联模板
+            $table->integer('template_id');//关联模板
             $table->integer('type')->default(0);//类型0字符
             $table->integer('size')->default(0);//标签大小0无限
             $table->integer('state')->default(0);//状态

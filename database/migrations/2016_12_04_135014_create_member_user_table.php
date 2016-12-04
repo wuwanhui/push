@@ -10,6 +10,7 @@ class CreateMemberUserTable extends Migration
     {
         Schema::create('member_user', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('eid')->default(0);//企业关联
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

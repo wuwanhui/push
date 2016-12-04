@@ -1,9 +1,10 @@
 
 body {
     color: #333333;
-    background-color: #ffffff;
-    font-size: 13px;
-    font-family: Arial, 微软雅黑, 黑体;
+    background-color: #f7f7f7;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: Arial, "微软雅黑", "黑体";
     padding: 0px;
     margin: 0px;
 
@@ -15,22 +16,13 @@ ul, ul > li {
     list-style-type: none;
 }
 
-.panel-body li {
-    padding: 5px;
-    margin: 0px;
-    list-style-type: none;
-}
-
-.panel-body table {
-
-}
-
 a {
     color: #666666;
     outline: none;
     text-decoration: none;
     outline: none;
-    blr: expression(this.onFocus = this.blur ())
+    blr: expression(this.onFocus = this.blur ());
+    cursor: pointer;
 }
 
 a:hover {
@@ -40,6 +32,10 @@ a:hover {
 
 a:link, a:visited, a:active, a:hover {
     color: #333;
+}
+
+a:hover {
+    color: #0386ca;
 }
 
 a.active {
@@ -54,12 +50,12 @@ form {
 Label {
     font-weight: normal;
     text-decoration: none;
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体";
 }
 
 legend {
     font-size: 16px;
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体";
     text-decoration: none;
     line-height: 2em;
     color: #008000;
@@ -74,43 +70,79 @@ hr {
 }
 
 span {
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体";
 }
 
 .auto {
     width: auto;
 }
 
-.navbar-static-top {
-    color: #ffffff;
+.leftMenu {
 }
 
-.navbar-static-top a {
-    color: #ffffff;
+.leftMenu .subMenu a {
+    display: block;
+    padding: 10px;
 }
 
-.panel {
-    border-radius: 0px;
-    /* box-shadow: 0 1px 1px rgba(0,0,0,.05); */
+.leftMenu .subMenu li {
+    padding: 0px;
 }
 
-.panel-heading {
-    border-bottom: 0px solid transparent;
-    border-top-right-radius: 0px;
-    border-top-left-radius: 0px;
+.leftMenu .list-group li.active {
+    background-color: #d9edf7;
+    border-color: #d9edf7;
 }
 
-.panel-default {
-    border-color: #f1f1f1;
-}
-
-.panel-default > .panel-heading {
-    border-color: #cccccc;
+.leftMenu .list-group li:hover {
+    background-color: #f0f0f0;
 }
 
 /*!
  * Bootstrap 重载
  */
+
+.breadcrumb {
+    background-color: #f0f0f0;
+}
+
+.panel {
+    border-radius: 0px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-default {
+    border-color: #ffffff;
+}
+
+.panel .panel-heading {
+    border-bottom: 0px solid transparent;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.panel .panel-heading {
+    border-color: #f1f1f1;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #dcdcdc;
+    line-height: 30px;
+}
+
+.panel-body li {
+    padding: 5px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+.panel-body table {
+
+}
+
+.panel-footer {
+    background-color: #ffffff;
+}
+
 .form-control {
 
     display: inline-block;
@@ -123,6 +155,20 @@ span {
 
 .form-group {
     margin-bottom: 8px;
+}
+
+.page {
+
+}
+
+.page a {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.page a.active {
+    color: #009f95;
 }
 
 .btn {
@@ -146,19 +192,8 @@ a.btn-primary {
     border: 0px solid #999999;
 }
 
-.panel {
-    border-radius: 0px;
-}
-
 .required {
     color: #FF0000;
-}
-
-.panel .panel-heading {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: #dcdcdc;
-    line-height: 30px;
 }
 
 .field-validation-error {
@@ -175,7 +210,7 @@ legend {
 
 legend.show span {
     font-size: 16px;
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体 ";
     text-decoration: none;
     line-height: 2em;
     color: #008000;
@@ -185,7 +220,7 @@ legend.show span {
 .control-label {
     font-weight: normal;
     font-size: 15px;
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体 ";
 }
 
 .validation-summary-errors {
@@ -203,44 +238,41 @@ legend.show span {
     padding: 5px;
 }
 
-.navbar {
+.topMenu .navbar-brand {
+    color: #FFFFFF;
+}
+
+.topMenu .navbar-brand:hover {
+    color: #FFFFFF;
+}
+
+.topMenu {
     border-width: 0px;
     color: #FFFFFF;
-    margin-bottom: 15px;
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体";
     font-size: 16px;
     border-radius: 0px;
+    background-color: #0386ca
 }
 
-.navbar-default {
-    background-color: #488fbc;
+.topMenu .navbar-nav > li > a {
+    color: #a6ddfc;
+    text-decoration: none;
 }
 
-.navbar-default .navbar-nav > li > a {
+.topMenu .navbar-nav > li > a:hover {
     color: #ffffff;
-}
-
-.navbar-nav a {
-    color: #FFFFFF;
     text-decoration: none;
 }
 
-.navbar-nav a:hover {
-    color: #008000;
-    text-decoration: none;
-    background-color: #FF9900;
+.topMenu .navbar-nav .active a {
+    background-color: #0271ac;
+    color: #a6ddfc;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-    color: #FFFFFF;
-}
-
-.navbar-inverse .navbar-brand {
-    color: #FFFFFF;
-}
-
-.navbar-inverse .navbar-text {
-    color: #FFFFFF;
+.topMenu .navbar-nav .active a:hover {
+    background-color: #0271ac;
+    color: #ffffff;
 }
 
 .nav-tabs > li > a {
@@ -251,7 +283,7 @@ legend.show span {
 }
 
 .table thead th {
-    font-family: Arial, 微软雅黑, 黑体;
+    font-family: Arial, "微软雅黑", "黑体";
     font-size: 13px;
     text-decoration: none;
     text-align: center;
@@ -273,4 +305,149 @@ legend.show span {
 
 .pagination {
     margin: 0px;
+}
+
+th.sort {
+}
+
+th.sort.down:before {
+    display: inline-block;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid black;
+}
+
+th.sort.up:before {
+    display: inline-block;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid black;
+}
+
+.layui-nav {
+    border-radius: 0px;
+}
+
+.box {
+    border-radius: 0px;
+}
+
+/*界面样式*/
+.skin-green .wrapper, .skin-green .main-sidebar, .skin-green .left-side {
+    background-color: #2F4056;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    line-height: 24px;
+}
+
+.sidebar-menu li.active > .treeview-menu {
+    background: #393D49;
+}
+
+.box-modal {
+    display: none;
+    padding: 15px;
+    margin-right: auto;
+}
+
+input.error {
+    border-color: #e7c44b;
+}
+
+.show {
+    display: inline-block;
+}
+
+/*更多搜索*/
+.search .box-footer {
+    line-height: 30px;
+}
+
+.search .box-footer a {
+    line-height: 25px;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.search .box-footer a.active {
+    background-color: #009f95;
+    color: #ffffff;
+}
+
+table.detail th {
+    text-align: right;
+}
+
+
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 600px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-body {
+    margin: 20px 0;
+}
+
+.modal-default-button {
+    float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 }

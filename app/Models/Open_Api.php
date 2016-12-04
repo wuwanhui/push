@@ -57,9 +57,9 @@ class Open_Api extends Model
     /**
      * 用户
      */
-    public function user()
+    public function member()
     {
-        return $this->belongsTo('App\Models\User', 'userId');
+        return $this->belongsTo('App\Models\Member_User', 'member_id');
     }
 
 

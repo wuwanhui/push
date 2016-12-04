@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
-class Manage_User extends Authenticatable
+class Member_User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
@@ -15,7 +15,7 @@ class Manage_User extends Authenticatable
     use HasApiTokens;
 
 
-    protected $table = "manage_user";
+    protected $table = "member_user";
     protected $primaryKey = "id";//主键
     protected $dates = ['deleted_at'];
     /**
@@ -36,7 +36,7 @@ class Manage_User extends Authenticatable
     {
         return [
             'name' => 'required|max:255|min:2',
-            'email' => 'required|email|unique:manage_user'
+            'email' => 'required|email|unique:member_user'
         ];
     }
 
@@ -77,4 +77,12 @@ class Manage_User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    /**
+     * 企业信息
+     */
+    public function enterprise()
+    {
+        return $this->belongsTo('App\Models\Enterprise', 'eid');
+    }
 }

@@ -26,6 +26,21 @@ class BaseService
      * @param $key
      * @return mixed
      */
+    public function user($key = null)
+    {
+        $this->member = Auth::guard("member")->user();
+        if ($key) {
+            return $this->member->$key;
+        } else {
+            return $this->member;
+        }
+    }
+
+    /**
+     *获取用户信息
+     * @param $key
+     * @return mixed
+     */
     public function manage($key = null)
     {
 
