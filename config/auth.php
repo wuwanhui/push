@@ -45,6 +45,10 @@ return [
             'provider' => 'manage',
         ],
 
+        'enterprise' => [
+            'driver' => 'session',
+            'provider' => 'enterprise',
+        ],
         'member' => [
             'driver' => 'session',
             'provider' => 'member',
@@ -86,6 +90,10 @@ return [
         'manage' => [
             'driver' => 'eloquent',
             'model' => App\Models\Manage_User::class,
+        ],
+        'enterprise' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Enterprise::class,
         ],
         'member' => [
             'driver' => 'eloquent',

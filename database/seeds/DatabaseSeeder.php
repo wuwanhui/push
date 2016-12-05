@@ -2,7 +2,9 @@
 
 use App\Models\Config;
 use App\Models\Enterprise;
+use App\Models\Manage_User;
 use App\Models\Member;
+use App\Models\Member_User;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -48,18 +50,19 @@ class DatabaseSeeder extends Seeder
         $enterprise->fax = "023-68692402";
         $enterprise->qq = "93894949";
         $enterprise->email = "wuhong@yeah.net";
+        $enterprise->password = bcrypt('wuhong');
         $enterprise->addres = "重庆市九龙坡区奥体路1号";
         $enterprise->save();
 
         //普通会员
-        $member = new Member();
+        $member = new Member_User();
         $member->name = "测试会员";
         $member->email = "member@yeah.net";
         $member->password = bcrypt('wuhong');
         $enterprise->members()->save($member);
 
         //管理员
-        $user = new  User();
+        $user = new  Manage_User();
         $user->name = "管理员";
         $user->email = "admin@yeah.net";
         $user->password = bcrypt('wuhong');
