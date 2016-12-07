@@ -386,8 +386,6 @@ table.detail th {
     text-align: right;
 }
 
-
-
 .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -450,4 +448,8 @@ table.detail th {
 .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+}
+
+.skin-green .wrapper, .skin-green .main-sidebar, .skin-green .left-side {
+    background-color: #2F4056;
 }

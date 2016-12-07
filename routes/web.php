@@ -30,11 +30,13 @@ Route::group(['prefix' => 'manage', 'namespace' => 'Manage'], function () {
         /**
          * 企业用户
          */
-        Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'UserController@index');
-            Route::any('/create', 'UserController@create');
-            Route::any('/edit/{id}', 'UserController@edit');
-            Route::get('/delete', 'UserController@delete');
+        Route::group(['prefix' => 'member'], function () {
+            Route::get('/', 'MemberController@index');
+            Route::get('/create', 'MemberController@getCreate');
+            Route::post('/create', 'MemberController@postCreate');
+            Route::get('/edit', 'MemberController@getEdit');
+            Route::post('/edit', 'MemberController@postEdit');
+            Route::post('/delete', 'MemberController@delete');
 
         });
     });

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Manage\Enterprise;
 
+use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Manage\BaseController;
-use App\Http\Controllers\Manage\ManageBaseController;
-use App\Models\Distribution;
 use App\Models\Enterprise;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,14 +30,25 @@ class EnterpriseController extends BaseController
      */
     public function index(Request $request)
     {
-        $key = $request->key;
-        $lists = Enterprise::where(function ($query) use ($key) {
-            if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//名称
-            }
-        })->orderBy('id', 'desc')->paginate($this->pageSize);
+        $respJson = new RespJson();
+        try {
+            $key = $request->key;
+            $list = Enterprise::where(function ($query) use ($key) {
+                if ($key) {
+                    $query->orWhere('name', 'like', '%' . $key . '%');//名称
+                }
+            })->withCount('members')->orderBy('id', 'desc')->paginate($this->pageSize);
 
-        return view('manage.enterprise.index', compact('lists'));
+            if (isset($request->json)) {
+                $respJson->setData($list);
+                return response()->json($respJson);
+            }
+            return view('manage.enterprise.index', compact('list'));
+        } catch (Exception $ex) {
+            $respJson->setCode(-1);
+            $respJson->setMsg('异常！' . $ex->getMessage());
+            return response()->json($respJson);
+        }
     }
 
     public function create(Request $request)

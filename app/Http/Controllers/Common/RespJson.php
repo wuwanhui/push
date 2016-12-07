@@ -12,6 +12,7 @@ class RespJson
 
     public $code = 0;
     public $msg = "成功";
+    public $data;
 
     /**
      * @param mixed $code
@@ -43,5 +44,21 @@ class RespJson
     public function getMsg()
     {
         return $this->msg;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param mixed $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 }

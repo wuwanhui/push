@@ -8,7 +8,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 管理中心</a></li>
-            <li class="active">企业管理</li>
+            <li class="active">会员管理</li>
         </ol>
     </section>
     <section class="content">
@@ -50,31 +50,28 @@
                     <tr style="text-align: center" class="text-center">
                         <th style="width: 20px"><input type="checkbox"
                                                        name="CheckAll" value="Checkid"/></th>
-                        <th style="width: 80px;"><a href="">编号</a></th>
-                        <th><a href="">全称</a></th>
-                        <th style="width: 100px;"><a href="">联系人</a></th>
-                        <th style="width: 100px;"><a href="">手机号</a></th>
-                        <th style="width: 160px;"><a href="">注册时间</a></th>
-                        <th style="width: 100px;"><a href="">状态</a></th>
-                        <th style="width: 140px;">操作</th>
+                        <th style="width: 60px;"><a href="">编号</a></th>
+                        <th><a href="">所属企业</a></th>
+                        <th><a href="">姓名</a></th>
+                        <th><a href="">邮箱</a></th>
+                        <th style="width: 120px;"><a href="">类型</a></th>
+                        <th style="width: 100px;">状态</th>
+                        <th style="width: 100px;">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in list.data">
                         <td><input type="checkbox" v-model="ids" v-bind:value="item.id"/></td>
                         <td style="text-align: center" v-text="item.id"></td>
-                        <td v-text="item.name+'-'+item.shortName"></td>
-                        <td style="text-align: center" v-text="item.linkMan"></td>
-                        <td style="text-align: center" v-text="item.mobile"></td>
-                        <td style="text-align: center" v-text="item.created_at"></td>
+                        <td v-text="item.enterprise.name"></td>
+                        <td v-text="item.name"></td>
+                        <td style="text-align: center" v-text="item.email"></td>
+                        <td style="text-align: center" v-text="item.type"></td>
                         <td style="text-align: center" v-text="item.state==0?'正常':'禁用'">
                         </td>
 
                         <td style="text-align: center"><a
-                                    v-bind:href="'{{url('/manage/enterprise/member?eid=')}}'+item.id"
-                                    v-text="'用户('+item.members_count+')'"></a>
-                            |<a
-                                    v-on:click="edit(item)">编辑</a>
+                            v-on:click="edit(item)">编辑</a>
                             |
                             <a v-on:click="delete(item)">删除</a>
                         </td>
@@ -97,7 +94,7 @@
                     </div>
                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                     <div class="pull-right">
-                        <page v-bind:lists="enterpriseList"></page>
+                        <page v-bind:list="enterpriseList"></page>
                     </div>
                 </div>
             </div>
@@ -106,7 +103,7 @@
 @endsection
 @section('script')
     <script type="application/javascript">
-        sidebar.menu = {type: 'enterprise', item: 'enterprise'};
+        sidebar.menu = {type: 'enterprise', item: 'member'};
         var vm = new Vue({
             el: '.content',
             data: {
@@ -129,7 +126,7 @@
             methods: {
                 init: function () {
                     var _self = this;
-                    this.$http.get("{{url('/manage/system/enterprise?json')}}", {params: this.params})
+                    this.$http.get("{{url('/manage/enterprise/member?json')}}", {params: this.params})
                             .then(function (response) {
                                         if (response.data.code == 0) {
                                             _self.list = response.data.data;
@@ -144,11 +141,11 @@
                     this.init();
                 },
                 create: function () {
-                    openUrl('{{url('/manage/system/enterprise/create')}}', '新增用户', 800, 600);
+                    openUrl('{{url('/manage/enterprise/member/create')}}', '新增用户', 800, 600);
                 },
                 edit: function (item) {
                     this.enterprise = item;
-                    openUrl('{{url('/manage/system/enterprise/edit')}}?id=' + item.id, '编辑"' + item.name + '"用户', 800, 600);
+                    openUrl('{{url('/manage/enterprise/member/edit')}}?id=' + item.id, '编辑"' + item.name + '"用户', 800, 600);
                 },
                 delete: function (item) {
                     layer.confirm('您确认要删除“' + item.name + '”吗？', {

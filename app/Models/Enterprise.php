@@ -59,7 +59,7 @@ class Enterprise extends Model
      */
     public function members()
     {
-        return $this->hasMany('App\Models\Member_User', "enterprise_id");
+        return $this->hasMany('App\Models\Member_User', "eid");
     }
 
 

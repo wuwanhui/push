@@ -18,7 +18,7 @@
     <link href="/css/common.css" rel="stylesheet">
     <script>
         window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
+                'csrfToken' => csrf_token(),
         ]); ?>
     </script>
     <script src="/js/app.js"></script>
@@ -335,27 +335,125 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">业务操作角色</li>
-                <li   class="treeview"><a
-                            href="{{ url('/manage/enterprise') }}"><i class="fa fa-circle-o"></i>企业信息</a>
+                <li class="treeview" v-bind:class="{active:menu.type=='enterprise'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>企业信息</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li v-bind:class="{active:menu.item=='enterprise'}">
+                            <a href="{{url('/manage/enterprise')}}"><i class="fa fa-circle-o"></i>企业管理</a>
+                        </li>
+                        <li v-bind:class="{active:menu.item=='member'}">
+                            <a href="{{url('/manage/enterprise/member')}}"><i class="fa fa-circle-o text-yellow"></i>用户管理</a>
+                        </li>
+                    </ul>
                 </li>
-                <li   class="treeview"><a
-                            href="{{ url('/manage/supplier') }}"><i class="fa fa-circle-o"></i>资源管理</a>
-                </li>
-                <li   class="treeview"><a
-                            href="{{ url('/manage/record') }}"><i class="fa fa-circle-o"></i>信息推送</a>
-                </li>
-                <li   class="treeview"><a
-                            href="{{ url('/manage/directorie') }}"><i class="fa fa-circle-o"></i>通讯录</a></li>
-                <li  class="treeview" ><a
-                            href="{{ url('/manage/report') }}"><i class="fa fa-circle-o"></i>报表分析</a></li>
-                <li   class="treeview"><a href="{{ url('/manage/open') }}"><i class="fa fa-circle-o"></i>开放平台</a>
-                </li>
-                <li  class="treeview" ><a
-                            href="{{ url('/manage/finance') }}"><i class="fa fa-circle-o"></i>财务结算</a></li>
-                <li   class="treeview"><a
-                            href="{{ url('/manage/system') }}"><i class="fa fa-circle-o"></i>系统配置</a></li>
 
+                <li class="treeview" v-bind:class="{active:menu.type=='supplier'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>资源管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/supplier')}}"><i class="fa fa-circle-o"></i>供应商</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/supplier/resource')}}"><i class="fa fa-circle-o text-yellow"></i>产品资源</a>
+                        </li>
+                    </ul>
+                </li>
 
+                <li class="treeview" v-bind:class="{active:menu.type=='record'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>信息推送</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/record')}}"><i class="fa fa-circle-o"></i>发送记录</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/record/template')}}"><i class="fa fa-circle-o text-yellow"></i>发送模板</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/record/receive')}}"><i
+                                        class="fa fa-circle-o text-yellow"></i>回执报告</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="treeview" v-bind:class="{active:menu.type=='directorie'}">
+                    <a href="{{url('/manage/directorie')}}"><i class="fa fa-circle-o"></i>通讯录</a>
+                </li>
+
+                <li class="treeview" v-bind:class="{active:menu.type=='finance'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>财务结算</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/finance/recharge')}}"><i class="fa fa-circle-o"></i>支付记录</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/finance/invoice')}}"><i class="fa fa-circle-o text-yellow"></i>发票申请</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/finance/quantity')}}"><i class="fa fa-circle-o text-yellow"></i>充值管理</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="treeview" v-bind:class="{active:menu.type=='system'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>系统配置</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/system/config')}}"><i class="fa fa-circle-o"></i>系统参数</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/system/user')}}"><i class="fa fa-circle-o text-yellow"></i>用户管理</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/system/base')}}"><i class="fa fa-circle-o text-yellow"></i>基础数据</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="treeview" v-bind:class="{active:menu.type=='report'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>报表分析</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/system/config')}}"><i class="fa fa-circle-o"></i>系统参数</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/system/user')}}"><i class="fa fa-circle-o text-yellow"></i>用户管理</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/system/base')}}"><i class="fa fa-circle-o text-yellow"></i>基础数据</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
     </aside>

@@ -1,11 +1,8 @@
-@extends('layouts.manage')
+@extends('layouts.app')
 
 @section('content')
     <div class="container-fluid">
-        <ol class="breadcrumb">
-            <li><a href="#">管理中心</a></li>
-            <li class="active">企业管理</li>
-        </ol>
+
         <div class="row">
             <div class="col-md-2">
                 <div class="panel panel-primary">
