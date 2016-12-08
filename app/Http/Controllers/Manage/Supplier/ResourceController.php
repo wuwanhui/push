@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manage\Supplier;
 
+use App\Http\Controllers\Common\RespJson;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Manage\BaseController;
 use App\Http\Controllers\Manage\ManageBaseController;
@@ -30,25 +31,37 @@ class  ResourceController extends BaseController
      */
     public function index(Request $request)
     {
-        $key = $request->key;
-        $supplierId = $request->supplierId;
-        $scenicId = $request->scenicId;
-        $lists = Supplier_Resource::where(function ($query) use ($key, $supplierId, $scenicId) {
-            if ($supplierId) {
-                $query->where('supplierId', $supplierId);
-            }
-            if ($scenicId) {
-                $query->where('scenicId', $scenicId);
-            }
-            if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//商品名称
-                $query->orWhere('attention', 'like', '%' . $key . '%');//注意事项
-                $query->orWhere('parprice', $key);//票面价
-                $query->orWhere('price', $key);//成本价格
-            }
-        })->orderBy('id', 'desc')->paginate($this->pageSize);
+        $respJson = new RespJson();
+        try {
+            $key = $request->key;
+            $supplierId = $request->supplierId;
+            $scenicId = $request->scenicId;
+            $list = Supplier_Resource::where(function ($query) use ($key, $supplierId, $scenicId) {
+                if ($supplierId) {
+                    $query->where('supplierId', $supplierId);
+                }
+                if ($scenicId) {
+                    $query->where('scenicId', $scenicId);
+                }
+                if ($key) {
+                    $query->orWhere('name', 'like', '%' . $key . '%');//商品名称
+                    $query->orWhere('attention', 'like', '%' . $key . '%');//注意事项
+                    $query->orWhere('parprice', $key);//票面价
+                    $query->orWhere('price', $key);//成本价格
+                }
+            })->orderBy('id', 'desc')->paginate($this->pageSize);
 
-        return view('manage.supplier.resource.index', compact('lists'));
+            if (isset($request->json)) {
+                $respJson->setData($list);
+                return response()->json($respJson);
+            }
+
+            return view('manage.supplier.resource.index', compact('list'));
+        } catch (Exception $ex) {
+            $respJson->setCode(-1);
+            $respJson->setMsg('异常！' . $ex->getMessage());
+            return response()->json($respJson);
+        }
     }
 
 

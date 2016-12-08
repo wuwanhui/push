@@ -17,13 +17,13 @@ class CreateSupplierTable extends Migration
             $table->increments('id');
             $table->string('name');//全称
             $table->string('shortName');//简称
-            $table->string('linkMan');//联系人
-            $table->string('mobile');//手机号
-            $table->string('tel');//电话
-            $table->string('fax');//传真
-            $table->string('qq');//QQ号
-            $table->string('email');//电子邮件
-            $table->string('addres');//联系地址
+            $table->string('linkMan')->nullable();//联系人
+            $table->string('mobile')->nullable();//手机号
+            $table->string('tel')->nullable();//电话
+            $table->string('fax')->nullable();//传真
+            $table->string('qq')->nullable();//QQ号
+            $table->string('email')->nullable();//电子邮件
+            $table->string('addres')->nullable();//联系地址
             $table->integer('manage_id')->default(0);//经办人
             $table->integer('state')->default(0);//状态
             $table->integer('sort')->default(0);//排序

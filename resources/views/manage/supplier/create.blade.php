@@ -4,8 +4,6 @@
     <section class="content">
         <div class="box box-primary">
             <validator name="validator">
-                <input @invalid="telonInvalid" initial="off" detect-change="off" v-model="telphone" id="telphone" type="
-                tel" class='phone-number' v-validate:telphone="['tel']"  placeholder='请输入手机号码'>
                 <form enctype="multipart/form-data" class="form-horizontal" method="POST" novalidate>
 
                     <div class="box-body">
@@ -19,14 +17,16 @@
                                     <div class="col-sm-4">
                                         <input id="name" type="text" class="form-control" name="name"
                                                v-model="supplier.name"
-                                               placeholder="不能为空">
+                                               :class="{ 'error': $validator.name.invalid && trySubmit }"
+                                               v-validate:name="{ required: true}"    placeholder="不能为空">
 
                                     </div>
                                     <label for="shortName" class="col-sm-2 control-label">简称：</label>
 
                                     <div class="col-sm-4">
                                         <input id="shortName" type="text" class="form-control" name="shortName"
-                                               v-model="supplier.shortName">
+                                               :class="{ 'error': $validator.name.invalid && trySubmit }"
+                                               v-validate:name="{ required: true}"   v-model="supplier.shortName">
 
                                     </div>
                                 </div>
@@ -110,7 +110,6 @@
                     </div>
                 </form>
             </validator>
-            @{{supplier|json}}
         </div>
     </section>
 @endsection
@@ -133,31 +132,6 @@
 
                 save: function (form) {
                     var _self = this;
-                    form(true, function () {
-                        if (form.invalid) {
-                            //验证无效
-                            _self.$set('toasttext', '请完善表单');
-                            _self.$set('toastshow', true);
-                        } else {
-                            _self.$set('toasttext', '验证通过');
-                            _self.$set('toastshow', true);
-                            //验证通过做注册请求
-                            /*that.$http.post('http://192.168.30.235:9999/rest/user/register',{'account':telephones,'pwd':pw1,'pwd2':pw2}).then(function(data){
-                             if(data.data.code == '0'){
-                             that.$set('toasttext','注册成功');
-                             that.$set('toastshow',true);
-                             }else{
-                             that.$set('toasttext','注册失败');
-                             that.$set('toastshow',true);
-                             }
-                             },function(error){
-                             //显示返回的错误信息
-                             that.$set('toasttext',String(error.status));
-                             that.$set('toastshow',true);
-                             })*/
-                        }
-                    });
-
 
                     if (form.invalid) {
                         //this.$log('supplier');
@@ -168,10 +142,10 @@
                     this.$http.post("{{url('/manage/supplier/create')}}", this.supplier)
                             .then(function (response) {
                                         if (response.data.code == 0) {
-                                            parent.msg('新增成功');
+                                            msg('新增成功');
                                             parent.layer.close(frameindex);
                                             parent.vm.init();
-                                            return
+                                            return;
                                         }
                                         parent.layer.alert(JSON.stringify(response));
                                     }

@@ -47,7 +47,8 @@ Route::group(['prefix' => 'manage', 'namespace' => 'Manage'], function () {
      */
     Route::group(['prefix' => 'supplier', 'middleware' => 'auth.manage', 'namespace' => 'Supplier'], function () {
         Route::get('/', 'SupplierController@index');
-        Route::any('/create', 'SupplierController@create');
+        Route::get('/create', 'SupplierController@getCreate');
+        Route::post('/create', 'SupplierController@postCreate');
         Route::any('/edit/{id}', 'SupplierController@edit');
         Route::get('/delete', 'SupplierController@delete');
 
