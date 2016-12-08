@@ -1,235 +1,215 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <section class="content">
+        <div class="box box-primary">
+            <validator name="validator">
+                <form enctype="multipart/form-data" class="form-horizontal" customer="form" method="POST"
+                      novalidate>
 
-        <div class="row">
-            <div class="col-md-2">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">企业管理</div>
+                    <div class="box-body">
+                        <div class="col-xs-12">
 
-                    <div class="panel-body">
-                        <ul>
-                            <li>
-                                <a href="{{url('/manage/enterprise')}}" class="active">企业管理</a>
-                            </li>
-                            <li>
-                                <a href="{{url('/manage/enterprise/user')}}">用户管理</a>
-                            </li>
+                            <fieldset>
+                                <legend>基本信息</legend>
+                                <input type="hidden" id="customer_id" v-model="supplier.customer_id">
+                                <div class="form-group">
+                                    <label for="customer_id" class="col-sm-2 control-label">客户：</label>
+                                    <div class="col-sm-10">
+                                        <select id="customer_id" name="sex" class="form-control"
+                                                v-model="supplier.customer_id"
+                                                :class="{ 'error': $validator.customer_id.invalid && trySubmit }" number
+                                                v-validate:customer_id="{ required: true}">
+                                            <option value="" selected>请选择客户</option>
+                                            <option v-bind:value="item.id" v-for="item in customerList"
+                                                    v-text="item.name"></option>
+                                        </select>
 
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="panel panel-default">
-                    <form class="form-horizontal" role="form" method="POST">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-12  text-left">
-                                    <button type="button" class="btn btn-default"
-                                            onclick="vbscript:window.history.back()">返回
-                                    </button>
-                                    <button type="submit" class="btn  btn-primary">保存</button>
+                                    </div>
 
                                 </div>
-                                <div class="col-xs-10 text-right"></div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            {{ csrf_field() }}
-                            <div class="col-xs-12">
-                                <fieldset>
-                                    <legend>基本信息</legend>
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label">姓名：</label>
+                                    <div class="col-sm-4">
+                                        <input id="name" type="text" class="form-control" name="name"
+                                               v-model="supplier.name"
+                                               :class="{ 'error': $validator.name.invalid && trySubmit }"
+                                               v-validate:name="{ required: true}" placeholder="不能为空">
 
-                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                        <label for="name" class="col-md-3 control-label">全称：</label>
+                                    </div>
+                                    <label for="englishName" class="col-sm-2 control-label">英文名称：</label>
 
-                                        <div class="col-md-9">
-                                            <input id="name" type="text" class="form-control" name="name"
+                                    <div class="col-sm-4">
+                                        <input id="englishName" type="text" class="form-control" name="englishName"
+                                               v-model="supplier.englishName">
 
-                                                   value="{{ old('name') }}" required autofocus>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sex" class="col-sm-2 control-label">性别：</label>
+                                    <div class="col-sm-4">
+                                        <select id="sex" name="sex" class="form-control"
+                                                style="width: auto;" v-model="supplier.sex">
+                                            <option value="-1" selected>未知</option>
+                                            <option value="0">男</option>
+                                            <option value="1">女</option>
+                                        </select>
+                                    </div>
+                                    <label for="birthday" class="col-sm-2 control-label">生日：</label>
+                                    <div class="col-sm-4">
+                                        <input id="birthday" name="birthday" type="text" class="form-control "
+                                               v-model="supplier.birthday">
 
-                                            @if ($errors->has('name'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="identityCard" class="col-sm-2 control-label">身份证号：</label>
+
+                                    <div class="col-sm-4">
+                                        <input id="identityCard" name="identityCard" type="text" class="form-control "
+                                               v-model="supplier.identityCard">
+
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('shortName') ? ' has-error' : '' }}">
-                                        <label for="shortName" class="col-md-3 control-label">简称：</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label">邮箱：</label>
+                                    <div class="col-sm-4">
+                                        <input id="email" name="email" type="text" class="form-control "
+                                               v-model="supplier.email"
+                                        >
+                                    </div>
+                                    <label for="qq" class="col-sm-2 control-label">QQ：</label>
+                                    <div class="col-sm-4">
+                                        <input id="qq" name="qq" type="text" class="form-control "
+                                               v-model="supplier.qq">
 
-                                        <div class="col-md-9">
-                                            <input id="shortName" type="text" class="form-control"
-                                                   name="shortName"
-                                                   style="width: auto;"
-                                                   value="{{ old('shortName') }}" required autofocus>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile" class="col-sm-2 control-label">手机号：</label>
+                                    <div class="col-sm-10">
+                                        <input id="mobile" name="mobile" type="text" class="form-control  "
+                                               v-model="supplier.mobile"
+                                               :class="{ 'error': $validator.mobile.invalid && trySubmit }"
+                                               v-validate:mobile="{ required: true}" placeholder="不能为空"
+                                        >
 
-                                            @if ($errors->has('shortName'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('shortName') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tel" class="col-sm-2 control-label">座机电话：</label>
+                                    <div class="col-sm-4">
+                                        <input id="tel" type="text" class="form-control  " name="tel"
+                                               v-model="supplier.tel"
+                                        >
+
                                     </div>
 
-
-                                    <div class="form-group{{ $errors->has('linkMan') ? ' has-error' : '' }}">
-                                        <label for="linkMan" class="col-md-3 control-label">联系人：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="linkMan" type="text" class="form-control" name="linkMan"
-                                                   style="width: auto;"
-                                                   value="{{ old('linkMan') }}" required autofocus>
-
-                                            @if ($errors->has('linkMan'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('linkMan') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
+                                    <label for="fax" class="col-sm-2 control-label">传真：</label>
+                                    <div class="col-sm-4">
+                                        <input id="fax" type="text" class="form-control  " name="fax"
+                                               v-model="supplier.fax"
+                                        >
                                     </div>
+                                </div>
 
-                                    <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
-                                        <label for="mobile" class="col-md-3 control-label">手机号：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="mobile" type="tel" class="form-control" name="mobile"
-                                                   placeholder="手机号（必填）"
-                                                   style="width: auto;"
-                                                   value="{{ old('mobile') }}" required autofocus>
-
-                                            @if ($errors->has('mobile'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('mobile') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
+                                <div class="form-group">
+                                    <label for="leaderId" class="col-sm-2 control-label">所属上级：</label>
+                                    <div class="col-sm-4">
+                                        <input id="leaderId" type="text" class="form-control  " name="leaderId"
+                                               v-model="supplier.leaderId"
+                                        >
                                     </div>
-                                    <div class="form-group{{ $errors->has('tel') ? ' has-error' : '' }}">
-                                        <label for="tel" class="col-md-3 control-label">电话：</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="remark" class="col-sm-2 control-label">内部备注：</label>
 
-                                        <div class="col-md-9">
-                                            <input id="tel" type="tel" class="form-control" name="tel"
-                                                   placeholder="电话"
-                                                   style="width: auto;"
-                                                   value="{{ old('tel') }}" autofocus>
-
-                                            @if ($errors->has('tel'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('tel') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('fax') ? ' has-error' : '' }}">
-                                        <label for="fax" class="col-md-3 control-label">传真：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="fax" type="fax" class="form-control" name="fax"
-                                                   placeholder="传真号码"
-                                                   style="width: auto;"
-                                                   value="{{ old('fax') }}" autofocus>
-
-                                            @if ($errors->has('fax'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('fax') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('qq') ? ' has-error' : '' }}">
-                                        <label for="qq" class="col-md-3 control-label">QQ：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="qq" type="text" class="form-control" name="qq"
-                                                   style="width: 300px;"
-                                                   value="{{ old('qq') }}" autofocus>
-
-                                            @if ($errors->has('qq'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('qq') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                        <label for="email" class="col-md-3 control-label">电子邮件：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="email" type="email" class="form-control" name="email"
-                                                   style="width: 300px;"
-                                                   value="{{ old('email') }}" autofocus>
-
-                                            @if ($errors->has('email'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group{{ $errors->has('addres') ? ' has-error' : '' }}">
-                                        <label for="addres" class="col-md-3 control-label">地址：</label>
-
-                                        <div class="col-md-9">
-                                            <input id="addres" type="text" class="form-control" name="addres"
-                                                   value="{{ old('addres') }}" autofocus>
-
-                                            @if ($errors->has('addres'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('addres') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-                                        <label for="state" class="col-md-3 control-label">状态：</label>
-
-                                        <div class="col-md-9">
-                                            <select id="state" name="state" class="form-control" style="width: auto;">
-                                                <option value="0">正常</option>
-                                                <option value="1">禁用</option>
-                                            </select>
-
-                                            @if ($errors->has('state'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('state') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $errors->has('remark') ? ' has-error' : '' }}">
-                                        <label for="remark" class="col-md-3 control-label">内部备注：</label>
-
-                                        <div class="col-md-9">
-
+                                    <div class="col-sm-10">
                                             <textarea id="remark" type="text" class="form-control"
-                                                      name="remark"
-                                                      style=" height: 100px"
-                                            >{{old('refundable') }}</textarea>
-
-                                            @if ($errors->has('remark'))
-                                                <span class="help-block">
-                                        <strong>{{ $errors->first('remark') }}</strong>
-                                    </span>
-                                            @endif
-                                        </div>
+                                                      style="width: 100%;height:50px;"
+                                                      v-model="supplier.remark"></textarea>
                                     </div>
-                                </fieldset>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-xs-12  text-center">
+                                <button type="button" class="btn btn-default" onclick="parent.layer.close(frameindex)">
+                                    关闭
+                                </button>
+                                <button type="button" class="btn  btn-primary"
+                                        v-bind:class="{disabled1:$validator.invalid}" v-on:click="save($validator)">保存
+                                </button>
+
                             </div>
                         </div>
-                    </form>
-                </div>
-                @include("common.success")
-                @include("common.errors") </div>
+                    </div>
+                </form>
+            </validator>
         </div>
-    </div>
+    </section>
+@endsection
+@section('script')
+    <script type="application/javascript">
+        var frameindex = parent.layer.getFrameIndex(window.name);
+        // parent.layer.iframeAuto(frameindex);
+        var vm = new Vue({
+            el: '.content',
+            data: {
+                trySubmit: false,
+                supplier: jsonFilter('{{json_encode($supplier)}}'),
+                customerList: []
+            },
+            watch: {},
+            ready: function () {
+                this.initCustomer();
+                if (parent.vm.customer) {
+                    this.supplier.customer_id = parent.vm.customer.id;
+                }
+            },
+
+            methods: {
+
+                initCustomer: function () {
+                    var _self = this;
+                    this.$http.get("{{url('/manage/crm/customer/api/list')}}")
+                            .then(function (response) {
+                                        if (response.data.code == 0) {
+                                            _self.customerList = response.data.data;
+                                            return
+                                        }
+                                        parent.layer.alert(JSON.stringify(response));
+                                    }
+                            );
+                },
+
+                save: function (form) {
+                    var _self = this;
+
+                    if (form.invalid) {
+                        //this.$log('supplier');
+                        this.trySubmit = true;
+                        return;
+                    }
+
+                    this.$http.post("{{url('/manage/supplier/create')}}", this.supplier)
+                            .then(function (response) {
+                                        if (response.data.code == 0) {
+                                            parent.msg('新增成功');
+                                            parent.layer.close(frameindex);
+                                            parent.vm.init();
+                                            return
+                                        }
+                                        parent.layer.alert(JSON.stringify(response));
+                                    }
+                            );
+                }
+
+            }
+        });
+    </script>
 @endsection

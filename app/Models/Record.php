@@ -63,7 +63,7 @@ class Record extends Model
      */
     public function signature()
     {
-        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signatureId");
+        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signature_id");
     }
 
 

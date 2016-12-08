@@ -63,7 +63,7 @@ class Record_Template extends Model
      */
     public function signature()
     {
-        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signatureId");
+        return $this->belongsTo('App\Models\Supplier_Resource_Signature', "signature_id");
     }
 
 
@@ -72,7 +72,7 @@ class Record_Template extends Model
      */
     public function template()
     {
-        return $this->belongsTo('App\Models\Supplier_Resource_Template', "templateId");
+        return $this->belongsTo('App\Models\Supplier_Resource_Template', "template_id");
     }
 
 

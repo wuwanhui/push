@@ -366,6 +366,40 @@
                         <li>
                             <a href="{{url('/manage/supplier/resource')}}"><i class="fa fa-circle-o text-yellow"></i>产品资源</a>
                         </li>
+
+                    </ul>
+                </li>
+                <li class="treeview" v-bind:class="{active:menu.type=='signature'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>签名管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/signature')}}"><i class="fa fa-circle-o"></i>签名列表</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/signature/authorized')}}"><i class="fa fa-circle-o"></i>签名授权</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview" v-bind:class="{active:menu.type=='template'}">
+                    <a>
+                        <i class="fa fa-dashboard"></i> <span>模板管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('/manage/template')}}"><i class="fa fa-circle-o"></i>模板列表</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/manage/template/authorized')}}"><i class="fa fa-circle-o text-yellow"></i>模板授权</a>
+                        </li>
+
                     </ul>
                 </li>
 

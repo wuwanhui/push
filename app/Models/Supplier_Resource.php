@@ -58,7 +58,7 @@ class Supplier_Resource extends Model
      */
     public function supplier()
     {
-        return $this->belongsTo('App\Models\Supplier', 'supplierId');
+        return $this->belongsTo('App\Models\Supplier', 'supplier_id');
     }
 
     /**
@@ -75,7 +75,7 @@ class Supplier_Resource extends Model
      */
     public function signatures()
     {
-        return $this->hasMany('App\Models\Supplier_Resource_Signature', "resourceId");
+        return $this->hasMany('App\Models\Supplier_Resource_Signature', "resource_id");
     }
 
     /**
@@ -83,6 +83,6 @@ class Supplier_Resource extends Model
      */
     public function templates()
     {
-        return $this->hasMany('App\Models\Supplier_Resource_Template', "resourceId");
+        return $this->hasMany('App\Models\Supplier_Resource_Template', "resource_id");
     }
 }

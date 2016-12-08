@@ -66,7 +66,7 @@ class Supplier extends Model
      */
     public function resources()
     {
-        return $this->hasMany('App\Models\Supplier_Resource', "supplierId");
+        return $this->hasMany('App\Models\Supplier_Resource', "supplier_id");
     }
 
 

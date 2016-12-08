@@ -12,23 +12,30 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/js/AdminLTE/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/js/AdminLTE/css/skins/_all-skins.min.css">
     <link href="/css/common.css" rel="stylesheet">
-    <!-- Scripts -->
-    <script src="/js/app.js"></script>
-    <script src="/js/common.js"></script>
-    <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    <script src="/js/app.js"></script>
+    <script src="/js/layer/layer.js"></script>
+    {{--<!-- AdminLTE App -->--}}
+    <script src="/js/AdminLTE/js/app.min.js"></script>
+    <script src="/js/common.js"></script>
+
 </head>
 <body>
 <div id="app">
-
     @yield('content')
+    @yield('script')
 </div>
-
 
 </body>
 </html>

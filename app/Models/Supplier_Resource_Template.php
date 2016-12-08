@@ -66,7 +66,7 @@ class Supplier_Resource_Template extends Model
      */
     public function resource()
     {
-        return $this->belongsTo('App\Models\Supplier_Resource', 'resourceId');
+        return $this->belongsTo('App\Models\Supplier_Resource', 'resource_id');
     }
 
 

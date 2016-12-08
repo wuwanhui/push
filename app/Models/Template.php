@@ -63,37 +63,5 @@ class Template extends Model
         return $this->quantity * $this->price;
     }
 
-    /**
-     * 分销商
-     */
-    public function distribution()
-    {
-        return $this->belongsTo('App\Models\Distribution', 'distributionId');
-    }
-
-    /**
-     * 所属景区
-     */
-    public function scenic()
-    {
-        return $this->belongsTo('App\Models\Scenic', 'scenicId');
-    }
-
-    /**
-     * 价格项
-     */
-    public function produits()
-    {
-        return $this->belongsTo('App\Models\Produits', 'produitsId');
-    }
-
-
-    /**
-     * 下单人
-     */
-    public function member()
-    {
-        return $this->belongsTo('App\Models\Member_User', 'member_id');
-    }
 
 }

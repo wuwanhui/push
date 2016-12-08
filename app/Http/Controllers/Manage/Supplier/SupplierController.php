@@ -20,6 +20,7 @@ class SupplierController extends BaseController
         parent::__construct();
         view()->share(['_model' => 'manage/supplier']);
     }
+
     /**
      * Show the application dashboard.
      *
@@ -27,15 +28,17 @@ class SupplierController extends BaseController
      */
     public function index(Request $request)
     {
-        $key = $request->key;
-        $lists = Supplier::where(function ($query) use ($key) {
-            if ($key) {
-                $query->orWhere('name', 'like', '%' . $key . '%');//名称
+        $list = Supplier::where(function ($query) use ($request) {
+            if ($request->sid) {
+                $query->orWhere('supplier_id', $request->sid);
+            }
+            if ($request->key) {
+                $query->orWhere('name', 'like', '%' . $request->key . '%');//名称
             }
         })->orderBy('id', 'desc')->paginate($this->pageSize);
 
 
-        return view('manage.supplier.index', compact('lists'));
+        return view('manage.supplier.index', compact('list'));
     }
 
 

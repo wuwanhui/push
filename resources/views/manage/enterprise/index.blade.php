@@ -129,7 +129,7 @@
             methods: {
                 init: function () {
                     var _self = this;
-                    this.$http.get("{{url('/manage/system/enterprise?json')}}", {params: this.params})
+                    this.$http.get("{{url('/manage/enterprise?json')}}", {params: this.params})
                             .then(function (response) {
                                         if (response.data.code == 0) {
                                             _self.list = response.data.data;
@@ -144,11 +144,11 @@
                     this.init();
                 },
                 create: function () {
-                    openUrl('{{url('/manage/system/enterprise/create')}}', '新增用户', 800, 600);
+                    openUrl('{{url('/manage/enterprise/create')}}', '新增用户', 800, 600);
                 },
                 edit: function (item) {
                     this.enterprise = item;
-                    openUrl('{{url('/manage/system/enterprise/edit')}}?id=' + item.id, '编辑"' + item.name + '"用户', 800, 600);
+                    openUrl('{{url('/manage/enterprise/edit')}}?id=' + item.id, '编辑"' + item.name + '"用户', 800, 600);
                 },
                 delete: function (item) {
                     layer.confirm('您确认要删除“' + item.name + '”吗？', {

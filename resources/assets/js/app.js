@@ -28,6 +28,15 @@ require('./bootstrap');
 //     'passport-personal-access-tokens',
 //     require('./components/passport/PersonalAccessTokens.vue')
 // );
+//
+// Vue.component(
+//     'toast',
+//     require('./components/toast.vue')
+// );
+// Vue.component(
+//     'register',
+//     require('./components/register.vue')
+// );
 
 const app = new Vue({
     el: '#app'
